@@ -21,7 +21,6 @@ namespace PTT_SmartCity_Web_API
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
                       "~/Content/css/main.css",
                       "~/Content/font-awesome.min.css"
                       ));

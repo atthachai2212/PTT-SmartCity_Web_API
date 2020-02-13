@@ -10,8 +10,9 @@ namespace PTT_SmartCity_Web_API.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-
+            ViewBag.Title = "Dashboard";
+            ViewBag.appTitle = "Dashboard";
+            ViewBag.appSubtitle = "PTT SmartCity Web API";
             return View();
         }
     }
