@@ -85,3 +85,7 @@ D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\obj\Debug\PTT-Sma
 D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\obj\Debug\PTT-SmartCity_Web_API.csproj.CopyComplete
 D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\obj\Debug\PTT-SmartCity_Web_API.dll
 D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\obj\Debug\PTT-SmartCity_Web_API.pdb
+D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\bin\EntityFramework.dll
+D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\bin\EntityFramework.SqlServer.dll
+D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\bin\EntityFramework.xml
+D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\bin\EntityFramework.SqlServer.xml
