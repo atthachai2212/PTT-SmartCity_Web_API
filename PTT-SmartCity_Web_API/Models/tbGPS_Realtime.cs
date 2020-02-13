@@ -18,8 +18,8 @@ namespace PTT_SmartCity_Web_API.Models
 
         [Key]
         [Column(Order = 2)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; }
+        [StringLength(50)]
+        public string DevEUI { get; set; }
 
         public float Latitude { get; set; }
 

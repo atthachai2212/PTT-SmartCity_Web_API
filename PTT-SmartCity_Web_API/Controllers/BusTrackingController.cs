@@ -14,19 +14,19 @@ using PTT_SmartCity_Web_API.Services;
 
 namespace PTT_SmartCity_Web_API.Controllers
 {
-    public class GPSTrackingController : ApiController
+    public class BusTrackingController : ApiController
     {
         private dbBusTrackingContext db = new dbBusTrackingContext();
 
-        // GET: api/GPSTracking
-        [Route("api/gpsTracking")]
+        // GET: api/BusTracking
+        [Route("api/busTracking")]
         public IQueryable<tbGPS_Realtime> GettbGPS_Realtime()
         {
             return db.tbGPS_Realtime;
         }
 
-        // GET: api/GPSTracking/5
-        [Route("api/gpsTracking")]
+        // GET: api/BusTracking/5
+        [Route("api/busTracking")]
         [ResponseType(typeof(tbGPS_Realtime))]
         public async Task<IHttpActionResult> GettbGPS_Realtime(DateTime id)
         {
@@ -39,8 +39,8 @@ namespace PTT_SmartCity_Web_API.Controllers
             return Ok(tbGPS_Realtime);
         }
 
-        // PUT: api/GPSTracking/5
-        [Route("api/gpsTracking")]
+        // PUT: api/BusTracking/5
+        [Route("api/busTracking")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PuttbGPS_Realtime(DateTime id, tbGPS_Realtime tbGPS_Realtime)
         {
@@ -75,8 +75,8 @@ namespace PTT_SmartCity_Web_API.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/GPSTracking
-        [Route("api/gpsTracking")]
+        // POST: api/BusTracking
+        [Route("api/busTracking")]
         [ResponseType(typeof(tbGPS_Realtime))]
         public async Task<IHttpActionResult> PosttbGPS_Realtime(tbGPS_Realtime tbGPS_Realtime)
         {
@@ -102,12 +102,12 @@ namespace PTT_SmartCity_Web_API.Controllers
                     throw;
                 }
             }
-
-            return CreatedAtRoute("DefaultApi", new { id = tbGPS_Realtime.Date }, tbGPS_Realtime);
+            return Json(tbGPS_Realtime);
+            //return CreatedAtRoute("DefaultApi", new { id = tbGPS_Realtime.Date }, tbGPS_Realtime);
         }
 
-        // DELETE: api/GPSTracking/5
-        [Route("api/gpsTracking")]
+        // DELETE: api/BusTracking/5
+        [Route("api/busTracking")]
         [ResponseType(typeof(tbGPS_Realtime))]
         public async Task<IHttpActionResult> DeletetbGPS_Realtime(DateTime id)
         {

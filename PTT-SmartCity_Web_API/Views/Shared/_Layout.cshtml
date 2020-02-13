@@ -1,45 +1,4 @@
-﻿@*<!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
-        <title>@ViewBag.Title</title>
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>
-
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>
-    </html>*@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,9 +35,24 @@
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
         <ul class="app-menu">
-            <li><a class="app-menu__item active" href="/Home/Index"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
-            <li><a class="app-menu__item" href="/Help/Index"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">LoRa Environment</span></a></li>
-            <li><a class="app-menu__item" href="docs.html"><i class="app-menu__icon fa fa-file-code-o"></i><span class="app-menu__label">Bus Tracking</span></a></li>
+            <li>
+                <a class="app-menu__item" id="dashboardNav" href="/Home/Index">
+                    <i class="app-menu__icon fa fa-dashboard"></i>
+                    <span class="app-menu__label">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item" id="EnvLoRaNav" href="/Help/Index">
+                    <i class="app-menu__icon fa fa-dashboard"></i>
+                    <span class="app-menu__label">Environment LoRa</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item" id="BusTrackingNav" href="/Help/Index">
+                    <i class="app-menu__icon fa fa-file-code-o"></i>
+                    <span class="app-menu__label">Bus Tracking</span>
+                </a>
+            </li>
         </ul>
     </aside>
     <main class="app-content">
@@ -95,7 +69,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="tile">
-                    <h3 class="tile-title">Support Requests</h3>
+                    <h3 class="tile-title">@ViewBag.HeaderTitle</h3>
                     <div class="embed-responsive embed-responsive-item">
                         @RenderBody()
                     </div>
