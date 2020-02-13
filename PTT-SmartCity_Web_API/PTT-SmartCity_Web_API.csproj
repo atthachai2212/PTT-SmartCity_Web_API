@@ -171,6 +171,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\BusTrackingController.cs" />
+    <Compile Include="Controllers\EnvironmentSensorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoRaGatewayController.cs" />
     <Compile Include="Controllers\SensorHubController.cs" />
