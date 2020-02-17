@@ -25,12 +25,18 @@ namespace PTT_SmartCity_Web_API.Areas.HelpPage.Controllers
 
         public HttpConfiguration Configuration { get; private set; }
 
-        public ActionResult Index()
+        public ActionResult Index(string ctrId)
+        {
+            ViewBag.ctrId = ctrId;
+            ViewBag.DocumentationProvider = Configuration.Services.GetDocumentationProvider();
+            var ApiDescriptions = Configuration.Services.GetApiExplorer().ApiDescriptions;
+            return View(Configuration.Services.GetApiExplorer().ApiDescriptions);
+        }
+        public ActionResult BusTracking()
         {
             ViewBag.DocumentationProvider = Configuration.Services.GetDocumentationProvider();
             return View(Configuration.Services.GetApiExplorer().ApiDescriptions);
         }
-
         public ActionResult Api(string apiId)
         {
             if (!String.IsNullOrEmpty(apiId))

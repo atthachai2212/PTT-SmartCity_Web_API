@@ -11,6 +11,7 @@
     ViewBag.HeaderTitle = "Bus Tracking";
     // Group APIs by controller
     ILookup<HttpControllerDescriptor, ApiDescription> apiGroups = Model.ToLookup(api => api.ActionDescriptor.ControllerDescriptor);
+    var apiModel = apiGroups.FirstOrDefault();
 }
 
 <link type="text/css" href="~/Areas/HelpPage/HelpPage.css" rel="stylesheet" />

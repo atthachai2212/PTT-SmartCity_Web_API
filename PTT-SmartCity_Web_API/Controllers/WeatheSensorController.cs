@@ -13,17 +13,17 @@ using PTT_SmartCity_Web_API.Models;
 
 namespace PTT_SmartCity_Web_API.Controllers
 {
-    public class WeatheSensorsController : ApiController
+    public class WeatheSensorController : ApiController
     {
         private dbEnvironmentLoRaContext db = new dbEnvironmentLoRaContext();
 
-        // GET: api/WeatheSensors
+        // GET: api/WeatheSensor
         public IQueryable<tbWeatherSensor> GettbWeatherSensor()
         {
             return db.tbWeatherSensor;
         }
 
-        // GET: api/WeatheSensors/5
+        // GET: api/WeatheSensor/5
         [ResponseType(typeof(tbWeatherSensor))]
         public async Task<IHttpActionResult> GettbWeatherSensor(DateTime id)
         {
@@ -36,7 +36,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             return Ok(tbWeatherSensor);
         }
 
-        // PUT: api/WeatheSensors/5
+        // PUT: api/WeatheSensor/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PuttbWeatherSensor(DateTime id, tbWeatherSensor tbWeatherSensor)
         {
@@ -71,7 +71,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/WeatheSensors
+        // POST: api/WeatheSensor
         [ResponseType(typeof(tbWeatherSensor))]
         public async Task<IHttpActionResult> PosttbWeatherSensor(tbWeatherSensor tbWeatherSensor)
         {
@@ -101,7 +101,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             return CreatedAtRoute("DefaultApi", new { id = tbWeatherSensor.Date }, tbWeatherSensor);
         }
 
-        // DELETE: api/WeatheSensors/5
+        // DELETE: api/WeatheSensor/5
         [ResponseType(typeof(tbWeatherSensor))]
         public async Task<IHttpActionResult> DeletetbWeatherSensor(DateTime id)
         {
