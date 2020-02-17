@@ -1,4 +1,4 @@
-namespace PTT_SmartCity_Web_API.Models
+namespace PTT_SmartCity_Web_API.Entity
 {
     using System;
     using System.Collections.Generic;

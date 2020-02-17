@@ -1,4 +1,4 @@
-namespace PTT_SmartCity_Web_API.Models
+namespace PTT_SmartCity_Web_API.Entity
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,7 @@ namespace PTT_SmartCity_Web_API.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tbLoRaGateway")]
-    public partial class tbLoRaGateway
+    public partial class tbGPS
     {
         [Key]
         [Column(Order = 0, TypeName = "date")]
@@ -20,10 +19,20 @@ namespace PTT_SmartCity_Web_API.Models
         [Key]
         [Column(Order = 2)]
         [StringLength(50)]
-        public string GatewayEUI { get; set; }
+        public string DevEUI { get; set; }
+
+        public float Latitude { get; set; }
+
+        public float Longitude { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string Status { get; set; }
+        [StringLength(100)]
+        public string Emergency { get; set; }
+
+        public float Battery { get; set; }
+
+        public float RSSI { get; set; }
+
+        public float SNR { get; set; }
     }
 }

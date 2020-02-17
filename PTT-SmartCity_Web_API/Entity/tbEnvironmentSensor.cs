@@ -1,4 +1,4 @@
-namespace PTT_SmartCity_Web_API.Models
+namespace PTT_SmartCity_Web_API.Entity
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,8 @@ namespace PTT_SmartCity_Web_API.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class tbGPS
+    [Table("tbEnvironmentSensor")]
+    public partial class tbEnvironmentSensor
     {
         [Key]
         [Column(Order = 0, TypeName = "date")]
@@ -21,13 +22,16 @@ namespace PTT_SmartCity_Web_API.Models
         [StringLength(50)]
         public string DevEUI { get; set; }
 
-        public float Latitude { get; set; }
+        public float O2 { get; set; }
 
-        public float Longitude { get; set; }
+        public float O3 { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string Emergency { get; set; }
+        public float PM1 { get; set; }
+
+        [Column("PM2.5")]
+        public float PM2_5 { get; set; }
+
+        public float PM10 { get; set; }
 
         public float Battery { get; set; }
 
