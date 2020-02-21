@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http.ModelBinding;
 
-namespace PTT_SmartCity_Web_API.Services
+namespace PTT_SmartCity_Web_API.Models
 {
     public static class ExtensionModel
     {
@@ -26,6 +26,16 @@ namespace PTT_SmartCity_Web_API.Services
                 ErrorMessage = modelValues[0].ErrorMessage;
             }
             return ErrorMessage;
+        }
+
+        //ปรับแต่งค่า Error Exception
+        public static Exception GetErrorException(this Exception exception)
+        {
+            if (exception.InnerException != null)
+            {
+                return exception.InnerException.GetBaseException();
+            }
+            return exception;
         }
     }
 }

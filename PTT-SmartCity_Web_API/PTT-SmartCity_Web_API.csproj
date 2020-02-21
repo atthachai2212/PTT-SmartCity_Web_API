@@ -178,21 +178,26 @@
     <Compile Include="Controllers\WasteBinSensorController.cs" />
     <Compile Include="Controllers\WaterSensorController.cs" />
     <Compile Include="Controllers\WeatheSensorController.cs" />
+    <Compile Include="Entity\dbBusTrackingContext.cs" />
+    <Compile Include="Entity\dbEnvironmentLoRaContext.cs" />
+    <Compile Include="Entity\tbEnvironmentSensor.cs" />
+    <Compile Include="Entity\tbGPS.cs" />
+    <Compile Include="Entity\tbGPS_Realtime.cs" />
+    <Compile Include="Entity\tbLoRaGateway.cs" />
+    <Compile Include="Entity\tbSensorHub.cs" />
+    <Compile Include="Entity\tbWasteBinSensor.cs" />
+    <Compile Include="Entity\tbWaterSensor.cs" />
+    <Compile Include="Entity\tbWeatherSensor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\dbBusTrackingContext.cs" />
-    <Compile Include="Models\dbEnvironmentLoRaContext.cs" />
-    <Compile Include="Models\tbEnvironmentSensor.cs" />
-    <Compile Include="Models\tbGPS.cs" />
-    <Compile Include="Models\tbGPS_Realtime.cs" />
-    <Compile Include="Models\tbLoRaGateway.cs" />
-    <Compile Include="Models\tbSensorHub.cs" />
-    <Compile Include="Models\tbWasteBinSensor.cs" />
-    <Compile Include="Models\tbWaterSensor.cs" />
-    <Compile Include="Models\tbWeatherSensor.cs" />
+    <Compile Include="Interfaces\IBusTrackingService.cs" />
+    <Compile Include="Models\AddGPSModel.cs" />
+    <Compile Include="Models\ExtensionModel.cs" />
+    <Compile Include="Models\GetGPSModel.cs" />
+    <Compile Include="Models\GPSModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ExtensionModel.cs" />
+    <Compile Include="Services\BusTrackingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using PTT_SmartCity_Web_API.Entity;
+using PTT_SmartCity_Web_API.Interfaces;
+using PTT_SmartCity_Web_API.Models;
 using PTT_SmartCity_Web_API.Services;
 
 namespace PTT_SmartCity_Web_API.Controllers
@@ -17,28 +19,61 @@ namespace PTT_SmartCity_Web_API.Controllers
     public class BusTrackingController : ApiController
     {
         private dbBusTrackingContext db = new dbBusTrackingContext();
+        private IBusTrackingService busTrackingService;
 
-        // GET: api/BusTracking
-        [Route("api/busTracking")]
-        public IQueryable<tbGPS_Realtime> GettbGPS_Realtime()
+        public BusTrackingController()
         {
-            return db.tbGPS_Realtime;
+            this.busTrackingService = new BusTrackingService();
         }
 
-        // GET: api/BusTracking/5
-        [Route("api/busTracking")]
-        [ResponseType(typeof(tbGPS_Realtime))]
-        public async Task<IHttpActionResult> GettbGPS_Realtime(DateTime id)
+        // GET: api/gps/all
+        [Route("api/gps/all")]
+        public IEnumerable<GPSModel> GetGPS_All()
         {
-            tbGPS_Realtime tbGPS_Realtime = await db.tbGPS_Realtime.FindAsync(id);
-            if (tbGPS_Realtime == null)
+            return this.busTrackingService.gpsItemsAll;
+        }
+
+        // GET: api/gps/realtime
+        [Route("api/gps/realtime")]
+        public IEnumerable<GPSModel> GetGPS_Realtime()
+        {
+            return busTrackingService.gpsItemsRealtime;
+        }
+
+        // GET: api/gps/filters
+        [Route("api/gps/filter")]
+        [ResponseType(typeof(GetGPSModel))]
+        public GetGPSModel GetGPS([FromUri] gpsFilterOptions filters)
+        {
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                return this.busTrackingService.GetGPS(filters);
             }
-
-            return Ok(tbGPS_Realtime);
+            throw new HttpResponseException(Request.CreateResponse(
+                HttpStatusCode.BadRequest,
+                new { Message = ModelState.GetErrorModelState() }
+            ));
         }
 
+        // GET: api/gps/device
+        [Route("api/gps/device")]
+        [ResponseType(typeof(GPSModel))]
+        public GPSModel GetGPS(string DevEUI)
+        {
+            return this.busTrackingService.GPS_Items
+                .Select(g => new GPSModel
+                {
+                    Date = g.Date,
+                    Time = g.Time,
+                    DevEUI = g.DevEUI,
+                    Latitude = g.Latitude,
+                    Longitude = g.Longitude,
+                    Emergency = g.Emergency,
+                    Battery = g.Battery,
+                    RSSI = g.RSSI,
+                    SNR = g.SNR
+                }).SingleOrDefault(g => g.DevEUI == DevEUI);
+        }
         // PUT: api/BusTracking/5
         [Route("api/busTracking")]
         [ResponseType(typeof(void))]
