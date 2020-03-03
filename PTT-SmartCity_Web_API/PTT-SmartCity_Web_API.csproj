@@ -174,6 +174,7 @@
     <Compile Include="Controllers\EnvironmentSensorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoRaGatewayController.cs" />
+    <Compile Include="Controllers\LoRaWANController.cs" />
     <Compile Include="Controllers\SensorHubController.cs" />
     <Compile Include="Controllers\WasteBinSensorController.cs" />
     <Compile Include="Controllers\WaterSensorController.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Entity\tbGPS.cs" />
     <Compile Include="Entity\tbGPS_Realtime.cs" />
     <Compile Include="Entity\tbLoRaGateway.cs" />
+    <Compile Include="Entity\tbLoRaWAN.cs" />
     <Compile Include="Entity\tbSensorHub.cs" />
     <Compile Include="Entity\tbWasteBinSensor.cs" />
     <Compile Include="Entity\tbWaterSensor.cs" />
@@ -196,6 +198,7 @@
     <Compile Include="Models\ExtensionModel.cs" />
     <Compile Include="Models\GetGPSModel.cs" />
     <Compile Include="Models\GPSModel.cs" />
+    <Compile Include="Models\LoRaPostServerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BusTrackingService.cs" />
   </ItemGroup>

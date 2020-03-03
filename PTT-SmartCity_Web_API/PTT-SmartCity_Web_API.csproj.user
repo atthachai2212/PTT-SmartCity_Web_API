@@ -17,7 +17,7 @@
     <WebStackScaffolding_IsReferencingScriptLibrariesSelected>False</WebStackScaffolding_IsReferencingScriptLibrariesSelected>
     <WebStackScaffolding_LayoutPageFile>
     </WebStackScaffolding_LayoutPageFile>
-    <WebStackScaffolding_DbContextTypeFullName>PTT_SmartCity_Web_API.Models.dbEnvironmentLoRaContext</WebStackScaffolding_DbContextTypeFullName>
+    <WebStackScaffolding_DbContextTypeFullName>PTT_SmartCity_Web_API.Entity.dbEnvironmentLoRaContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>True</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
   </PropertyGroup>

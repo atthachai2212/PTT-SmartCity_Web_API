@@ -5,7 +5,6 @@ namespace PTT_SmartCity_Web_API.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Configuration;
-
     public partial class dbBusTrackingContext : DbContext
     {
         public dbBusTrackingContext()

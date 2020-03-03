@@ -15,6 +15,7 @@ namespace PTT_SmartCity_Web_API.Entity
 
         public virtual DbSet<tbEnvironmentSensor> tbEnvironmentSensor { get; set; }
         public virtual DbSet<tbLoRaGateway> tbLoRaGateway { get; set; }
+        public virtual DbSet<tbLoRaWAN> tbLoRaWAN { get; set; }
         public virtual DbSet<tbSensorHub> tbSensorHub { get; set; }
         public virtual DbSet<tbWasteBinSensor> tbWasteBinSensor { get; set; }
         public virtual DbSet<tbWaterSensor> tbWaterSensor { get; set; }
@@ -27,6 +28,10 @@ namespace PTT_SmartCity_Web_API.Entity
                 .HasPrecision(0);
 
             modelBuilder.Entity<tbLoRaGateway>()
+                .Property(e => e.Time)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<tbLoRaWAN>()
                 .Property(e => e.Time)
                 .HasPrecision(0);
 
