@@ -179,14 +179,13 @@
     <Compile Include="Controllers\WasteBinSensorController.cs" />
     <Compile Include="Controllers\WaterSensorController.cs" />
     <Compile Include="Controllers\WeatheSensorController.cs" />
-    <Compile Include="Entity\dbBusTrackingContext.cs" />
-    <Compile Include="Entity\dbEnvironmentLoRaContext.cs" />
+    <Compile Include="Entity\dbSmartCityContext.cs" />
     <Compile Include="Entity\tbEnvironmentSensor.cs" />
     <Compile Include="Entity\tbGPS.cs" />
     <Compile Include="Entity\tbGPS_Realtime.cs" />
     <Compile Include="Entity\tbLoRaGateway.cs" />
-    <Compile Include="Entity\tbLoRaWAN_RealTime.cs" />
     <Compile Include="Entity\tbLoRaWAN.cs" />
+    <Compile Include="Entity\tbLoRaWAN_RealTime.cs" />
     <Compile Include="Entity\tbSensorHub.cs" />
     <Compile Include="Entity\tbWasteBinSensor.cs" />
     <Compile Include="Entity\tbWaterSensor.cs" />

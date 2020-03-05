@@ -11,7 +11,7 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class BusTrackingService : IBusTrackingService
     {
-        private dbBusTrackingContext db = new dbBusTrackingContext();
+        private dbSmartCityContext db = new dbSmartCityContext();
 
         public IEnumerable<tbGPS_Realtime> GPS_ItemsRealtime => this.db.tbGPS_Realtime.ToList();
 

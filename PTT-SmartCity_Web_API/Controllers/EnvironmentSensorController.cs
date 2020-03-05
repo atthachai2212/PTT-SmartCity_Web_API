@@ -15,7 +15,7 @@ namespace PTT_SmartCity_Web_API.Controllers
 {
     public class EnvironmentSensorController : ApiController
     {
-        private dbEnvironmentLoRaContext db = new dbEnvironmentLoRaContext();
+        private dbSmartCityContext db = new dbSmartCityContext();
 
         // GET: api/EnvironmentSensor
         public IQueryable<tbEnvironmentSensor> GettbEnvironmentSensor()

@@ -11,9 +11,9 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class LorawanService : ILoRaWANService
     {
-		private dbEnvironmentLoRaContext db = new dbEnvironmentLoRaContext();
+		private dbSmartCityContext db = new dbSmartCityContext();
 
-        public IEnumerable<tbLoRaWAN_RealTime> LorawanRealtimeItems => this.db.tbLoRaWAN_RaelTime.ToList();
+        public IEnumerable<tbLoRaWAN_RealTime> LorawanRealtimeItems => this.db.tbLoRaWAN_RealTime.ToList();
 
         public IEnumerable<tbLoRaWAN> LorawanItems => this.db.tbLoRaWAN.ToList();
 
@@ -39,13 +39,13 @@ namespace PTT_SmartCity_Web_API.Services
                     Data = model.raw_data
                 };
 
-                var larawanData = db.tbLoRaWAN_RaelTime
+                var larawanData = db.tbLoRaWAN_RealTime
                     .Where(x => x.DevEUI == model.deveui && x.GatewayEUI == model.gateway_eui)
                     .FirstOrDefault();
 
                 if(larawanData == null)
                 {
-                    this.db.tbLoRaWAN_RaelTime.Add(loRaWANData);
+                    this.db.tbLoRaWAN_RealTime.Add(loRaWANData);
                     this.db.SaveChanges();
                 }
                 else
@@ -67,7 +67,7 @@ namespace PTT_SmartCity_Web_API.Services
                 var lorawanDataUpdate = this.LorawanRealtimeItems.SingleOrDefault(l => l.DevEUI == model.deveui && l.GatewayEUI == model.gateway_eui);
                 if (lorawanDataUpdate == null) 
                     throw new Exception("Not Found Data.");
-                this.db.tbLoRaWAN_RaelTime.Attach(lorawanDataUpdate);
+                this.db.tbLoRaWAN_RealTime.Attach(lorawanDataUpdate);
                 lorawanDataUpdate.Date = dateTime.Date;
                 lorawanDataUpdate.Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second);
                 lorawanDataUpdate.DevAddr = model.devaddr;

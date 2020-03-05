@@ -15,7 +15,7 @@ namespace PTT_SmartCity_Web_API.Controllers
 {
     public class LoRaGatewayController : ApiController
     {
-        private dbEnvironmentLoRaContext db = new dbEnvironmentLoRaContext();
+        private dbSmartCityContext db = new dbSmartCityContext();
 
         // GET: api/LoRaGateway
         public IQueryable<tbLoRaGateway> GettbLoRaGateway()

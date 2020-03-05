@@ -18,7 +18,7 @@ namespace PTT_SmartCity_Web_API.Controllers
 {
     public class BusTrackingController : ApiController
     {
-        private dbBusTrackingContext db = new dbBusTrackingContext();
+        private dbSmartCityContext db = new dbSmartCityContext();
         private IBusTrackingService busTrackingService;
 
         public BusTrackingController()

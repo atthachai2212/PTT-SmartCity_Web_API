@@ -6,10 +6,8 @@ namespace PTT_SmartCity_Web_API.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tbLoRaWAN_RaelTime")]
     public partial class tbLoRaWAN_RealTime
     {
-
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 

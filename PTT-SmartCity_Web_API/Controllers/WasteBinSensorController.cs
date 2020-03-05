@@ -15,7 +15,7 @@ namespace PTT_SmartCity_Web_API.Controllers
 {
     public class WasteBinSensorController : ApiController
     {
-        private dbEnvironmentLoRaContext db = new dbEnvironmentLoRaContext();
+        private dbSmartCityContext db = new dbSmartCityContext();
 
         // GET: api/WasteBinSensor
         public IQueryable<tbWasteBinSensor> GettbWasteBinSensor()
