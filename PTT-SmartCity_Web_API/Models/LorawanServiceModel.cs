@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PTT_SmartCity_Web_API.Models
 {
-    public class LoRaPostServiceModel
+    public class LorawanServiceModel
     {
         public string owner { get; set; }
         public string devname { get; set; }

@@ -6,15 +6,13 @@ namespace PTT_SmartCity_Web_API.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tbLoRaWAN")]
-    public partial class tbLoRaWAN
+    [Table("tbLoRaWAN_RaelTime")]
+    public partial class tbLoRaWAN_RealTime
     {
-        [Key]
-        [Column(Order = 0, TypeName = "date")]
+
+        [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
         public TimeSpan Time { get; set; }
 
         [Required]
@@ -22,12 +20,12 @@ namespace PTT_SmartCity_Web_API.Entity
         public string DevAddr { get; set; }
 
         [Key]
-        [Column(Order = 2)]
+        [Column(Order = 0)]
         [StringLength(50)]
         public string DevEUI { get; set; }
 
         [Key]
-        [Column(Order = 3)]
+        [Column(Order = 1)]
         [StringLength(50)]
         public string GatewayEUI { get; set; }
 

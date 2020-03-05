@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -10,125 +11,39 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using PTT_SmartCity_Web_API.Entity;
+using PTT_SmartCity_Web_API.Interfaces;
+using PTT_SmartCity_Web_API.Models;
+using PTT_SmartCity_Web_API.Services;
 
 namespace PTT_SmartCity_Web_API.Controllers
 {
     public class LoRaWANController : ApiController
     {
-        private dbEnvironmentLoRaContext db = new dbEnvironmentLoRaContext();
+        private ILoRaWANService lorawanService;
 
-        // GET: api/LoRaWAN
-        public IQueryable<tbLoRaWAN> GettbLoRaWAN()
+        public LoRaWANController()
         {
-            return db.tbLoRaWAN;
-        }
-
-        // GET: api/LoRaWAN/5
-        [ResponseType(typeof(tbLoRaWAN))]
-        public async Task<IHttpActionResult> GettbLoRaWAN(DateTime id)
-        {
-            tbLoRaWAN tbLoRaWAN = await db.tbLoRaWAN.FindAsync(id);
-            if (tbLoRaWAN == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(tbLoRaWAN);
-        }
-
-        // PUT: api/LoRaWAN/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PuttbLoRaWAN(DateTime id, tbLoRaWAN tbLoRaWAN)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != tbLoRaWAN.Date)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(tbLoRaWAN).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!tbLoRaWANExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            this.lorawanService = new LorawanService();
         }
 
         // POST: api/LoRaWAN
-        [ResponseType(typeof(tbLoRaWAN))]
-        public async Task<IHttpActionResult> PostLoRaWAN(tbLoRaWAN tbLoRaWAN)
+        [Route("api/lorawan")]
+        [ResponseType(typeof(LorawanServiceModel))]
+        public IHttpActionResult PostLoRaWAN(LorawanServiceModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
-            }
-
-            db.tbLoRaWAN.Add(tbLoRaWAN);
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (tbLoRaWANExists(tbLoRaWAN.Date))
+                try
                 {
-                    return Conflict();
+                    this.lorawanService.LorawanDataRealTime(model);
+                    return Ok("Successful.");
                 }
-                else
+                catch (Exception ex)
                 {
-                    throw;
+                    ModelState.AddModelError("Exception", ex.Message);
                 }
             }
-
-            return CreatedAtRoute("DefaultApi", new { id = tbLoRaWAN.Date }, tbLoRaWAN);
-        }
-
-        // DELETE: api/LoRaWAN/5
-        [ResponseType(typeof(tbLoRaWAN))]
-        public async Task<IHttpActionResult> DeletetbLoRaWAN(DateTime id)
-        {
-            tbLoRaWAN tbLoRaWAN = await db.tbLoRaWAN.FindAsync(id);
-            if (tbLoRaWAN == null)
-            {
-                return NotFound();
-            }
-
-            db.tbLoRaWAN.Remove(tbLoRaWAN);
-            await db.SaveChangesAsync();
-
-            return Ok(tbLoRaWAN);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool tbLoRaWANExists(DateTime id)
-        {
-            return db.tbLoRaWAN.Count(e => e.Date == id) > 0;
+            return BadRequest(ModelState.GetErrorModelState());
         }
     }
 }

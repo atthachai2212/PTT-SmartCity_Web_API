@@ -20,6 +20,7 @@ namespace PTT_SmartCity_Web_API.Entity
         public virtual DbSet<tbWasteBinSensor> tbWasteBinSensor { get; set; }
         public virtual DbSet<tbWaterSensor> tbWaterSensor { get; set; }
         public virtual DbSet<tbWeatherSensor> tbWeatherSensor { get; set; }
+        public virtual DbSet<tbLoRaWAN_RealTime> tbLoRaWAN_RaelTime { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -48,6 +49,10 @@ namespace PTT_SmartCity_Web_API.Entity
                 .HasPrecision(0);
 
             modelBuilder.Entity<tbWeatherSensor>()
+                .Property(e => e.Time)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<tbLoRaWAN_RealTime>()
                 .Property(e => e.Time)
                 .HasPrecision(0);
         }
