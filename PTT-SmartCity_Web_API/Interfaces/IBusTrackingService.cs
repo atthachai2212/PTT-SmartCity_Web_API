@@ -19,6 +19,6 @@ namespace PTT_SmartCity_Web_API.Interfaces
         IEnumerable<GPSModel> gpsItemsRealtime { get;}
 
         GetGPSModel GetGPS(gpsFilterOptions gpsFilters);
-       
+      
     }
 }

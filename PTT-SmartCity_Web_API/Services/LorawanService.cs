@@ -113,7 +113,8 @@ namespace PTT_SmartCity_Web_API.Services
             var dateTime = Convert.ToDateTime(model.time);
             try
             {
-                var lorawanDataUpdate = this.LorawanRealtimeItems.SingleOrDefault(l => l.DevEUI == model.deveui && l.GatewayEUI == model.gateway_eui);
+                var lorawanDataUpdate = this.LorawanRealtimeItems
+                    .SingleOrDefault(l => l.DevEUI == model.deveui && l.GatewayEUI == model.gateway_eui);
                 if (lorawanDataUpdate == null)
                     throw new Exception("Not Found Data.");
                 this.db.tbLoRaWAN_RealTime.Attach(lorawanDataUpdate);

@@ -21,11 +21,15 @@ namespace PTT_SmartCity_Web_API.Controllers
     {
         private ILoraWANService lorawanService;
         private IWasteBinService wasteBinService;
+        private IGpsTrackingService gpsTrackingService;
+        private ISensorHubService sensorHubService;
 
         public LoRaWANController()
         {
             this.lorawanService = new LoraWANService();
             this.wasteBinService = new WasteBinService();
+            this.gpsTrackingService = new GpsTrackingService();
+            this.sensorHubService = new SensorHubService();
         }
 
         // POST: api/LoRaWAN
@@ -41,10 +45,14 @@ namespace PTT_SmartCity_Web_API.Controllers
                     this.lorawanService.LorawanData(model);
                     switch (devAddr)
                     {
-                        case "0028dcb6":
+                        case "fe052878":
                             this.wasteBinService.WasteBinSensorData(model);
                             break;
                         case "fe05168f":
+                            this.sensorHubService.SensorHubData(model);
+                            break;
+                        case "fe0540a4":
+                            this.gpsTrackingService.GpsData(model);
                             break;
                         default:
                             break;

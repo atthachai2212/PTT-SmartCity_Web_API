@@ -8,59 +8,58 @@ using System.Web;
 
 namespace PTT_SmartCity_Web_API.Services
 {
-    public class WasteBinService : IWasteBinService
+    public class EnvironmentService : IEnvironmentService
     {
         private dbSmartCityContext db;
 
-        public WasteBinService()
+        public EnvironmentService()
         {
             db = new dbSmartCityContext();
         }
 
-        public IEnumerable<tbWasteBinSensor> WasteBinSensorItems => this.db.tbWasteBinSensor.ToList();
+        public IEnumerable<tbEnvironmentSensor> environmentSensorItems => this.db.tbEnvironmentSensor.ToList();
 
-        public void WasteBinSensorData(LorawanServiceModel model)
+        public void environmentSensorData(LorawanServiceModel model)
         {
-            var dateTime = Convert.ToDateTime(model.time);
             try
             {
-                var wasteBinSensor = this.db.tbWasteBinSensor
-                    .Where(x => x.Date == dateTime.Date && x.Time.Hours == dateTime.Hour && x.Time.Minutes == dateTime.Minute)
-                    .FirstOrDefault();
-                if(wasteBinSensor == null)
+                if(model != null)
                 {
-                    this.WasteBinSensorDataInsert(model);
+                    this.environmentSensorDataInsert(model);
                 }
-                
             }
             catch (Exception ex)
             {
+
                 throw ex.GetErrorException();
             }
         }
 
-        public void WasteBinSensorDataInsert(LorawanServiceModel model)
+        public void environmentSensorDataInsert(LorawanServiceModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
             {
-                tbWasteBinSensor wasteBinSensor = new tbWasteBinSensor()
+                tbEnvironmentSensor environmentSensorData = new tbEnvironmentSensor()
                 {
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
                     DevEUI = model.deveui,
-                    Full = false,
-                    Flame = false,
-                    AirLevel = 0,
+                    O2 = 0,
+                    O3 = 0,
+                    PM1 = 0,
+                    PM2_5 = 0,
+                    PM10 = 0,
                     Battery = 0,
                     RSSI = model.rssi,
                     SNR = model.snr
                 };
-                this.db.tbWasteBinSensor.Add(wasteBinSensor);
+                this.db.tbEnvironmentSensor.Add(environmentSensorData);
                 this.db.SaveChanges();
             }
             catch (Exception ex)
             {
+
                 throw ex.GetErrorException();
             }
         }
