@@ -19,11 +19,13 @@ namespace PTT_SmartCity_Web_API.Controllers
 {
     public class LoRaWANController : ApiController
     {
-        private ILoRaWANService lorawanService;
+        private ILoraWANService lorawanService;
+        private IWasteBinService wasteBinService;
 
         public LoRaWANController()
         {
-            this.lorawanService = new LorawanService();
+            this.lorawanService = new LoraWANService();
+            this.wasteBinService = new WasteBinService();
         }
 
         // POST: api/LoRaWAN
@@ -33,9 +35,20 @@ namespace PTT_SmartCity_Web_API.Controllers
         {
             if (ModelState.IsValid)
             {
+                string devAddr = model.devaddr;
                 try
                 {
-                    this.lorawanService.LorawanDataRealTime(model);
+                    this.lorawanService.LorawanData(model);
+                    switch (devAddr)
+                    {
+                        case "0028dcb6":
+                            this.wasteBinService.WasteBinSensorData(model);
+                            break;
+                        case "fe05168f":
+                            break;
+                        default:
+                            break;
+                    }
                     return Ok("Successful.");
                 }
                 catch (Exception ex)

@@ -6,23 +6,54 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace PTT_SmartCity_Web_API.Services
 {
-    public class LorawanService : ILoRaWANService
+    public class LoraWANService : ILoraWANService
     {
-		private dbSmartCityContext db = new dbSmartCityContext();
+        //private dbSmartCityContext db = new dbSmartCityContext();
+        private dbSmartCityContext db;
 
-        public IEnumerable<tbLoRaWAN_RealTime> LorawanRealtimeItems => this.db.tbLoRaWAN_RealTime.ToList();
+        public LoraWANService()
+        {
+            db = new dbSmartCityContext();
+        }
 
         public IEnumerable<tbLoRaWAN> LorawanItems => this.db.tbLoRaWAN.ToList();
 
-        public void LorawanDataRealTime(LorawanServiceModel model)
+        public IEnumerable<tbLoRaWAN_RealTime> LorawanRealtimeItems => this.db.tbLoRaWAN_RealTime.ToList();
+
+        public void LorawanData(LorawanServiceModel model)
         {
-			var dateTime = Convert.ToDateTime(model.time);
 			try
 			{
-                tbLoRaWAN_RealTime loRaWANData = new tbLoRaWAN_RealTime
+                var lorawanDataRealTime = this.db.tbLoRaWAN_RealTime
+                    .Where(x => x.DevEUI == model.deveui && x.GatewayEUI == model.gateway_eui)
+                    .FirstOrDefault();
+
+                if(lorawanDataRealTime != null)
+                {
+                    this.LorawanRealtimeDataUpdate(model);
+                }
+                else
+                {
+                    this.LorawanRealtimeDataInsert(model);
+                }
+                this.LorawanDataInsert(model);
+            }
+			catch (Exception ex)
+			{
+				throw ex.GetErrorException();
+			}
+        }
+
+        public void LorawanDataInsert(LorawanServiceModel model)
+        {
+            var dateTime = Convert.ToDateTime(model.time);
+            try
+            {
+                tbLoRaWAN Lorawan = new tbLoRaWAN
                 {
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
@@ -38,34 +69,52 @@ namespace PTT_SmartCity_Web_API.Services
                     Size = model.datasize,
                     Data = model.raw_data
                 };
-
-                var larawanData = db.tbLoRaWAN_RealTime
-                    .Where(x => x.DevEUI == model.deveui && x.GatewayEUI == model.gateway_eui)
-                    .FirstOrDefault();
-
-                if(larawanData == null)
-                {
-                    this.db.tbLoRaWAN_RealTime.Add(loRaWANData);
-                    this.db.SaveChanges();
-                }
-                else
-                {
-                    this.LorawanDataRealTimeUpdate(model);
-                }         
+                this.db.tbLoRaWAN.Add(Lorawan);
+                this.db.SaveChanges();
             }
-			catch (Exception ex)
-			{
-				throw ex.GetErrorException();
-			}
+            catch (Exception ex)
+            {
+                throw ex.GetErrorException();
+            }
         }
 
-        public void LorawanDataRealTimeUpdate(LorawanServiceModel model)
+        public void LorawanRealtimeDataInsert(LorawanServiceModel model)
+        {
+            var dateTime = Convert.ToDateTime(model.time);
+            try
+            {
+                tbLoRaWAN_RealTime LorawanRealTime = new tbLoRaWAN_RealTime
+                {
+                    Date = dateTime.Date,
+                    Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
+                    DevAddr = model.devaddr,
+                    DevEUI = model.deveui,
+                    GatewayEUI = model.gateway_eui,
+                    RSSI = model.rssi,
+                    SNR = model.snr,
+                    SF = model.sf,
+                    BW = model.bw,
+                    Freq = model.freq / 1000000,
+                    UpCtr = model.uplink_count,
+                    Size = model.datasize,
+                    Data = model.raw_data
+                };
+                this.db.tbLoRaWAN_RealTime.Add(LorawanRealTime);
+                this.db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetErrorException();
+            }
+        }
+
+        public void LorawanRealtimeDataUpdate(LorawanServiceModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
             {
                 var lorawanDataUpdate = this.LorawanRealtimeItems.SingleOrDefault(l => l.DevEUI == model.deveui && l.GatewayEUI == model.gateway_eui);
-                if (lorawanDataUpdate == null) 
+                if (lorawanDataUpdate == null)
                     throw new Exception("Not Found Data.");
                 this.db.tbLoRaWAN_RealTime.Attach(lorawanDataUpdate);
                 lorawanDataUpdate.Date = dateTime.Date;

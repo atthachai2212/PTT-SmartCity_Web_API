@@ -194,7 +194,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IBusTrackingService.cs" />
-    <Compile Include="Interfaces\ILoRaWANService.cs" />
+    <Compile Include="Interfaces\IWasteBinService.cs" />
+    <Compile Include="Interfaces\ILoraWANService.cs" />
     <Compile Include="Models\AddGPSModel.cs" />
     <Compile Include="Models\ExtensionModel.cs" />
     <Compile Include="Models\GetGPSModel.cs" />
@@ -202,7 +203,8 @@
     <Compile Include="Models\LorawanServiceModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BusTrackingService.cs" />
-    <Compile Include="Services\LorawanService.cs" />
+    <Compile Include="Services\LoraWANService.cs" />
+    <Compile Include="Services\WasteBinService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
