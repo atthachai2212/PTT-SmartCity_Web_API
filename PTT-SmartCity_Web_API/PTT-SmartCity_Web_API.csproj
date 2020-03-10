@@ -204,12 +204,15 @@
     <Compile Include="Models\ExtensionModel.cs" />
     <Compile Include="Models\GetGPSModel.cs" />
     <Compile Include="Models\GPSModel.cs" />
+    <Compile Include="Models\SensorHubDataModel.cs" />
+    <Compile Include="Models\WasteBinDataModel.cs" />
     <Compile Include="Models\LorawanServiceModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BusTrackingService.cs" />
     <Compile Include="Services\EnvironmentService.cs" />
     <Compile Include="Services\GpsTrackingService.cs" />
     <Compile Include="Services\HelperService.cs" />
+    <Compile Include="Services\LoraDataService.cs" />
     <Compile Include="Services\LoraWANService.cs" />
     <Compile Include="Services\SensorHubService.cs" />
     <Compile Include="Services\WasteBinService.cs" />

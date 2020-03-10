@@ -42,6 +42,7 @@ namespace PTT_SmartCity_Web_API.Services
         public void WasteBinSensorDataInsert(LorawanServiceModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
+            var data = LoraDataService.LasC01Data(model.raw_data);
             try
             {
                 tbWasteBinSensor wasteBinSensor = new tbWasteBinSensor()
@@ -49,9 +50,9 @@ namespace PTT_SmartCity_Web_API.Services
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
                     DevEUI = model.deveui,
-                    Full = false,
-                    Flame = false,
-                    AirLevel = 0,
+                    Full = data.Full,
+                    Flame = data.Flame,
+                    AirLevel = data.AirLevel,
                     Battery = 0,
                     RSSI = model.rssi,
                     SNR = model.snr

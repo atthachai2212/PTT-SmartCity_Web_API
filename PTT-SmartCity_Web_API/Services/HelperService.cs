@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -7,7 +8,6 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public static class HelperService
     {
-
         public static string ToHexString(this byte[] bts)
         {
             return BitConverter.ToString(bts).Replace("-", "");
@@ -26,9 +26,9 @@ namespace PTT_SmartCity_Web_API.Services
             return Convert.ToBase64String(bts);
         }
 
-        public static byte[] ToByteFromHex(this string text)
+        public static byte[] ToByteFromHex(this string hex)
         {
-            return Convert.FromBase64String(text);
+            return Convert.FromBase64String(hex);
         }
 
         public static int ToInt16(this byte[] value)
@@ -43,6 +43,32 @@ namespace PTT_SmartCity_Web_API.Services
         {
             return Enumerable.Range(0, str.Length / Size)
                 .Select(i => str.Substring(i * Size, Size));
+        }
+
+        public static float HexToFloatingPoint(string hex)
+        {
+            uint data = uint.Parse(hex, NumberStyles.AllowHexSpecifier);
+            byte[] bytes = BitConverter.GetBytes(data);
+            if (BitConverter.IsLittleEndian)
+            {
+                bytes = bytes.Reverse().ToArray();
+            }
+            return BitConverter.ToSingle(bytes, 0);
+        }
+
+        public static int HexToInt32(string hex)
+        {
+            if (hex.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            {
+                hex = hex.Substring(2);
+            }
+            return Int32.Parse(hex, NumberStyles.HexNumber);
+        }
+
+        public static double KtoCelsius(double CTempIn)
+        {
+            double KCel = CTempIn - 273.15;
+            return KCel;
         }
 
     }
