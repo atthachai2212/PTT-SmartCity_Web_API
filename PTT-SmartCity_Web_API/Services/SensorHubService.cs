@@ -38,6 +38,7 @@ namespace PTT_SmartCity_Web_API.Services
         public void SensorHubDataInsert(LorawanServiceModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
+            var data = LoraDataService.LAS_501L_Sensor(model.raw_data);
             try
             {
                 tbSensorHub sensorHubData = new tbSensorHub()
@@ -45,10 +46,13 @@ namespace PTT_SmartCity_Web_API.Services
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
                     DevEUI = model.deveui,
-                    Humidity = 0,
-                    Temperature = 0,
-                    CO2 = 0,
-                    Battery = 0,
+                    Humidity = data.Humidity,
+                    Temperature = data.Temperature,
+                    CO2 = data.CO2,
+                    BatteryVolt = data.BatteryVolt,
+                    BatteryCurrent = data.BatteryCurrent,
+                    BatteryPercent = data.BatteryPercent,
+                    BatteryTemp = data.BatteryTemp,
                     RSSI = model.rssi,
                     SNR = model.snr
                 };

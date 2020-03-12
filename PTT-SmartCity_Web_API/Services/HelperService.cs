@@ -31,7 +31,7 @@ namespace PTT_SmartCity_Web_API.Services
             return Convert.FromBase64String(hex);
         }
 
-        public static int ToInt16(this byte[] value)
+        public static int ByteToInt16(this byte[] value)
         {
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(value);
@@ -56,13 +56,22 @@ namespace PTT_SmartCity_Web_API.Services
             return BitConverter.ToSingle(bytes, 0);
         }
 
-        public static int HexToInt32(string hex)
+        public static int HexToInt32(string strHex)
         {
-            if (hex.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            if (strHex.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
             {
-                hex = hex.Substring(2);
+                strHex = strHex.Substring(2);
             }
-            return Int32.Parse(hex, NumberStyles.HexNumber);
+            return Int32.Parse(strHex, NumberStyles.HexNumber);
+        }
+
+        public static short HexToInt16(this string strHex)
+        {
+            if (strHex.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            {
+                strHex = strHex.Substring(2);
+            }
+            return Int16.Parse(strHex, NumberStyles.HexNumber);
         }
 
         public static double KtoCelsius(double CTempIn)

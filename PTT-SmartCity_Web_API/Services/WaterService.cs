@@ -41,6 +41,7 @@ namespace PTT_SmartCity_Web_API.Services
         public void WaterSensorDataInsert(LorawanServiceModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
+            var data = LoraDataService.SSB_LW_APL_01_Sensor(model.raw_data);
             try
             {
                 tbWaterSensor waterSensor = new tbWaterSensor()
@@ -48,10 +49,11 @@ namespace PTT_SmartCity_Web_API.Services
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
                     DevEUI = model.deveui,
-                    Level = 0,
+                    Level = data.LEV_Cal,
                     DO = 0,
                     Temperature = 0,
-                    Battery = 0,
+                    BatteryVolt = data.BATVolt / 1000,
+                    BatteryPercent = data.BAT,
                     RSSI = model.rssi,
                     SNR = model.snr
                 };

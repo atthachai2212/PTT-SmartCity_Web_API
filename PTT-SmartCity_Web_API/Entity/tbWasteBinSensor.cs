@@ -28,7 +28,7 @@ namespace PTT_SmartCity_Web_API.Entity
 
         public float AirLevel { get; set; }
 
-        public float Battery { get; set; }
+        public float? Battery { get; set; }
 
         public float RSSI { get; set; }
 

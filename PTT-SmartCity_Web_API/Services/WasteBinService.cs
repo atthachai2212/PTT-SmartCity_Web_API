@@ -42,7 +42,7 @@ namespace PTT_SmartCity_Web_API.Services
         public void WasteBinSensorDataInsert(LorawanServiceModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
-            var data = LoraDataService.LasC01Data(model.raw_data);
+            var data = LoraDataService.LAS_C01L_Sensor(model.raw_data);
             try
             {
                 tbWasteBinSensor wasteBinSensor = new tbWasteBinSensor()

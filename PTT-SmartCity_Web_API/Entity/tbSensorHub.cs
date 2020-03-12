@@ -28,7 +28,13 @@ namespace PTT_SmartCity_Web_API.Entity
 
         public float CO2 { get; set; }
 
-        public float Battery { get; set; }
+        public float? BatteryVolt { get; set; }
+
+        public float? BatteryCurrent { get; set; }
+
+        public float? BatteryPercent { get; set; }
+
+        public float? BatteryTemp { get; set; }
 
         public float RSSI { get; set; }
 
