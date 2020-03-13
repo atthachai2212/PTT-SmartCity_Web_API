@@ -19,7 +19,7 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbWasteBinSensor> WasteBinSensorItems => this.db.tbWasteBinSensor.ToList();
 
-        public void WasteBinSensorData(LorawanServiceModel model)
+        public void WasteBinSensorData(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -39,7 +39,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void WasteBinSensorDataInsert(LorawanServiceModel model)
+        public void WasteBinSensorDataInsert(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             var data = LoraDataService.LAS_C01L_Sensor(model.raw_data);

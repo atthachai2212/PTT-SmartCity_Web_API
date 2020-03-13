@@ -9,13 +9,14 @@ namespace PTT_SmartCity_Web_API.Entity
     public partial class dbSmartCityContext : DbContext
     {
         public dbSmartCityContext()
-            : base(string.Format(ConfigurationManager.ConnectionStrings["dbSmartCityContext"].ConnectionString, DateTime.Now.Year))
+            : base(string.Format(ConfigurationManager.ConnectionStrings["dbSmartCityContext"].ConnectionString,DateTime.Now.Year))
         {
         }
 
         public virtual DbSet<tbEnvironmentSensor> tbEnvironmentSensor { get; set; }
         public virtual DbSet<tbGPS> tbGPS { get; set; }
         public virtual DbSet<tbGPS_Realtime> tbGPS_Realtime { get; set; }
+        public virtual DbSet<tbLoRaDevice> tbLoRaDevice { get; set; }
         public virtual DbSet<tbLoRaGateway> tbLoRaGateway { get; set; }
         public virtual DbSet<tbLoRaWAN> tbLoRaWAN { get; set; }
         public virtual DbSet<tbLoRaWAN_RealTime> tbLoRaWAN_RealTime { get; set; }

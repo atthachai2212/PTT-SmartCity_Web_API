@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PTT_SmartCity_Web_API.Models
 {
-    public class WasteBinDataModel
+    public class WasteBinSensorDataModel
     {
         public bool Full { get; set; }
         public bool Flame { get; set; }

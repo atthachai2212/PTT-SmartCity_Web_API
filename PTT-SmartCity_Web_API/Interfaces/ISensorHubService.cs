@@ -12,8 +12,8 @@ namespace PTT_SmartCity_Web_API.Interfaces
     {
         IEnumerable<tbSensorHub> sensorHubItems { get; }
 
-        void SensorHubData(LorawanServiceModel model);
+        void SensorHubData(LoraWANDataModel model);
 
-        void SensorHubDataInsert(LorawanServiceModel model);
+        void SensorHubDataInsert(LoraWANDataModel model);
     }
 }

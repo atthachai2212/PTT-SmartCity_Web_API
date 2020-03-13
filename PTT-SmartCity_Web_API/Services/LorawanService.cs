@@ -24,7 +24,7 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbLoRaWAN_RealTime> LorawanRealtimeItems => this.db.tbLoRaWAN_RealTime.ToList();
 
-        public void LorawanData(LorawanServiceModel model)
+        public void LorawanData(LoraWANDataModel model)
         {
 			try
 			{
@@ -48,7 +48,7 @@ namespace PTT_SmartCity_Web_API.Services
 			}
         }
 
-        public void LorawanDataInsert(LorawanServiceModel model)
+        public void LorawanDataInsert(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -78,7 +78,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void LorawanRealtimeDataInsert(LorawanServiceModel model)
+        public void LorawanRealtimeDataInsert(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -108,7 +108,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void LorawanRealtimeDataUpdate(LorawanServiceModel model)
+        public void LorawanRealtimeDataUpdate(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try

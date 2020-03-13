@@ -9,14 +9,14 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public static class LoraDataService
     {
-        public static WasteBinDataModel LAS_C01L_Sensor(string Data)
+        public static WasteBinSensorDataModel LAS_C01L_Sensor(string Data)
         {
             var dataArray = HelperService.SplitString(Data, 1).ToArray();
             var full = Convert.ToUInt16(dataArray.Take(1).FirstOrDefault());
             var flame = Convert.ToUInt16(dataArray.Skip(1).Take(1).FirstOrDefault());
             var fall = string.Join("", dataArray.Skip(2).Take(2));
             var airLavel = Convert.ToSingle(string.Join("", dataArray.Skip(4).Take(4)));
-            var wasteBinData = new WasteBinDataModel()
+            var wasteBinData = new WasteBinSensorDataModel()
             {
                 Full = Convert.ToBoolean(full),
                 Flame = Convert.ToBoolean(flame),
@@ -85,10 +85,10 @@ namespace PTT_SmartCity_Web_API.Services
             return sensorHubData;
         }
 
-        public static WaterSensorDataModel SSB_LW_APL_01_Sensor(string Data)
+        public static WaterLevelSensorDataModel SSB_LW_APL_01_Sensor(string Data)
         {
             var dataArray = HelperService.SplitString(Data, 2).ToArray();
-            var waterSensorData = new WaterSensorDataModel
+            var waterSensorData = new WaterLevelSensorDataModel()
             {
                 Type = HelperService.HexToInt16(string.Join("",dataArray.Take(2).Reverse().ToArray())),
                 ErrChk = HelperService.HexToInt16(string.Join("", dataArray.Skip(2).Take(2).Reverse().ToArray())),
@@ -100,9 +100,85 @@ namespace PTT_SmartCity_Web_API.Services
                 ACC_Y = HelperService.HexToInt16(string.Join("", dataArray.Skip(14).Take(2).Reverse().ToArray())),
                 ACC_Z = HelperService.HexToInt16(string.Join("", dataArray.Skip(16).Take(2).Reverse().ToArray())),
                 USdist = HelperService.HexToInt16(string.Join("", dataArray.Skip(18).Take(2).Reverse().ToArray())),
-                LEV_Cal = HelperService.HexToInt16(string.Join("", dataArray.Skip(20).Take(2).Reverse().ToArray())),
+                LEV_Cal = HelperService.HexToInt16(string.Join("", dataArray.Skip(20).Take(2).Reverse().ToArray()))
             };
             return waterSensorData;
+        }
+
+        public static WaterQualitySensorDataModel SWB_LW_APL_01_Sensor(string Data)
+        {
+            var waterQualitySensorData = new WaterQualitySensorDataModel()
+            {
+                Type = GetDataLibeliumSensor(Data,0,2),
+                ErrChk = GetDataLibeliumSensor(Data,2,2),
+                BAT = GetDataLibeliumSensor(Data, 4, 2),
+                BATVolt = GetDataLibeliumSensor(Data, 6, 2),
+                ChgStat = GetDataLibeliumSensor(Data, 8, 2),
+                ChgCur = GetDataLibeliumSensor(Data, 10, 2),
+                ACC_X = GetDataLibeliumSensor(Data, 12, 2),
+                ACC_Y = GetDataLibeliumSensor(Data, 14, 2),
+                ACC_Z = GetDataLibeliumSensor(Data, 16, 2),
+                DO = GetDataLibeliumSensor(Data, 18, 2),
+                WT = GetDataLibeliumSensor(Data, 20, 2),
+                DO_Cal = GetDataLibeliumSensor(Data, 22, 2)
+            };
+            return waterQualitySensorData;    
+        }
+
+
+        public static WeatherSensorDataModel SAPB_LW_APL_01(string Data)
+        {
+            var weatherSensorData = new WeatherSensorDataModel()
+            {
+                Type = GetDataLibeliumSensor(Data, 0, 2),
+                ErrChk = GetDataLibeliumSensor(Data, 2, 2),
+                BAT = GetDataLibeliumSensor(Data, 4, 2),
+                BATVolt = GetDataLibeliumSensor(Data, 6, 2),
+                ChgStat = GetDataLibeliumSensor(Data, 8, 2),
+                ChgCur = GetDataLibeliumSensor(Data, 10, 2),
+                ACC_X = GetDataLibeliumSensor(Data, 12, 2),
+                ACC_Y = GetDataLibeliumSensor(Data, 14, 2),
+                ACC_Z = GetDataLibeliumSensor(Data, 16, 2),
+                ANE = GetDataLibeliumSensor(Data, 18, 2),
+                WV = GetDataLibeliumSensor(Data, 20, 2),
+                PLV1 = GetDataLibeliumSensor(Data, 22, 2),
+                PLV2 = GetDataLibeliumSensor(Data, 24, 2),
+                PLV3 = GetDataLibeliumSensor(Data, 26, 2),
+                LUX = GetDataLibeliumSensor(Data, 28, 2)
+            };
+            return weatherSensorData;
+        }
+
+        public static EnvironmentSensorDataModel SEPB_LW_APL_01(string Data)
+        {
+            var environmentSensorData = new EnvironmentSensorDataModel()
+            {
+                Type = GetDataLibeliumSensor(Data, 0, 2),
+                ErrChk = GetDataLibeliumSensor(Data, 2, 2),
+                BAT = GetDataLibeliumSensor(Data, 4, 2),
+                BATVolt = GetDataLibeliumSensor(Data, 6, 2),
+                ChgStat = GetDataLibeliumSensor(Data, 8, 2),
+                ChgCur = GetDataLibeliumSensor(Data, 10, 2),
+                ACC_X = GetDataLibeliumSensor(Data, 12, 2),
+                ACC_Y = GetDataLibeliumSensor(Data, 14, 2),
+                ACC_Z = GetDataLibeliumSensor(Data, 16, 2),
+                O2conc = GetDataLibeliumSensor(Data, 18, 2),
+                O3conc = GetDataLibeliumSensor(Data, 20, 2),
+                PM1 = GetDataLibeliumSensor(Data, 22, 2),
+                PM2_5 = GetDataLibeliumSensor(Data, 24, 2),
+                PM10 = GetDataLibeliumSensor(Data, 26, 2),
+                TC = GetDataLibeliumSensor(Data, 28, 2),
+                HUM = GetDataLibeliumSensor(Data, 30, 2),
+                PRES = GetDataLibeliumSensor(Data, 32, 2)
+            };
+            return environmentSensorData;
+        }
+
+        public static Int16 GetDataLibeliumSensor(string strData, ushort skip, ushort take)
+        {
+            var dataArray = HelperService.SplitString(strData, 2).ToArray();
+            var data = HelperService.HexToInt16(string.Join("", dataArray.Skip(skip).Take(take).Reverse().ToArray()));
+            return data;
         }
     }
 }

@@ -14,12 +14,12 @@ namespace PTT_SmartCity_Web_API.Interfaces
 
         IEnumerable<tbLoRaWAN_RealTime> LorawanRealtimeItems { get; }
 
-        void LorawanData(LorawanServiceModel model);
+        void LorawanData(LoraWANDataModel model);
 
-        void LorawanDataInsert(LorawanServiceModel model);
+        void LorawanDataInsert(LoraWANDataModel model);
 
-        void LorawanRealtimeDataInsert(LorawanServiceModel model);
+        void LorawanRealtimeDataInsert(LoraWANDataModel model);
 
-        void LorawanRealtimeDataUpdate(LorawanServiceModel model);
+        void LorawanRealtimeDataUpdate(LoraWANDataModel model);
     }
 }

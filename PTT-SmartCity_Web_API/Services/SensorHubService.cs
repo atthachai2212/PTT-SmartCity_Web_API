@@ -19,7 +19,7 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbSensorHub> sensorHubItems => this.db.tbSensorHub.ToList();
 
-        public void SensorHubData(LorawanServiceModel model)
+        public void SensorHubData(LoraWANDataModel model)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void SensorHubDataInsert(LorawanServiceModel model)
+        public void SensorHubDataInsert(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             var data = LoraDataService.LAS_501L_Sensor(model.raw_data);

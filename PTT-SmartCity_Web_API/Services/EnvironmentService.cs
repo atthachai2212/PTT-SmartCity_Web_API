@@ -19,7 +19,7 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbEnvironmentSensor> environmentSensorItems => this.db.tbEnvironmentSensor.ToList();
 
-        public void environmentSensorData(LorawanServiceModel model)
+        public void environmentSensorData(LoraWANDataModel model)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void environmentSensorDataInsert(LorawanServiceModel model)
+        public void environmentSensorDataInsert(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try

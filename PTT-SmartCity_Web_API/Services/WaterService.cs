@@ -18,7 +18,7 @@ namespace PTT_SmartCity_Web_API.Services
         }
         public IEnumerable<tbWaterSensor> WaterSensorItems => this.db.tbWaterSensor.ToList();
 
-        public void WaterSensorData(LorawanServiceModel model)
+        public void WaterSensorData(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -38,7 +38,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void WaterSensorDataInsert(LorawanServiceModel model)
+        public void WaterSensorDataInsert(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             var data = LoraDataService.SSB_LW_APL_01_Sensor(model.raw_data);

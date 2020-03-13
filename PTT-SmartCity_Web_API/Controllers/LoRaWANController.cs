@@ -23,6 +23,8 @@ namespace PTT_SmartCity_Web_API.Controllers
         private IWasteBinService wasteBinService;
         private IGpsTrackingService gpsTrackingService;
         private ISensorHubService sensorHubService;
+        private IWaterService waterService;
+        private ILoRaDeviceService loraDeviceService;
 
         public LoRaWANController()
         {
@@ -30,32 +32,36 @@ namespace PTT_SmartCity_Web_API.Controllers
             this.wasteBinService = new WasteBinService();
             this.gpsTrackingService = new GpsTrackingService();
             this.sensorHubService = new SensorHubService();
+            this.loraDeviceService = new LoRaDeviceService();
+            this.waterService = new WaterService();
         }
 
         // POST: api/LoRaWAN
         [Route("api/lorawan")]
-        [ResponseType(typeof(LorawanServiceModel))]
-        public IHttpActionResult PostLoRaWAN(LorawanServiceModel model)
+        [ResponseType(typeof(LoraWANDataModel))]
+        public IHttpActionResult PostLoRaWAN(LoraWANDataModel model)
         {
             if (ModelState.IsValid)
             {
-                string devAddr = model.devaddr;
+                var deviceType = this.loraDeviceService.DeviceType(model.deveui);
                 try
                 {
                     this.lorawanService.LorawanData(model);
-                    switch (devAddr)
+                    if (deviceType.Equals(AppSettingService.GpsTracking))
                     {
-                        case "fe052878":
-                            this.wasteBinService.WasteBinSensorData(model);
-                            break;
-                        case "fe05168f":
-                            this.sensorHubService.SensorHubData(model);
-                            break;
-                        case "fe0540a4":
-                            this.gpsTrackingService.GpsData(model);
-                            break;
-                        default:
-                            break;
+                        this.gpsTrackingService.GpsData(model);
+                    }
+                    else if (deviceType.Equals(AppSettingService.SensorHub))
+                    {
+                        this.sensorHubService.SensorHubData(model);
+                    }
+                    else if (deviceType.Equals(AppSettingService.WasteBinSensor))
+                    {
+                        this.wasteBinService.WasteBinSensorData(model);
+                    }
+                    else if (deviceType.Equals(AppSettingService.WaterSensor))
+                    {
+                        this.waterService.WaterSensorData(model);
                     }
                     return Ok("Successful.");
                 }

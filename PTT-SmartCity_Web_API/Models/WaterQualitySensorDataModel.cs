@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PTT_SmartCity_Web_API.Models
 {
-    public class WaterSensorDataModel
+    public class WaterQualitySensorDataModel
     {
         public Int16 Type { get; set; }
         public Int16 ErrChk { get; set; }
@@ -16,7 +16,8 @@ namespace PTT_SmartCity_Web_API.Models
         public Int16 ACC_X { get; set; }
         public Int16 ACC_Y { get; set; }
         public Int16 ACC_Z { get; set; }
-        public Int16 USdist { get; set; }
-        public Int16 LEV_Cal { get; set; }
+        public Int16 DO { get; set; }
+        public Int16 WT { get; set; }
+        public Int16 DO_Cal { get; set; }
     }
 }

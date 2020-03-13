@@ -12,8 +12,8 @@ namespace PTT_SmartCity_Web_API.Interfaces
     {
         IEnumerable<tbWasteBinSensor> WasteBinSensorItems { get; }
 
-        void WasteBinSensorData(LorawanServiceModel model);
+        void WasteBinSensorData(LoraWANDataModel model);
 
-        void WasteBinSensorDataInsert(LorawanServiceModel model);
+        void WasteBinSensorDataInsert(LoraWANDataModel model);
     }
 }

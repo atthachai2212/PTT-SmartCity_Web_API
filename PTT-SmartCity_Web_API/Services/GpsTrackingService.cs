@@ -21,7 +21,7 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbGPS_Realtime> gpsRealtimeItems => this.db.tbGPS_Realtime.ToList();
 
-        public void GpsData(LorawanServiceModel model)
+        public void GpsData(LoraWANDataModel model)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void GpsDataInsert(LorawanServiceModel model)
+        public void GpsDataInsert(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -74,7 +74,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void GpsRealtimeDataInsert(LorawanServiceModel model)
+        public void GpsRealtimeDataInsert(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -99,7 +99,7 @@ namespace PTT_SmartCity_Web_API.Services
                 throw ex.GetErrorException();
             }
         }
-        public void GpsRealtimeDataUpdate(LorawanServiceModel model)
+        public void GpsRealtimeDataUpdate(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try

@@ -14,12 +14,12 @@ namespace PTT_SmartCity_Web_API.Interfaces
 
         IEnumerable<tbGPS_Realtime> gpsRealtimeItems { get; }
 
-        void GpsData(LorawanServiceModel model);
+        void GpsData(LoraWANDataModel model);
 
-        void GpsDataInsert(LorawanServiceModel model);
+        void GpsDataInsert(LoraWANDataModel model);
 
-        void GpsRealtimeDataInsert(LorawanServiceModel model);
+        void GpsRealtimeDataInsert(LoraWANDataModel model);
 
-        void GpsRealtimeDataUpdate(LorawanServiceModel model);
+        void GpsRealtimeDataUpdate(LoraWANDataModel model);
     }
 }
