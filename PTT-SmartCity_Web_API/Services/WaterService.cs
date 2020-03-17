@@ -21,7 +21,7 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbWaterQualitySensor> WaterQualitySensorItems => this.db.tbWaterQualitySensor.ToList();
 
-        public void WaterLevelSensorData(LoraWANDataModel model)
+        public void WaterLevelSensorData(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -41,10 +41,10 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void WaterLevelSensorDataInsert(LoraWANDataModel model)
+        public void WaterLevelSensorDataInsert(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
-            var data = LoraDataService.SSB_LW_APL_01_Sensor(model.raw_data);
+            var data = LoRaDataService.SSB_LW_APL_01_Sensor(model.raw_data);
             try
             {
                 tbWaterLevelSensor waterSensor = new tbWaterLevelSensor()
@@ -68,7 +68,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void WaterQualitySensorData(LoraWANDataModel model)
+        public void WaterQualitySensorData(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -86,10 +86,10 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void WaterQualitySensorDataInsert(LoraWANDataModel model)
+        public void WaterQualitySensorDataInsert(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
-            var data = LoraDataService.SWB_LW_APL_01_Sensor(model.raw_data);
+            var data = LoRaDataService.SWB_LW_APL_01_Sensor(model.raw_data);
             try
             {
                 tbWaterQualitySensor waterQualitySensor = new tbWaterQualitySensor()

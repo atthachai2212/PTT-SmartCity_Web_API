@@ -12,8 +12,8 @@ namespace PTT_SmartCity_Web_API.Interfaces
     {
         IEnumerable<tbEnvironmentSensor> environmentSensorItems { get; }
 
-        void environmentSensorData(LoraWANDataModel model);
+        void environmentSensorData(LoRaWANDataModel model);
 
-        void environmentSensorDataInsert(LoraWANDataModel model);
+        void environmentSensorDataInsert(LoRaWANDataModel model);
     }
 }

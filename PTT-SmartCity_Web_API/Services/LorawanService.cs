@@ -10,12 +10,12 @@ using System.Web.Mvc;
 
 namespace PTT_SmartCity_Web_API.Services
 {
-    public class LoraWANService : ILoraWANService
+    public class LoRaWANService : ILoRaWANService
     {
         //private dbSmartCityContext db = new dbSmartCityContext();
         private dbSmartCityContext db;
 
-        public LoraWANService()
+        public LoRaWANService()
         {
             db = new dbSmartCityContext();
         }
@@ -24,7 +24,7 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbLoRaWAN_RealTime> LorawanRealtimeItems => this.db.tbLoRaWAN_RealTime.ToList();
 
-        public void LorawanData(LoraWANDataModel model)
+        public void LorawanData(LoRaWANDataModel model)
         {
 			try
 			{
@@ -48,7 +48,7 @@ namespace PTT_SmartCity_Web_API.Services
 			}
         }
 
-        public void LorawanDataInsert(LoraWANDataModel model)
+        public void LorawanDataInsert(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -78,7 +78,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void LorawanRealtimeDataInsert(LoraWANDataModel model)
+        public void LorawanRealtimeDataInsert(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -108,7 +108,7 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void LorawanRealtimeDataUpdate(LoraWANDataModel model)
+        public void LorawanRealtimeDataUpdate(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try

@@ -19,7 +19,7 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbWeatherSensor> WeatherSensorItems => this.db.tbWeatherSensor.ToList();
 
-        public void WeatherSensorData(LoraWANDataModel model)
+        public void WeatherSensorData(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
             try
@@ -37,10 +37,10 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void WeatherSensorDataInsert(LoraWANDataModel model)
+        public void WeatherSensorDataInsert(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
-            var data = LoraDataService.SAPB_LW_APL_01_Sensor(model.raw_data);
+            var data = LoRaDataService.SAPB_LW_APL_01_Sensor(model.raw_data);
             try
             {
                 tbWeatherSensor weatherSensor = new tbWeatherSensor()

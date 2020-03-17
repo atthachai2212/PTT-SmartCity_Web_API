@@ -19,7 +19,7 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbEnvironmentSensor> environmentSensorItems => this.db.tbEnvironmentSensor.ToList();
 
-        public void environmentSensorData(LoraWANDataModel model)
+        public void environmentSensorData(LoRaWANDataModel model)
         {
             try
             {
@@ -35,10 +35,10 @@ namespace PTT_SmartCity_Web_API.Services
             }
         }
 
-        public void environmentSensorDataInsert(LoraWANDataModel model)
+        public void environmentSensorDataInsert(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
-            var data = LoraDataService.SEPB_LW_APL_01_Sensor(model.raw_data);
+            var data = LoRaDataService.SEPB_LW_APL_01_Sensor(model.raw_data);
             try
             {
                 tbEnvironmentSensor environmentSensorData = new tbEnvironmentSensor()

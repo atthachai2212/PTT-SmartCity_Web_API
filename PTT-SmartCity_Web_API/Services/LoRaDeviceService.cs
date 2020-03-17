@@ -18,10 +18,25 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbLoRaDevice> loraDeviceItems => this.db.tbLoRaDevice.ToList();
 
+        public void AddDevice()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteDevice()
+        {
+            throw new NotImplementedException();
+        }
+
         public string DeviceType(string DevEUI)
         {
             var devType = this.db.tbLoRaDevice.SingleOrDefault(s => s.DevEUI.Equals(DevEUI)).DevType;
             return devType;
+        }
+
+        public void UpdateDevice()
+        {
+            throw new NotImplementedException();
         }
     }
 }

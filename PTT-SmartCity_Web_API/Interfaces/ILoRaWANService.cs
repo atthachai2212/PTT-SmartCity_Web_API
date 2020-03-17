@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace PTT_SmartCity_Web_API.Interfaces
 {
-    interface ILoraWANService
+    interface ILoRaWANService
     {
         IEnumerable<tbLoRaWAN> LorawanItems { get; }
 
         IEnumerable<tbLoRaWAN_RealTime> LorawanRealtimeItems { get; }
 
-        void LorawanData(LoraWANDataModel model);
+        void LorawanData(LoRaWANDataModel model);
 
-        void LorawanDataInsert(LoraWANDataModel model);
+        void LorawanDataInsert(LoRaWANDataModel model);
 
-        void LorawanRealtimeDataInsert(LoraWANDataModel model);
+        void LorawanRealtimeDataInsert(LoRaWANDataModel model);
 
-        void LorawanRealtimeDataUpdate(LoraWANDataModel model);
+        void LorawanRealtimeDataUpdate(LoRaWANDataModel model);
     }
 }

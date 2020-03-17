@@ -19,7 +19,7 @@ namespace PTT_SmartCity_Web_API.Controllers
 {
     public class LoRaWANController : ApiController
     {
-        private ILoraWANService lorawanService;
+        private ILoRaWANService lorawanService;
         private IWasteBinService wasteBinService;
         private IGpsTrackingService gpsTrackingService;
         private ISensorHubService sensorHubService;
@@ -30,7 +30,7 @@ namespace PTT_SmartCity_Web_API.Controllers
 
         public LoRaWANController()
         {
-            this.lorawanService = new LoraWANService();
+            this.lorawanService = new LoRaWANService();
             this.wasteBinService = new WasteBinService();
             this.gpsTrackingService = new GpsTrackingService();
             this.sensorHubService = new SensorHubService();
@@ -41,8 +41,8 @@ namespace PTT_SmartCity_Web_API.Controllers
 
         // POST: api/LoRaWAN
         [Route("api/lorawan")]
-        [ResponseType(typeof(LoraWANDataModel))]
-        public IHttpActionResult PostLoRaWAN(LoraWANDataModel model)
+        [ResponseType(typeof(LoRaWANDataModel))]
+        public IHttpActionResult PostLoRaWAN(LoRaWANDataModel model)
         {
             if (ModelState.IsValid)
             {

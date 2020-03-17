@@ -13,12 +13,12 @@ namespace PTT_SmartCity_Web_API.Interfaces
         IEnumerable<tbWaterLevelSensor> WaterLevelSensorItems { get; }
         IEnumerable<tbWaterQualitySensor> WaterQualitySensorItems { get; }
 
-        void WaterLevelSensorData(LoraWANDataModel model);
+        void WaterLevelSensorData(LoRaWANDataModel model);
 
-        void WaterLevelSensorDataInsert(LoraWANDataModel model);
+        void WaterLevelSensorDataInsert(LoRaWANDataModel model);
 
-        void WaterQualitySensorData(LoraWANDataModel model);
+        void WaterQualitySensorData(LoRaWANDataModel model);
 
-        void WaterQualitySensorDataInsert(LoraWANDataModel model);
+        void WaterQualitySensorDataInsert(LoRaWANDataModel model);
     }
 }

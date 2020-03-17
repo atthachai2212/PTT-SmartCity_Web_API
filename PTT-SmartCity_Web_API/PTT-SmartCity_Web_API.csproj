@@ -172,6 +172,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\EnvironmentSensorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoRaDeviceController.cs" />
     <Compile Include="Controllers\LoRaGatewayController.cs" />
     <Compile Include="Controllers\LoRaWANController.cs" />
     <Compile Include="Controllers\SensorHubController.cs" />
@@ -198,18 +199,15 @@
     <Compile Include="Interfaces\ILoRaDeviceService.cs" />
     <Compile Include="Interfaces\ISensorHubService.cs" />
     <Compile Include="Interfaces\IWasteBinService.cs" />
-    <Compile Include="Interfaces\ILoraWANService.cs" />
+    <Compile Include="Interfaces\ILoRaWANService.cs" />
     <Compile Include="Interfaces\IWaterService.cs" />
     <Compile Include="Interfaces\IWeatherService.cs" />
-    <Compile Include="Models\AddGPSModel.cs" />
     <Compile Include="Models\EnvironmentSensorDataModel.cs" />
     <Compile Include="Models\ExtensionModel.cs" />
-    <Compile Include="Models\GetGPSModel.cs" />
-    <Compile Include="Models\GPSModel.cs" />
     <Compile Include="Models\GpsTrackingDataModel.cs" />
     <Compile Include="Models\SensorHubDataModel.cs" />
     <Compile Include="Models\WasteBinSensorDataModel.cs" />
-    <Compile Include="Models\LoraWANDataModel.cs" />
+    <Compile Include="Models\LoRaWANDataModel.cs" />
     <Compile Include="Models\WaterQualitySensorDataModel.cs" />
     <Compile Include="Models\WaterLevelSensorDataModel.cs" />
     <Compile Include="Models\WeatherSensorDataModel.cs" />
@@ -218,9 +216,9 @@
     <Compile Include="Services\EnvironmentService.cs" />
     <Compile Include="Services\GpsTrackingService.cs" />
     <Compile Include="Services\HelperService.cs" />
-    <Compile Include="Services\LoraDataService.cs" />
+    <Compile Include="Services\LoRaDataService.cs" />
     <Compile Include="Services\LoRaDeviceService.cs" />
-    <Compile Include="Services\LoraWANService.cs" />
+    <Compile Include="Services\LoRaWANService.cs" />
     <Compile Include="Services\SensorHubService.cs" />
     <Compile Include="Services\WasteBinService.cs" />
     <Compile Include="Services\WaterService.cs" />
@@ -413,6 +411,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\LoRaDevice\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

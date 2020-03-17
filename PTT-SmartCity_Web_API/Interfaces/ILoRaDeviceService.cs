@@ -12,5 +12,11 @@ namespace PTT_SmartCity_Web_API.Interfaces
         IEnumerable<tbLoRaDevice> loraDeviceItems { get; }
 
         string DeviceType(string DevEUI);
+
+        void AddDevice();
+
+        void UpdateDevice();
+
+        void DeleteDevice();
     }
 }

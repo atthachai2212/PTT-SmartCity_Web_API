@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PTT_SmartCity_Web_API.Services
 {
-    public static class LoraDataService
+    public static class LoRaDataService
     {
         public static WasteBinSensorDataModel LAS_C01L_Sensor(string Data)
         {
