@@ -176,7 +176,6 @@
     <Compile Include="Controllers\LoRaWANController.cs" />
     <Compile Include="Controllers\SensorHubController.cs" />
     <Compile Include="Controllers\WasteBinSensorController.cs" />
-    <Compile Include="Controllers\WaterSensorController.cs" />
     <Compile Include="Controllers\WeatheSensorController.cs" />
     <Compile Include="Entity\dbSmartCityContext.cs" />
     <Compile Include="Entity\tbEnvironmentSensor.cs" />
@@ -188,7 +187,8 @@
     <Compile Include="Entity\tbLoRaWAN_RealTime.cs" />
     <Compile Include="Entity\tbSensorHub.cs" />
     <Compile Include="Entity\tbWasteBinSensor.cs" />
-    <Compile Include="Entity\tbWaterSensor.cs" />
+    <Compile Include="Entity\tbWaterLevelSensor.cs" />
+    <Compile Include="Entity\tbWaterQualitySensor.cs" />
     <Compile Include="Entity\tbWeatherSensor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -200,6 +200,7 @@
     <Compile Include="Interfaces\IWasteBinService.cs" />
     <Compile Include="Interfaces\ILoraWANService.cs" />
     <Compile Include="Interfaces\IWaterService.cs" />
+    <Compile Include="Interfaces\IWeatherService.cs" />
     <Compile Include="Models\AddGPSModel.cs" />
     <Compile Include="Models\EnvironmentSensorDataModel.cs" />
     <Compile Include="Models\ExtensionModel.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Services\SensorHubService.cs" />
     <Compile Include="Services\WasteBinService.cs" />
     <Compile Include="Services\WaterService.cs" />
+    <Compile Include="Services\WeatherService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

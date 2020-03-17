@@ -38,6 +38,7 @@ namespace PTT_SmartCity_Web_API.Services
         public void environmentSensorDataInsert(LoraWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
+            var data = LoraDataService.SEPB_LW_APL_01_Sensor(model.raw_data);
             try
             {
                 tbEnvironmentSensor environmentSensorData = new tbEnvironmentSensor()
@@ -45,12 +46,14 @@ namespace PTT_SmartCity_Web_API.Services
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
                     DevEUI = model.deveui,
-                    O2 = 0,
-                    O3 = 0,
-                    PM1 = 0,
-                    PM2_5 = 0,
-                    PM10 = 0,
-                    Battery = 0,
+                    O2 = data.O2conc / 100f,
+                    O3 = data.O3conc,
+                    PM1 = data.PM1 / 10f,
+                    PM2_5 = data.PM2_5 / 10f,
+                    PM10 = data.PM10 / 10f,
+                    AirTemp = data.TC / 100f,
+                    AirHumidity = data.HUM / 100f,
+                    AirPressure = data.PRES / 100f,
                     RSSI = model.rssi,
                     SNR = model.snr
                 };

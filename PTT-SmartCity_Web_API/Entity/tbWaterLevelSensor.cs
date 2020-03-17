@@ -6,8 +6,8 @@ namespace PTT_SmartCity_Web_API.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tbWaterSensor")]
-    public partial class tbWaterSensor
+    [Table("tbWaterLevelSensor")]
+    public partial class tbWaterLevelSensor
     {
         [Key]
         [Column(Order = 0, TypeName = "date")]
@@ -22,15 +22,13 @@ namespace PTT_SmartCity_Web_API.Entity
         [StringLength(50)]
         public string DevEUI { get; set; }
 
-        public float Level { get; set; }
+        public float WaterLevel { get; set; }
 
-        public float DO { get; set; }
+        public float Distance { get; set; }
 
-        public float Temperature { get; set; }
+        public float? BATLevel { get; set; }
 
-        public float? BatteryVolt { get; set; }
-
-        public float? BatteryPercent { get; set; }
+        public float? BATVolt { get; set; }
 
         public float RSSI { get; set; }
 

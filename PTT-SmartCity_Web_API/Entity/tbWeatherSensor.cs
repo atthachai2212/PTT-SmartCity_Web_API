@@ -26,11 +26,17 @@ namespace PTT_SmartCity_Web_API.Entity
 
         public float WindVane { get; set; }
 
-        public float Rain { get; set; }
+        public float RainfallCurrentHour { get; set; }
+
+        public float RainfallPreviousHour { get; set; }
+
+        public float RainfallLast_24Hours { get; set; }
 
         public float Luminosity { get; set; }
 
-        public float? Battery { get; set; }
+        public float? BATLevel { get; set; }
+
+        public float? BATVolt { get; set; }
 
         public float RSSI { get; set; }
 

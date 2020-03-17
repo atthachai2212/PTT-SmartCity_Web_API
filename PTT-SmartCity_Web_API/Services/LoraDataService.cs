@@ -38,10 +38,10 @@ namespace PTT_SmartCity_Web_API.Services
                 { "CO2", "0404" },
                 { "CO", "0504" },
                 { "PM25", "0604" },
-                { "BattVolt", "3002" },
-                { "BattCurr", "7002" },
-                { "BattPercent", "b002" },
-                { "BattTemp", "f002" },
+                { "BATVolt", "3002" },
+                { "BATCurrent", "7002" },
+                { "BATLevel", "b002" },
+                { "BATTemp", "f002" },
             };
             foreach (var item in dicLasData)
             {
@@ -74,13 +74,13 @@ namespace PTT_SmartCity_Web_API.Services
                 Humidity = Convert.ToSingle(dicSensorData.SingleOrDefault(s => s.Key.Equals("Hum")).Value),
                 Temperature = Convert.ToSingle(dicSensorData.SingleOrDefault(s => s.Key.Equals("Temp")).Value),
                 CO2 = Convert.ToSingle(dicSensorData.SingleOrDefault(s => s.Key.Equals("CO2")).Value),
-                BatteryVolt = dicSensorData.SingleOrDefault(s => s.Key.Equals("BattVolt")).Value,
-                BatteryCurrent = dicSensorData.SingleOrDefault(s => s.Key.Equals("BattCurr")).Value,
-                BatteryPercent = dicSensorData.SingleOrDefault(s => s.Key.Equals("BattPercent")).Value,
+                BATVolt = dicSensorData.SingleOrDefault(s => s.Key.Equals("BATVolt")).Value,
+                BATCurrent = dicSensorData.SingleOrDefault(s => s.Key.Equals("BATCurrent")).Value,
+                BATLevel = dicSensorData.SingleOrDefault(s => s.Key.Equals("BATLevel")).Value,
                 //BatteryTemp = dicSensorData?.SingleOrDefault(s => s.Key.Equals("BattTemp")).Value
-                BatteryTemp = dicSensorData.SingleOrDefault(s => s.Key.Equals("BattTemp")).Value != null ?
-                      Convert.ToSingle(HelperService.KtoCelsius(Convert.ToDouble(dicSensorData.SingleOrDefault(s => s.Key.Equals("BattTemp")).Value))) :
-                      dicSensorData.SingleOrDefault(s => s.Key.Equals("BattTemp")).Value
+                BATTemp = dicSensorData.SingleOrDefault(s => s.Key.Equals("BATTemp")).Value != null ?
+                      Convert.ToSingle(HelperService.KtoCelsius(Convert.ToDouble(dicSensorData.SingleOrDefault(s => s.Key.Equals("BATTemp")).Value))) :
+                      dicSensorData.SingleOrDefault(s => s.Key.Equals("BATTemp")).Value
             };
             return sensorHubData;
         }
@@ -126,7 +126,7 @@ namespace PTT_SmartCity_Web_API.Services
         }
 
 
-        public static WeatherSensorDataModel SAPB_LW_APL_01(string Data)
+        public static WeatherSensorDataModel SAPB_LW_APL_01_Sensor(string Data)
         {
             var weatherSensorData = new WeatherSensorDataModel()
             {
@@ -149,7 +149,7 @@ namespace PTT_SmartCity_Web_API.Services
             return weatherSensorData;
         }
 
-        public static EnvironmentSensorDataModel SEPB_LW_APL_01(string Data)
+        public static EnvironmentSensorDataModel SEPB_LW_APL_01_Sensor(string Data)
         {
             var environmentSensorData = new EnvironmentSensorDataModel()
             {

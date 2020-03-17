@@ -49,10 +49,10 @@ namespace PTT_SmartCity_Web_API.Services
                     Humidity = data.Humidity,
                     Temperature = data.Temperature,
                     CO2 = data.CO2,
-                    BatteryVolt = data.BatteryVolt,
-                    BatteryCurrent = data.BatteryCurrent,
-                    BatteryPercent = data.BatteryPercent,
-                    BatteryTemp = data.BatteryTemp,
+                    BATVolt = data.BATVolt,
+                    BATCurrent = data.BATCurrent,
+                    BATLevel = data.BATLevel,
+                    BATTemp = data.BATTemp,
                     RSSI = model.rssi,
                     SNR = model.snr
                 };

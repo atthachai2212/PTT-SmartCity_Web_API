@@ -9,7 +9,7 @@ namespace PTT_SmartCity_Web_API.Entity
     public partial class dbSmartCityContext : DbContext
     {
         public dbSmartCityContext()
-            : base(string.Format(ConfigurationManager.ConnectionStrings["dbSmartCityContext"].ConnectionString,DateTime.Now.Year))
+            : base(string.Format(ConfigurationManager.ConnectionStrings["dbSmartCityContext"].ConnectionString, DateTime.Now.Year))
         {
         }
 
@@ -22,7 +22,8 @@ namespace PTT_SmartCity_Web_API.Entity
         public virtual DbSet<tbLoRaWAN_RealTime> tbLoRaWAN_RealTime { get; set; }
         public virtual DbSet<tbSensorHub> tbSensorHub { get; set; }
         public virtual DbSet<tbWasteBinSensor> tbWasteBinSensor { get; set; }
-        public virtual DbSet<tbWaterSensor> tbWaterSensor { get; set; }
+        public virtual DbSet<tbWaterLevelSensor> tbWaterLevelSensor { get; set; }
+        public virtual DbSet<tbWaterQualitySensor> tbWaterQualitySensor { get; set; }
         public virtual DbSet<tbWeatherSensor> tbWeatherSensor { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -59,7 +60,11 @@ namespace PTT_SmartCity_Web_API.Entity
                 .Property(e => e.Time)
                 .HasPrecision(0);
 
-            modelBuilder.Entity<tbWaterSensor>()
+            modelBuilder.Entity<tbWaterLevelSensor>()
+                .Property(e => e.Time)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<tbWaterQualitySensor>()
                 .Property(e => e.Time)
                 .HasPrecision(0);
 

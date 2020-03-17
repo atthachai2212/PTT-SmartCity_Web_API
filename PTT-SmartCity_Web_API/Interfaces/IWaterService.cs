@@ -10,10 +10,15 @@ namespace PTT_SmartCity_Web_API.Interfaces
 {
     interface IWaterService
     {
-        IEnumerable<tbWaterSensor> WaterSensorItems { get; }
+        IEnumerable<tbWaterLevelSensor> WaterLevelSensorItems { get; }
+        IEnumerable<tbWaterQualitySensor> WaterQualitySensorItems { get; }
 
-        void WaterSensorData(LoraWANDataModel model);
+        void WaterLevelSensorData(LoraWANDataModel model);
 
-        void WaterSensorDataInsert(LoraWANDataModel model);
+        void WaterLevelSensorDataInsert(LoraWANDataModel model);
+
+        void WaterQualitySensorData(LoraWANDataModel model);
+
+        void WaterQualitySensorDataInsert(LoraWANDataModel model);
     }
 }

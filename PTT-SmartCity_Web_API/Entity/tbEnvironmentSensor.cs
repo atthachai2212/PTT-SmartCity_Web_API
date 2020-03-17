@@ -28,12 +28,19 @@ namespace PTT_SmartCity_Web_API.Entity
 
         public float PM1 { get; set; }
 
-        [Column("PM2.5")]
         public float PM2_5 { get; set; }
 
         public float PM10 { get; set; }
 
-        public float Battery { get; set; }
+        public float AirTemp { get; set; }
+
+        public float AirHumidity { get; set; }
+
+        public float AirPressure { get; set; }
+
+        public float BATLevel { get; set; }
+
+        public float BATVolt { get; set; }
 
         public float RSSI { get; set; }
 

@@ -25,6 +25,8 @@ namespace PTT_SmartCity_Web_API.Controllers
         private ISensorHubService sensorHubService;
         private IWaterService waterService;
         private ILoRaDeviceService loraDeviceService;
+        private IWeatherService weatherService;
+
 
         public LoRaWANController()
         {
@@ -34,6 +36,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             this.sensorHubService = new SensorHubService();
             this.loraDeviceService = new LoRaDeviceService();
             this.waterService = new WaterService();
+            this.weatherService = new WeatherService();
         }
 
         // POST: api/LoRaWAN
@@ -59,9 +62,17 @@ namespace PTT_SmartCity_Web_API.Controllers
                     {
                         this.wasteBinService.WasteBinSensorData(model);
                     }
-                    else if (deviceType.Equals(AppSettingService.WaterSensor))
+                    else if (deviceType.Equals(AppSettingService.WaterLevelSensor))
                     {
-                        this.waterService.WaterSensorData(model);
+                        this.waterService.WaterLevelSensorData(model);
+                    }
+                    else if (deviceType.Equals(AppSettingService.WaterQualitySensor))
+                    {
+                        this.waterService.WaterQualitySensorData(model);
+                    }
+                    else if (deviceType.Equals(AppSettingService.WeatherSensor))
+                    {
+                        this.weatherService.WeatherSensorData(model);
                     }
                     return Ok("Successful.");
                 }
