@@ -45,6 +45,7 @@ namespace PTT_SmartCity_Web_API.Services
                 DevModel = m.DevModel,
                 GatewayEUI = m.GatewayEUI,
                 DevType = m.DevType,
+                Created = m.Created,
                 Updated = m.Updated
             }).OrderByDescending(m => m.Updated);
 
@@ -52,10 +53,7 @@ namespace PTT_SmartCity_Web_API.Services
 
             var loraDeviceItems = new GetLoRaWANDeviceModel
             {
-                items = items
-                        .Skip((1 - 1) * 5)
-                        .Take(5)
-                        .ToArray(),
+                items = items.ToArray(),
                 totalItems = items.Count(),
                 Pager = pager
             };

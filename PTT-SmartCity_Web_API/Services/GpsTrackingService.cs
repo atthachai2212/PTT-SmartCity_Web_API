@@ -59,6 +59,7 @@ namespace PTT_SmartCity_Web_API.Services
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
                     DevEUI = model.deveui,
+                    GatewayEUI = model.gateway_eui,
                     Latitude = Convert.ToSingle(data.Latitude),
                     Longitude = Convert.ToSingle(data.Longitude),
                     Emergency = string.Empty,
@@ -78,6 +79,7 @@ namespace PTT_SmartCity_Web_API.Services
         public void GpsRealtimeDataInsert(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
+            var data = LoRaDataService.TLM932V2_Tracker(model.raw_data);
             try
             {
                 tbGPS_Realtime gpsRealtime = new tbGPS_Realtime()
@@ -85,10 +87,11 @@ namespace PTT_SmartCity_Web_API.Services
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
                     DevEUI = model.deveui,
-                    Latitude = 0,
-                    Longitude = 0,
-                    Emergency = "test",
-                    Battery = 0,
+                    GatewayEUI = model.gateway_eui,
+                    Latitude = Convert.ToSingle(data.Latitude),
+                    Longitude = Convert.ToSingle(data.Longitude),
+                    Emergency = string.Empty,
+                    Battery = data.Battery,
                     RSSI = model.rssi,
                     SNR = model.snr
                 };
@@ -103,6 +106,7 @@ namespace PTT_SmartCity_Web_API.Services
         public void GpsRealtimeDataUpdate(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
+            var data = LoRaDataService.TLM932V2_Tracker(model.raw_data);
             try
             {
                 var gpsRealtimeUpdate = this.gpsRealtimeItems
@@ -113,10 +117,11 @@ namespace PTT_SmartCity_Web_API.Services
                 gpsRealtimeUpdate.Date = dateTime.Date;
                 gpsRealtimeUpdate.Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second);
                 gpsRealtimeUpdate.DevEUI = model.deveui;
-                gpsRealtimeUpdate.Latitude = 0;
-                gpsRealtimeUpdate.Longitude = 0;
-                gpsRealtimeUpdate.Emergency = "test";
-                gpsRealtimeUpdate.Battery = 0;
+                gpsRealtimeUpdate.GatewayEUI = model.gateway_eui;
+                gpsRealtimeUpdate.Latitude = Convert.ToSingle(data.Latitude);
+                gpsRealtimeUpdate.Longitude = Convert.ToSingle(data.Longitude);
+                gpsRealtimeUpdate.Emergency = string.Empty;
+                gpsRealtimeUpdate.Battery = data.Battery;
                 gpsRealtimeUpdate.RSSI = model.rssi;
                 gpsRealtimeUpdate.SNR = model.snr;
                 this.db.Entry(gpsRealtimeUpdate).State = EntityState.Modified;

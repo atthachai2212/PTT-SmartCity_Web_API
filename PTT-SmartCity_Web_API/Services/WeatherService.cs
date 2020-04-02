@@ -48,6 +48,7 @@ namespace PTT_SmartCity_Web_API.Services
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
                     DevEUI = model.deveui,
+                    GatewayEUI = model.gateway_eui,
                     WindSpeed = data.ANE / 100f,
                     WindVane = data.WV / 10f,
                     RainfallCurrentHour = data.PLV1 / 100f,

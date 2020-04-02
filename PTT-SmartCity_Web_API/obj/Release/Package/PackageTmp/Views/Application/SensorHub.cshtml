@@ -19,6 +19,7 @@
                             <tr style="text-align:center">
                                 <th>DateTime</th>
                                 <th>DevEUI</th>
+                                <th>GatewayEUI</th>
                                 <th>Humidity</th>
                                 <th>Temperature</th>
                                 <th>CO2</th>
@@ -36,6 +37,7 @@
                                 <tr style="text-align:center">
                                     <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
                                     <td>@item.DevEUI</td>
+                                    <td>@item.GatewayEUI</td>
                                     <td>@item.Humidity</td>
                                     <td>@item.Temperature</td>
                                     <td>@item.CO2</td>

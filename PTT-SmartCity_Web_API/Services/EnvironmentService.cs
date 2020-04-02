@@ -46,6 +46,7 @@ namespace PTT_SmartCity_Web_API.Services
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
                     DevEUI = model.deveui,
+                    GatewayEUI = model.gateway_eui,
                     O2 = data.O2conc / 100f,
                     O3 = data.O3conc,
                     PM1 = data.PM1 / 10f,

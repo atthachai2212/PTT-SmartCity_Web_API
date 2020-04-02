@@ -211,6 +211,7 @@
     <Compile Include="Interfaces\IWeatherService.cs" />
     <Compile Include="Models\EnvironmentSensorDataModel.cs" />
     <Compile Include="Models\ExtensionModel.cs" />
+    <Compile Include="Models\GetEnvironmentDataModel.cs" />
     <Compile Include="Models\GetLoRaWANDataModel.cs" />
     <Compile Include="Models\GetLoRaWANDeviceModel.cs" />
     <Compile Include="Models\GetSensorHubDataModel.cs" />

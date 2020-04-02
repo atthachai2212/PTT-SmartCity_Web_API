@@ -1,6 +1,6 @@
 ﻿@model PTT_SmartCity_Web_API.Models.GetLoRaWANDeviceModel
 @{
-    ViewBag.Title = "DeviceList";
+    ViewBag.Title = "Device List";
 }
 
 <div class="row">
@@ -9,77 +9,35 @@
             <!-- ส่วนหัว -->
             <div class="tile-title-w-btn">
                 <h3 class="title">
-                    <i class="fa fa-gears"></i> Device List
+                    <i class="fa fa-snowflake-o"></i> @ViewBag.Title
                 </h3>
-                <!-- ค้นหา -->
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend" dropdown>
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="dropdownMenuButton">
-                                Dropdown button
-                            </button>
-                            <div class="dropdown-menu" id="dropdown-menu" aria-labelledby="dropdownMenuButton" aria-controls="dropdownMenuButton">
-                                @foreach (var serachType in ViewBag.serachType)
-                                {
-                                    <a class="dropdown-item" href="#">@serachType</a>
-                                }
-                            </div>
-                        </div>
-
-                        <div [ngSwitch]="serachType.key">
-                            @*<input *ngSwitchCase="'updated'" bsDaterangepicker placement="left" type="text" [(ngModel)]="searchText" class="form-control"
-                                   placeholder="ค้นหาข้อมูล">*@
-                            <input *ngSwitchDefault type="text" [(ngModel)]="searchText" class="form-control" placeholder="search">
-                        </div>
-
-                        <div class="input-group-append">
-                            <button (click)="onSearchItem()" class="btn btn-primary" type="button">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="tile-body">
                 <div class="table-responsive">
-                    <table class="table" id="sampleTable">
-                        <!-- Head -->
+                    <table class="table table-hover table-bordered table-striped" id="tbDeviceList">
                         <thead>
-                            <tr>
-                                <th>Device EUI</th>
-                                <th>Device Type</th>
-                                <th>Gateway EUI</th>
-                                <th>Device Model</th>
-                                <th>Date</th>
-                                <th></th>
+                            <tr style="text-align:center">
+                                <th>DevEUI</th>
+                                <th>DevType</th>
+                                <th>GatewayEUI</th>
+                                <th>DevModel</th>
+                                <th>Created</th>
+                                <th>Updated</th>
                             </tr>
                         </thead>
-                        <!-- Body -->
                         <tbody>
                             @foreach (var item in Model.items)
                             {
-                                <tr>
+                                <tr style="text-align:center">
                                     <td>@item.DevEUI</td>
                                     <td>@item.DevType</td>
                                     <td>@item.GatewayEUI</td>
                                     <td>@item.DevModel</td>
-                                    <td>@item.Updated</td>
-                                    <td class="text-right">
-                                        <i onclick="onUpdateDevice(@item.DevEUI)" class="fa fa-edit cur"></i>
-                                        <span> | </span>
-                                        <i onclick="onDeleteDevice(@item.DevEUI)" class="fa fa-trash cur"></i>
-                                    </td>
+                                    <td>@Html.Raw(item.Created?.ToString("MM/dd/yyyy HH:mm:ss"))</td>
+                                    <td>@Html.Raw(item.Updated?.ToString("MM/dd/yyyy HH:mm:ss"))</td>
                                 </tr>
                             }
                         </tbody>
-                        <!-- Foot -->
-                        <tfoot>
-                            <tr>
-                                <th colspan="7">
-                                    @Html.Raw($"Device Total {Model.totalItems}")
-                                </th>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -91,5 +49,10 @@
     <script>
         $('#loraWANNav').addClass('is-expanded');
         $('#deviceListNav').addClass('active').css('font-weight', 'bold');
+    </script>
+    <script type="text/javascript">
+        $('#tbDeviceList').DataTable({
+            "order": [[5, "desc"]]
+        });
     </script>
 }

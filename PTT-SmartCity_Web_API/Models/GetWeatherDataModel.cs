@@ -16,6 +16,7 @@ namespace PTT_SmartCity_Web_API.Models
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }
         public string DevEUI { get; set; }
+        public string GatewayEUI { get; set; }
         public float WindSpeed { get; set; }
         public float WindVane { get; set; }
         public float RainfallCurrentHour { get; set; }

@@ -19,6 +19,7 @@
                             <tr style="text-align:center">
                                 <th>DateTime</th>
                                 <th>DevEUI</th>
+                                <th>GatewayEUI</th>
                                 <th>O2</th>
                                 <th>O3</th>
                                 <th>PM1</th>
@@ -39,6 +40,7 @@
                                 <tr style="text-align:center">
                                     <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
                                     <td>@item.DevEUI</td>
+                                    <td>@item.GatewayEUI</td>
                                     <td>@item.O2</td>
                                     <td>@item.O3</td>
                                     <td>@item.PM1</td>

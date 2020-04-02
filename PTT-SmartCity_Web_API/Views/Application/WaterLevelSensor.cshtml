@@ -19,6 +19,7 @@
                             <tr style="text-align:center">
                                 <th>DateTime</th>
                                 <th>DevEUI</th>
+                                <th>GatewayEUI</th>
                                 <th>WaterLevel</th>
                                 <th>Distance</th>
                                 <th>BATLevel</th>
@@ -32,6 +33,7 @@
                             <tr style="text-align:center">
                                 <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
                                 <td>@item.DevEUI</td>
+                                <td>@item.GatewayEUI</td>
                                 <td>@item.WaterLevel</td>
                                 <td>@item.Distance</td>
                                 <td>@item.BATLevel</td>

@@ -22,6 +22,10 @@ namespace PTT_SmartCity_Web_API.Entity
         [StringLength(50)]
         public string DevEUI { get; set; }
 
+        [Required]
+        [StringLength(50)]
+        public string GatewayEUI { get; set; }
+
         public float WaterLevel { get; set; }
 
         public float Distance { get; set; }
