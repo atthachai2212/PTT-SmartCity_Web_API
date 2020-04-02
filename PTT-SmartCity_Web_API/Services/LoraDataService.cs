@@ -174,6 +174,30 @@ namespace PTT_SmartCity_Web_API.Services
             return environmentSensorData;
         }
 
+        public static GpsTrackingDataModel TLM932V2_Tracker(string Data)
+        {
+            var dataArray = HelperService.SplitString(Data, 2);
+
+            var latArray = HelperService.HexToBinary(string.Join("", dataArray.Skip(4).Take(4).Reverse().ToArray())).ToArray();
+            var latBinary = string.Join("", latArray.Skip(2).Take(30).ToArray());
+            var latIntArray = HelperService.SplitString(Convert.ToInt32(latBinary, 2).ToString(), 1);
+            var latDegree = Convert.ToInt32(string.Join("", latIntArray.Take(2).ToArray()));
+            var latMinutesM = Convert.ToDouble(string.Format($"{string.Format($"{Convert.ToInt32(string.Join("", latIntArray.Skip(2).Take(7).ToArray()))}")}")) / 100000f;
+            var longArry = HelperService.HexToBinary(string.Join("", dataArray.Skip(8).Take(4).Reverse().ToArray())).ToArray();
+            var longBinary = string.Join("", longArry.Skip(2).Take(30).ToArray());
+            var longIntArray = HelperService.SplitString(Convert.ToInt32(longBinary, 2).ToString(), 1);
+            var longDegree = Convert.ToInt32(string.Join("", longIntArray.Take(3).ToArray()));
+            var longMinutesM = Convert.ToDouble(string.Format($"{string.Format($"{Convert.ToInt32(string.Join("", longIntArray.Skip(3).Take(7).ToArray()))}")}")) / 100000f;
+
+            var GpsTrackingData = new GpsTrackingDataModel{
+                Latitude = HelperService.ConvertDegreesMinutesMToDecimalDegrees(latDegree, latMinutesM),
+                Longitude = HelperService.ConvertDegreesMinutesMToDecimalDegrees(longDegree, longMinutesM),
+                Emergency = string.Empty,
+                Battery = HelperService.HexToInt32(dataArray.Skip(16).Take(1).FirstOrDefault()) * 10 + 3000,
+            };
+            return GpsTrackingData;
+        }
+
         public static Int16 GetDataLibeliumSensor(string strData, ushort skip, ushort take)
         {
             var dataArray = HelperService.SplitString(strData, 2).ToArray();

@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="yes"?>
+<dsDeviceType xmlns="http://tempuri.org/dsDeviceType.xsd">
+  <DeviceType>
+    <TypeName>WeatherSensor</TypeName>
+  </DeviceType>
+  <DeviceType>
+    <TypeName>EnvironmentSensor</TypeName>
+  </DeviceType>
+  <DeviceType>
+    <TypeName>WaterLevelSensor</TypeName>
+  </DeviceType>
+  <DeviceType>
+    <TypeName>SensorHub</TypeName>
+  </DeviceType>
+  <DeviceType>
+    <TypeName>WasteBinSensor</TypeName>
+  </DeviceType>
+  <DeviceType>
+    <TypeName>GpsTracking</TypeName>
+  </DeviceType>
+  <DeviceType>
+    <TypeName>WaterQualitySensor</TypeName>
+  </DeviceType>
+  <DeviceType>
+    <TypeName>LoRaGateway</TypeName>
+  </DeviceType>
+</dsDeviceType>

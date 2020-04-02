@@ -9,6 +9,11 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public static class AppSettingService
     {
+        public static string LoRaGateway {
+            get {
+                return Setting<string>("LoRaGateway");
+            }
+        }
 
         public static string GpsTracking {
             get {

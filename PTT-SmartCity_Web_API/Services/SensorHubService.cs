@@ -17,7 +17,84 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbSmartCityContext();
         }
 
-        public IEnumerable<tbSensorHub> sensorHubItems => this.db.tbSensorHub.ToList();
+        public IEnumerable<GetSensorHubData> sensorHubItems => this.db.tbSensorHub.Select(m => new GetSensorHubData
+        {
+            Date = m.Date,
+            Time = m.Time,
+            DevEUI = m.DevEUI,
+            Humidity = m.Humidity,
+            Temperature = m.Temperature,
+            CO2 = m.CO2,
+            BATVolt = m.BATVolt,
+            BATCurrent = m.BATCurrent,
+            BATLevel = m.BATLevel,
+            BATTemp = m.BATTemp,
+            RSSI = m.RSSI,
+            SNR = m.SNR
+        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+
+        public IEnumerable<GetSensorHubData> getSensorHubItems => this.sensorHubItems.GroupBy(m => m.DevEUI, (key, g) => new GetSensorHubData {
+            Date = g.FirstOrDefault().Date,
+            Time = g.FirstOrDefault().Time,
+            DevEUI = key,
+            Humidity = g.FirstOrDefault().Humidity,
+            Temperature = g.FirstOrDefault().Temperature,
+            CO2 = g.FirstOrDefault().CO2,
+            BATVolt = g.FirstOrDefault().BATVolt,
+            BATCurrent = g.FirstOrDefault().BATCurrent,
+            BATLevel = g.FirstOrDefault().BATLevel,
+            BATTemp = g.FirstOrDefault().BATTemp,
+            RSSI = g.FirstOrDefault().RSSI,
+            SNR = g.FirstOrDefault().SNR
+        });
+
+
+        public GetSensorHubDataModel getSensorHubData()
+        {
+            var sensorHubItems = new GetSensorHubDataModel
+            {
+                items = this.getSensorHubItems.ToArray(),
+                totalItems = this.getSensorHubItems.Count()
+            };
+            return sensorHubItems;
+        }
+
+        public GetSensorHubDataModel getSensorHubDataAll()
+        {
+            var sensorHubItems = new GetSensorHubDataModel
+            {
+                items = this.sensorHubItems.ToArray(),
+                totalItems = this.sensorHubItems.Count()
+            };
+            return sensorHubItems;
+        }
+
+        public GetSensorHubDataModel getSensorHubDataFilter(SensorHubDataFilterOptions filters)
+        {
+            var sensorHubItems = new GetSensorHubDataModel
+            {
+                items = this.sensorHubItems.Take(filters.length).ToArray(),
+                totalItems = filters.length
+            };
+            
+            if (!string.IsNullOrEmpty(filters.deveui))
+            {
+                IEnumerable<GetSensorHubData> searchItem = new GetSensorHubData[] { };
+                
+                if(filters.length > 0)
+                {
+                    searchItem = this.sensorHubItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                }
+                else
+                {
+                    searchItem = this.sensorHubItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                }
+                sensorHubItems.items = searchItem.ToArray();
+                sensorHubItems.totalItems = searchItem.Count();
+            }
+
+            return sensorHubItems;
+        }
 
         public void SensorHubData(LoRaWANDataModel model)
         {

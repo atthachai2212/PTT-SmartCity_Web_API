@@ -17,7 +17,7 @@ namespace PTT_SmartCity_Web_API.Controllers
     {
         private dbSmartCityContext db = new dbSmartCityContext();
 
-        // GET: api/EnvironmentSensor
+        // GET: api/EnvironmentSensord
         public IQueryable<tbEnvironmentSensor> GettbEnvironmentSensor()
         {
             return db.tbEnvironmentSensor;

@@ -21,7 +21,6 @@ namespace PTT_SmartCity_Web_API.Entity
 
         public float Longitude { get; set; }
 
-        [Required]
         [StringLength(100)]
         public string Emergency { get; set; }
 

@@ -26,7 +26,7 @@ namespace PTT_SmartCity_Web_API.Controllers
         private IWaterService waterService;
         private ILoRaDeviceService loraDeviceService;
         private IWeatherService weatherService;
-
+        private IEnvironmentService environmentService;
 
         public LoRaWANController()
         {
@@ -37,6 +37,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             this.loraDeviceService = new LoRaDeviceService();
             this.waterService = new WaterService();
             this.weatherService = new WeatherService();
+            this.environmentService = new EnvironmentService();
         }
 
         // POST: api/LoRaWAN
@@ -53,6 +54,10 @@ namespace PTT_SmartCity_Web_API.Controllers
                     if (deviceType.Equals(AppSettingService.GpsTracking))
                     {
                         this.gpsTrackingService.GpsData(model);
+                    }
+                    else if (deviceType.Equals(AppSettingService.EnvironmentSensor))
+                    {
+                        this.environmentService.environmentSensorData(model);
                     }
                     else if (deviceType.Equals(AppSettingService.SensorHub))
                     {
@@ -83,5 +88,38 @@ namespace PTT_SmartCity_Web_API.Controllers
             }
             return BadRequest(ModelState.GetErrorModelState());
         }
+
+        // GET: api/LoRaWANLastData
+        [Route("api/lorawanlastdata")]
+        [ResponseType(typeof(GetLoRaWANDataModel))]
+        public GetLoRaWANDataModel GetLoRaWANLastData()
+        {
+            if (ModelState.IsValid)
+            {
+                return this.lorawanService.GetLoRaWANRealTimeData();
+            }
+            throw new HttpResponseException(Request.CreateResponse(
+                HttpStatusCode.BadRequest,
+                new { Message = ModelState.GetErrorModelState() }
+            ));
+        }
+
+
+        // GET: api/LoRaWANData
+        [Route("api/lorawandata")]
+        [ResponseType(typeof(GetLoRaWANDataModel))]
+        public GetLoRaWANDataModel GetLoRaWAN([FromUri]LoRaWANDataFilterOptions filters)
+        {
+            if (ModelState.IsValid)
+            {
+                return this.lorawanService.GetLoRaWANData(filters);
+            }
+            throw new HttpResponseException(Request.CreateResponse(
+                HttpStatusCode.BadRequest,
+                new { Message = ModelState.GetErrorModelState() }
+            ));
+        }
+
+
     }
 }

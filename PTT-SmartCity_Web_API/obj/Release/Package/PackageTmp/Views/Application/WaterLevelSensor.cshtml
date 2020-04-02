@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PTT_SmartCity_Web_API.Entity.tbWaterLevelSensor>
+@{
+    ViewBag.Title = "Water Level Sensor";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <!-- ส่วนหัว -->
+            <div class="tile-title-w-btn">
+                <h3 class="title">
+                    <i class="fa fa-thermometer-empty"></i> @ViewBag.Title
+                </h3>
+            </div>
+            <div class="tile-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped" id="tbWaterLevelSensor">
+                        <thead>
+                            <tr style="text-align:center">
+                                <th>DateTime</th>
+                                <th>DevEUI</th>
+                                <th>WaterLevel</th>
+                                <th>Distance</th>
+                                <th>BATLevel</th>
+                                <th>BATVolt</th>
+                                <th>RSSI</th>
+                                <th>SNR</th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="text-align:center">
+                                <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
+                                <td>@item.DevEUI</td>
+                                <td>@item.WaterLevel</td>
+                                <td>@item.Distance</td>
+                                <td>@item.BATLevel</td>
+                                <td>@item.BATVolt</td>
+                                <td>@item.RSSI</td>
+                                <td>@item.SNR</td>
+                            </tr>
+                        }
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('#applicationNav').addClass('is-expanded');
+        $('#warterLevelNav').addClass('active').css('font-weight', 'bold');
+    </script>
+    <script type="text/javascript">
+        $('#tbWaterLevelSensor').DataTable({
+            "order": [[0, "desc"]]
+        });
+    </script>
+}

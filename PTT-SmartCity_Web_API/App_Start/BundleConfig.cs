@@ -17,12 +17,13 @@ namespace PTT_SmartCity_Web_API
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/umd/popper.js",
+                      "~/Scripts/bootstrap.js",
+                      "~/Scripts/bootstrap.bundle.js"                     
+                      ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/css/main.css",
-                      "~/Content/font-awesome.min.css"
+                      
                       ));
         }
     }

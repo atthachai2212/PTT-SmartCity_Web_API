@@ -1,5 +1,6 @@
 ﻿using PTT_SmartCity_Web_API.Entity;
 using PTT_SmartCity_Web_API.Interfaces;
+using PTT_SmartCity_Web_API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,9 @@ namespace PTT_SmartCity_Web_API.Services
 
         public IEnumerable<tbLoRaDevice> loraDeviceItems => this.db.tbLoRaDevice.ToList();
 
-        public void AddDevice()
+        public IEnumerable<string> loraDeviceTypeItems => this.db.tbLoRaDevice.GroupBy(g => g.DevType).Select(s => s.Key).ToList();
+
+        public void CreateDevice()
         {
             throw new NotImplementedException();
         }
@@ -34,9 +37,35 @@ namespace PTT_SmartCity_Web_API.Services
             return devType;
         }
 
+        public GetLoRaWANDeviceModel GetLoRaWANDevice(LoRaWANDeviceFilterOptions filters)
+        {
+            var items = this.loraDeviceItems.Select(m => new GetLoRaWANDevice
+            {
+                DevEUI = m.DevEUI,
+                DevModel = m.DevModel,
+                GatewayEUI = m.GatewayEUI,
+                DevType = m.DevType,
+                Updated = m.Updated
+            }).OrderByDescending(m => m.Updated);
+
+            var pager = new Pager(items.Count(), filters.startPage);
+
+            var loraDeviceItems = new GetLoRaWANDeviceModel
+            {
+                items = items
+                        .Skip((1 - 1) * 5)
+                        .Take(5)
+                        .ToArray(),
+                totalItems = items.Count(),
+                Pager = pager
+            };
+            return loraDeviceItems;
+        }
+
         public void UpdateDevice()
         {
             throw new NotImplementedException();
         }
+
     }
 }

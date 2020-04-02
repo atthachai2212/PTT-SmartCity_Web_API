@@ -170,6 +170,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\EnvironmentSensorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoRaDeviceController.cs" />
@@ -177,7 +178,12 @@
     <Compile Include="Controllers\LoRaWANController.cs" />
     <Compile Include="Controllers\SensorHubController.cs" />
     <Compile Include="Controllers\WasteBinSensorController.cs" />
-    <Compile Include="Controllers\WeatheSensorController.cs" />
+    <Compile Include="Controllers\WeatherSensorController.cs" />
+    <Compile Include="DataSet\dsDeviceType.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsDeviceType.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Entity\dbSmartCityContext.cs" />
     <Compile Include="Entity\tbEnvironmentSensor.cs" />
     <Compile Include="Entity\tbGPS.cs" />
@@ -194,6 +200,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IApplicationService.cs" />
     <Compile Include="Interfaces\IEnvironmentService.cs" />
     <Compile Include="Interfaces\IGpsTrackingService.cs" />
     <Compile Include="Interfaces\ILoRaDeviceService.cs" />
@@ -204,7 +211,13 @@
     <Compile Include="Interfaces\IWeatherService.cs" />
     <Compile Include="Models\EnvironmentSensorDataModel.cs" />
     <Compile Include="Models\ExtensionModel.cs" />
+    <Compile Include="Models\GetLoRaWANDataModel.cs" />
+    <Compile Include="Models\GetLoRaWANDeviceModel.cs" />
+    <Compile Include="Models\GetSensorHubDataModel.cs" />
+    <Compile Include="Models\GetWasteBinDataModel.cs" />
+    <Compile Include="Models\GetWeatherDataModel.cs" />
     <Compile Include="Models\GpsTrackingDataModel.cs" />
+    <Compile Include="Models\LoRaWANDeviceDataModel.cs" />
     <Compile Include="Models\SensorHubDataModel.cs" />
     <Compile Include="Models\WasteBinSensorDataModel.cs" />
     <Compile Include="Models\LoRaWANDataModel.cs" />
@@ -212,6 +225,7 @@
     <Compile Include="Models\WaterLevelSensorDataModel.cs" />
     <Compile Include="Models\WeatherSensorDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ApplicationService.cs" />
     <Compile Include="Services\AppSettingService.cs" />
     <Compile Include="Services\EnvironmentService.cs" />
     <Compile Include="Services\GpsTrackingService.cs" />
@@ -237,6 +251,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\banner.jpg" />
+    <Content Include="DataSet\Devices.xml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
@@ -288,6 +303,18 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Areas\HelpPage\Views\Help\BusTracking.cshtml" />
+    <Content Include="DataSet\dsDeviceType.xsc">
+      <DependentUpon>dsDeviceType.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSet\dsDeviceType.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsDeviceType.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="DataSet\dsDeviceType.xss">
+      <DependentUpon>dsDeviceType.xsd</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -404,13 +431,24 @@
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
     <Content Include="Scripts\umd\popper-utils.js.map" />
     <Content Include="Scripts\README.md" />
-    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\js\popper.min.js.map" />
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Home\DeviceList.cshtml" />
+    <Content Include="Views\Home\CreateDevice.cshtml" />
+    <Content Include="Views\Home\UplinkRealtime.cshtml" />
+    <Content Include="Views\Application\EnvironmentSensor.cshtml" />
+    <Content Include="Views\Application\GpsTracking.cshtml" />
+    <Content Include="Views\Application\SensorHub.cshtml" />
+    <Content Include="Views\Application\WasteBinSensor.cshtml" />
+    <Content Include="Views\Application\WaterLevelSensor.cshtml" />
+    <Content Include="Views\Application\WaterQualitySensor.cshtml" />
+    <Content Include="Views\Application\WeatherSensor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="bin\" />
     <Folder Include="Views\LoRaDevice\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace PTT_SmartCity_Web_API.Services
@@ -74,11 +76,27 @@ namespace PTT_SmartCity_Web_API.Services
             return Int16.Parse(strHex, NumberStyles.HexNumber);
         }
 
+        public static string HexToBinary(string hexvalue)
+        {
+            // Convert.ToUInt32 this is an unsigned int
+            // so no negative numbers but it gives you one more bit
+            // it much of a muchness 
+            // Uint MAX is 4,294,967,295 and MIN is 0
+            // this padds to 4 bits so 0x5 = "0101"
+            return String.Join(String.Empty, hexvalue.Select(c => Convert.ToString(Convert.ToUInt32(c.ToString(), 16), 2).PadLeft(4, '0')));
+        }
+
+        public static double ConvertDegreesMinutesMToDecimalDegrees(double degrees, double minutesm)
+        {
+            //var d = minutesm / 60;
+            //var decimalDegrees = degrees + d;
+            return degrees + (minutesm / 60);
+        }
+
         public static double KtoCelsius(double CTempIn)
         {
             double KCel = CTempIn - 273.15;
             return KCel;
         }
-
     }
 }

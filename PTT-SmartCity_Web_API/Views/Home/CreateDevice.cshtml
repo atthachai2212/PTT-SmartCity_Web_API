@@ -1,0 +1,80 @@
+﻿@model IEnumerable<string>
+@{
+    ViewBag.Title = "CreateDevice";
+}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <!-- ส่วนหัว -->
+                <div class="tile-title-w-btn">
+                    <h3 class="title">
+                        <span>
+                            <i class="fa fa-object-ungroup"></i> Create LoRaWAN Device
+                        </span>
+                    </h3>
+                </div>
+
+                <!-- ส่วนฟอร์ม -->
+                <div class="tile-body">
+                    <form [formGroup]="form" (submit)="onSubmit()">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label for="">Device EUI</label>
+                                            <input type="text" class="form-control" placeholder="Device EUI (Required)" formControlName="firstname">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="">Device Type</label>
+                                            <select class="form-control" formControlName="role">
+                                                <option value="">--- Select Device Type ---</option>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <option value="@item">@item</option>
+                                                }
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="">Gateway EUI</label>
+                                            <input type="text" class="form-control" placeholder="Gateway EUI (Required)" formControlName="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="">Device Model</label>
+                                            <input type="text" class="form-control" placeholder="Device Model (Optional)" formControlName="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i> Crate
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+@section scripts{
+    <script>
+        $('#loraWANNav').addClass('is-expanded');
+        $('#createDeviceNav').addClass('active').css('font-weight', 'bold');
+    </script>
+}

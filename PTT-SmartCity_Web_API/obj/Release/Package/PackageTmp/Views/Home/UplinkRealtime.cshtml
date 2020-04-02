@@ -1,0 +1,71 @@
+﻿@model PTT_SmartCity_Web_API.Models.GetLoRaWANDataModel
+@{
+    ViewBag.Title = "Uplink Realtime";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <!-- ส่วนหัว -->
+            <div class="tile-title-w-btn">
+                <h3 class="title">
+                    <i class="fa fa-database"></i> Uplink Realtime
+                </h3>
+            </div>
+            <div class="tile-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped" id="sampleTable">
+                        <thead>
+                            <tr style="text-align:center">
+                                <th>DateTime</th>
+                                <th>DevAddr</th>
+                                <th>DevEUI</th>
+                                <th>GatewayEUI</th>
+                                <th>RSSI</th>
+                                <th>SNR</th>
+                                <th>SF</th>
+                                <th>BW</th>
+                                <th>Freq</th>
+                                <th>UpCtr</th>
+                                <th>Size</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.items)
+                            {
+                                <tr>
+                                    <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
+                                    <td>@item.DevAddr</td>
+                                    <td>@item.DevEUI</td>
+                                    <td>@item.GatewayEUI</td>
+                                    <td>@item.RSSI</td>
+                                    <td>@item.SNR</td>
+                                    <td>@item.SF</td>
+                                    <td>@item.BW</td>
+                                    <td>@item.Freq</td>
+                                    <td>@item.UpCtr</td>
+                                    <td>@item.Size</td>
+                                    <td style="font-size:11px">@item.Data</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('#loraWANNav').addClass('is-expanded');
+        $('#uplinkRealtimeNav').addClass('active').css('font-weight', 'bold');
+    </script>
+
+    <script type="text/javascript">
+        $('#sampleTable').DataTable({
+            "order": [[ 0, "desc" ]]
+        });
+    </script>
+}

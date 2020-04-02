@@ -18,6 +18,9 @@ namespace PTT_SmartCity_Web_API.Entity
         public string DevType { get; set; }
 
         [StringLength(50)]
+        public string GatewayEUI { get; set; }
+
+        [StringLength(50)]
         public string DevModel { get; set; }
 
         public DateTime Created { get; set; }

@@ -10,9 +10,13 @@ namespace PTT_SmartCity_Web_API.Interfaces
 {
     interface ILoRaWANService
     {
-        IEnumerable<tbLoRaWAN> LorawanItems { get; }
+        IEnumerable<GetLoRaWANData> LorawanItems { get; }
 
-        IEnumerable<tbLoRaWAN_RealTime> LorawanRealtimeItems { get; }
+        IEnumerable<GetLoRaWANData> LorawanRealtimeItems { get; }
+
+        GetLoRaWANDataModel GetLoRaWANRealTimeData();
+
+        GetLoRaWANDataModel GetLoRaWANData(LoRaWANDataFilterOptions filterOptions);
 
         void LorawanData(LoRaWANDataModel model);
 

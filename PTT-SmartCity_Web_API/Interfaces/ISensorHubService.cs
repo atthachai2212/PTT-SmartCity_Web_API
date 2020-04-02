@@ -10,7 +10,15 @@ namespace PTT_SmartCity_Web_API.Interfaces
 {
     interface ISensorHubService
     {
-        IEnumerable<tbSensorHub> sensorHubItems { get; }
+        IEnumerable<GetSensorHubData> sensorHubItems { get; }
+
+        IEnumerable<GetSensorHubData> getSensorHubItems { get; }
+
+        GetSensorHubDataModel getSensorHubData();
+
+        GetSensorHubDataModel getSensorHubDataAll();
+
+        GetSensorHubDataModel getSensorHubDataFilter(SensorHubDataFilterOptions filters);
 
         void SensorHubData(LoRaWANDataModel model);
 

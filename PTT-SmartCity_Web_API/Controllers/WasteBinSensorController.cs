@@ -18,12 +18,13 @@ namespace PTT_SmartCity_Web_API.Controllers
         private dbSmartCityContext db = new dbSmartCityContext();
 
         // GET: api/WasteBinSensor
+        [Route("api/wastebinsensor")]
         public IQueryable<tbWasteBinSensor> GettbWasteBinSensor()
         {
             return db.tbWasteBinSensor;
         }
 
-        // GET: api/WasteBinSensor/5
+        [Route("api/wastebinlastdata")]
         [ResponseType(typeof(tbWasteBinSensor))]
         public async Task<IHttpActionResult> GettbWasteBinSensor(DateTime id)
         {

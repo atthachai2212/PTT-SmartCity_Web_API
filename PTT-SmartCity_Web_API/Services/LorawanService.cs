@@ -12,7 +12,7 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class LoRaWANService : ILoRaWANService
     {
-        //private dbSmartCityContext db = new dbSmartCityContext();
+
         private dbSmartCityContext db;
 
         public LoRaWANService()
@@ -20,9 +20,61 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbSmartCityContext();
         }
 
-        public IEnumerable<tbLoRaWAN> LorawanItems => this.db.tbLoRaWAN.ToList();
+        public IEnumerable<GetLoRaWANData> LorawanItems => this.db.tbLoRaWAN.Select(m => new GetLoRaWANData
+        {
+            Date = m.Date,
+            Time = m.Time,
+            DevEUI = m.DevEUI,
+            GatewayEUI = m.GatewayEUI,
+            DevAddr = m.DevAddr,
+            RSSI = m.RSSI,
+            SNR = m.SNR,
+            SF = m.SF,
+            BW = m.BW,
+            Freq = m.Freq,
+            UpCtr = m.UpCtr,
+            Size = m.Size,
+            Data = m.Data
+        }).OrderByDescending(m => m.Date).ThenByDescending(m => m.Time).ToList();
 
-        public IEnumerable<tbLoRaWAN_RealTime> LorawanRealtimeItems => this.db.tbLoRaWAN_RealTime.ToList();
+        public IEnumerable<GetLoRaWANData> LorawanRealtimeItems => this.db.tbLoRaWAN_RealTime.Select(m => new GetLoRaWANData
+        {
+            Date = m.Date,
+            Time = m.Time,
+            DevEUI = m.DevEUI,
+            GatewayEUI = m.GatewayEUI,
+            DevAddr = m.DevAddr,
+            RSSI = m.RSSI,
+            SNR = m.SNR,
+            SF = m.SF,
+            BW = m.BW,
+            Freq = m.Freq,
+            UpCtr = m.UpCtr,
+            Size = m.Size,
+            Data = m.Data
+        }).OrderByDescending(m => m.Time).ToList();
+
+        public GetLoRaWANDataModel GetLoRaWANData(LoRaWANDataFilterOptions filterOptions)
+        {
+            var loraWanItems = new GetLoRaWANDataModel
+            {
+                items = this.LorawanItems.Skip(filterOptions.start).Take(filterOptions.limit).ToArray(),
+                totalItems = this.LorawanItems.Count()
+            };
+
+            return loraWanItems;
+        }
+
+        public GetLoRaWANDataModel GetLoRaWANRealTimeData()
+        {
+            var loraWanItems = new GetLoRaWANDataModel
+            {
+                items = this.LorawanRealtimeItems.ToArray(),
+                totalItems = this.LorawanRealtimeItems.Count()
+            };
+
+            return loraWanItems;
+        }
 
         public void LorawanData(LoRaWANDataModel model)
         {
@@ -113,7 +165,7 @@ namespace PTT_SmartCity_Web_API.Services
             var dateTime = Convert.ToDateTime(model.time);
             try
             {
-                var lorawanDataUpdate = this.LorawanRealtimeItems
+                var lorawanDataUpdate = this.db.tbLoRaWAN_RealTime
                     .SingleOrDefault(l => l.DevEUI == model.deveui && l.GatewayEUI == model.gateway_eui);
                 if (lorawanDataUpdate == null)
                     throw new Exception("Not Found Data.");

@@ -51,6 +51,7 @@ namespace PTT_SmartCity_Web_API.Services
         public void GpsDataInsert(LoRaWANDataModel model)
         {
             var dateTime = Convert.ToDateTime(model.time);
+            var data = LoRaDataService.TLM932V2_Tracker(model.raw_data);
             try
             {
                 tbGPS gps = new tbGPS()
@@ -58,10 +59,10 @@ namespace PTT_SmartCity_Web_API.Services
                     Date = dateTime.Date,
                     Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second),
                     DevEUI = model.deveui,
-                    Latitude = 0,
-                    Longitude = 0,
-                    Emergency = "test",
-                    Battery = 0,
+                    Latitude = Convert.ToSingle(data.Latitude),
+                    Longitude = Convert.ToSingle(data.Longitude),
+                    Emergency = string.Empty,
+                    Battery = data.Battery,
                     RSSI = model.rssi,
                     SNR = model.snr
                 };

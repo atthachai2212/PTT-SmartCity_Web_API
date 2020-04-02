@@ -54,6 +54,8 @@ namespace PTT_SmartCity_Web_API.Services
                     AirTemp = data.TC / 100f,
                     AirHumidity = data.HUM / 100f,
                     AirPressure = data.PRES / 100f,
+                    BATLevel = data.BAT,
+                    BATVolt = data.BATVolt / 1000f,
                     RSSI = model.rssi,
                     SNR = model.snr
                 };

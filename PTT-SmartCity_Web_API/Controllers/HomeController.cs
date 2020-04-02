@@ -1,19 +1,70 @@
-﻿using System;
+﻿using PTT_SmartCity_Web_API.Interfaces;
+using PTT_SmartCity_Web_API.Models;
+using PTT_SmartCity_Web_API.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
+using System.IO;
+using PTT_SmartCity_Web_API.DataSet;
+using System.Data;
 
 namespace PTT_SmartCity_Web_API.Controllers
 {
     public class HomeController : Controller
     {
+        private ILoRaDeviceService loRaDeviceService;
+        private ILoRaWANService loRaWANService;
+
+        public HomeController()
+        {
+            this.loRaDeviceService = new LoRaDeviceService();
+            this.loRaWANService = new LoRaWANService();
+        }
+
         public ActionResult Index()
         {
             ViewBag.Title = "Dashboard";
             ViewBag.appTitle = "Dashboard";
             ViewBag.appSubtitle = "PTT SmartCity Web API";
+            ViewBag.devTypeConut = this.loRaDeviceService.loraDeviceItems;
             return View();
+        }
+
+        public ActionResult UplinkRealtime()
+        {
+            var model = this.loRaWANService.GetLoRaWANRealTimeData();
+            return View(model);
+        }
+        public ActionResult DeviceList(LoRaWANDeviceFilterOptions filters)
+        {
+            List<string> serachType = new List<string>(new string[]
+{
+                "Device EUI",
+                "Device Type",
+                "Gateway EUI",
+                "Device Model",
+                "Date"
+            });
+            ViewBag.serachType = serachType;
+
+            var model = this.loRaDeviceService.GetLoRaWANDevice(filters);
+            return View(model);
+        }
+
+        public ActionResult CreateDevice()
+        {
+            var ds = new dsDeviceType();
+            string path = Path.Combine(Server.MapPath("~/DataSet"), "Devices.xml");
+            if (System.IO.File.Exists(path))
+            {
+                ds.ReadXml(path);
+            };
+            var devTypeModel = ds.Tables[0].AsEnumerable().Select(dataRow => dataRow.Field<string>("TypeName")).ToList();
+            ViewBag.loraDeviceType = this.loRaDeviceService.loraDeviceTypeItems;
+            return View(devTypeModel);
         }
     }
 }
