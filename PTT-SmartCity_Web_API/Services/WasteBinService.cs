@@ -17,7 +17,80 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbSmartCityContext();
         }
 
-        public IEnumerable<tbWasteBinSensor> WasteBinSensorItems => this.db.tbWasteBinSensor.ToList();
+        public IEnumerable<GetWasteBinData> wasteBinSensorItems => this.db.tbWasteBinSensor.Select(m => new GetWasteBinData
+        {
+            Date = m.Date,
+            Time = m.Time,
+            DevEUI = m.DevEUI,
+            GatewayEUI = m.GatewayEUI,
+            Full = m.Full,
+            Flame = m.Flame,
+            AirLevel = m.AirLevel,
+            Battery = m.Battery,
+            RSSI = m.RSSI,
+            SNR = m.SNR
+        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+
+        public IEnumerable<GetWasteBinData> getWasteBinSensor => this.wasteBinSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWasteBinData
+        {
+            Date = g.FirstOrDefault().Date,
+            Time = g.FirstOrDefault().Time,
+            DevEUI = key,
+            GatewayEUI = g.FirstOrDefault().GatewayEUI,
+            Full = g.FirstOrDefault().Full,
+            Flame = g.FirstOrDefault().Flame,
+            AirLevel = g.FirstOrDefault().AirLevel,
+            Battery = g.FirstOrDefault().Battery,
+            RSSI = g.FirstOrDefault().RSSI,
+            SNR = g.FirstOrDefault().SNR
+        });
+
+        public GetWasteBinDataModel getWasteBinSensorItems()
+        {
+            var wasteBinSensorItems = new GetWasteBinDataModel
+            {
+                items = this.getWasteBinSensor.ToArray(),
+                totalItems = this.getWasteBinSensor.Count()
+            };
+            return wasteBinSensorItems;
+        }
+
+        public GetWasteBinDataModel getWasteBinSensorItemsAll()
+        {
+            var wasteBinSensorItems = new GetWasteBinDataModel
+            {
+                items = this.wasteBinSensorItems.ToArray(),
+                totalItems = this.wasteBinSensorItems.Count()
+            };
+            return wasteBinSensorItems;
+        }
+
+        public GetWasteBinDataModel getWasteBinSensorItemsFilter(WasteBinDataFilterOptions filters)
+        {
+            var wasteBinSensorItems = new GetWasteBinDataModel
+            {
+                items = this.wasteBinSensorItems.Take(filters.length).ToArray(),
+                totalItems = filters.length
+            };
+
+            if (!string.IsNullOrEmpty(filters.deveui))
+            {
+                IEnumerable<GetWasteBinData> searchItem = new GetWasteBinData[] { };
+
+                if (filters.length > 0)
+                {
+                    searchItem = this.wasteBinSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                }
+                else
+                {
+                    searchItem = this.wasteBinSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                }
+                wasteBinSensorItems.items = searchItem.ToArray();
+                wasteBinSensorItems.totalItems = searchItem.Count();
+            }
+
+            return wasteBinSensorItems;
+        }
 
         public void WasteBinSensorData(LoRaWANDataModel model)
         {

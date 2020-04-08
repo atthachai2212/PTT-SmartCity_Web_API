@@ -13,44 +13,44 @@ using PTT_SmartCity_Web_API.Entity;
 
 namespace PTT_SmartCity_Web_API.Controllers
 {
-    public class EnvironmentSensorController : ApiController
+    public class WaterLevelSensorController : ApiController
     {
         private dbSmartCityContext db = new dbSmartCityContext();
 
-        // GET: api/EnvironmentSensor
-        public IQueryable<tbEnvironmentSensor> GettbEnvironmentSensor()
+        // GET: api/WaterLevelSensor
+        public IQueryable<tbWaterLevelSensor> GettbWaterLevelSensor()
         {
-            return db.tbEnvironmentSensor;
+            return db.tbWaterLevelSensor;
         }
 
-        // GET: api/EnvironmentSensor/5
-        [ResponseType(typeof(tbEnvironmentSensor))]
-        public async Task<IHttpActionResult> GettbEnvironmentSensor(DateTime id)
+        // GET: api/WaterLevelSensor/5
+        [ResponseType(typeof(tbWaterLevelSensor))]
+        public async Task<IHttpActionResult> GettbWaterLevelSensor(DateTime id)
         {
-            tbEnvironmentSensor tbEnvironmentSensor = await db.tbEnvironmentSensor.FindAsync(id);
-            if (tbEnvironmentSensor == null)
+            tbWaterLevelSensor tbWaterLevelSensor = await db.tbWaterLevelSensor.FindAsync(id);
+            if (tbWaterLevelSensor == null)
             {
                 return NotFound();
             }
 
-            return Ok(tbEnvironmentSensor);
+            return Ok(tbWaterLevelSensor);
         }
 
-        // PUT: api/EnvironmentSensor/5
+        // PUT: api/WaterLevelSensor/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PuttbEnvironmentSensor(DateTime id, tbEnvironmentSensor tbEnvironmentSensor)
+        public async Task<IHttpActionResult> PuttbWaterLevelSensor(DateTime id, tbWaterLevelSensor tbWaterLevelSensor)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != tbEnvironmentSensor.Date)
+            if (id != tbWaterLevelSensor.Date)
             {
                 return BadRequest();
             }
 
-            db.Entry(tbEnvironmentSensor).State = EntityState.Modified;
+            db.Entry(tbWaterLevelSensor).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!tbEnvironmentSensorExists(id))
+                if (!tbWaterLevelSensorExists(id))
                 {
                     return NotFound();
                 }
@@ -71,16 +71,16 @@ namespace PTT_SmartCity_Web_API.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/EnvironmentSensor
-        [ResponseType(typeof(tbEnvironmentSensor))]
-        public async Task<IHttpActionResult> PosttbEnvironmentSensor(tbEnvironmentSensor tbEnvironmentSensor)
+        // POST: api/WaterLevelSensor
+        [ResponseType(typeof(tbWaterLevelSensor))]
+        public async Task<IHttpActionResult> PosttbWaterLevelSensor(tbWaterLevelSensor tbWaterLevelSensor)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.tbEnvironmentSensor.Add(tbEnvironmentSensor);
+            db.tbWaterLevelSensor.Add(tbWaterLevelSensor);
 
             try
             {
@@ -88,7 +88,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             }
             catch (DbUpdateException)
             {
-                if (tbEnvironmentSensorExists(tbEnvironmentSensor.Date))
+                if (tbWaterLevelSensorExists(tbWaterLevelSensor.Date))
                 {
                     return Conflict();
                 }
@@ -98,23 +98,23 @@ namespace PTT_SmartCity_Web_API.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = tbEnvironmentSensor.Date }, tbEnvironmentSensor);
+            return CreatedAtRoute("DefaultApi", new { id = tbWaterLevelSensor.Date }, tbWaterLevelSensor);
         }
 
-        // DELETE: api/EnvironmentSensor/5
-        [ResponseType(typeof(tbEnvironmentSensor))]
-        public async Task<IHttpActionResult> DeletetbEnvironmentSensor(DateTime id)
+        // DELETE: api/WaterLevelSensor/5
+        [ResponseType(typeof(tbWaterLevelSensor))]
+        public async Task<IHttpActionResult> DeletetbWaterLevelSensor(DateTime id)
         {
-            tbEnvironmentSensor tbEnvironmentSensor = await db.tbEnvironmentSensor.FindAsync(id);
-            if (tbEnvironmentSensor == null)
+            tbWaterLevelSensor tbWaterLevelSensor = await db.tbWaterLevelSensor.FindAsync(id);
+            if (tbWaterLevelSensor == null)
             {
                 return NotFound();
             }
 
-            db.tbEnvironmentSensor.Remove(tbEnvironmentSensor);
+            db.tbWaterLevelSensor.Remove(tbWaterLevelSensor);
             await db.SaveChangesAsync();
 
-            return Ok(tbEnvironmentSensor);
+            return Ok(tbWaterLevelSensor);
         }
 
         protected override void Dispose(bool disposing)
@@ -126,9 +126,9 @@ namespace PTT_SmartCity_Web_API.Controllers
             base.Dispose(disposing);
         }
 
-        private bool tbEnvironmentSensorExists(DateTime id)
+        private bool tbWaterLevelSensorExists(DateTime id)
         {
-            return db.tbEnvironmentSensor.Count(e => e.Date == id) > 0;
+            return db.tbWaterLevelSensor.Count(e => e.Date == id) > 0;
         }
     }
 }

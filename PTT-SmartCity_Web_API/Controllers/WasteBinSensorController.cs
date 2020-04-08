@@ -10,126 +10,48 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using PTT_SmartCity_Web_API.Entity;
+using PTT_SmartCity_Web_API.Interfaces;
+using PTT_SmartCity_Web_API.Models;
+using PTT_SmartCity_Web_API.Services;
 
 namespace PTT_SmartCity_Web_API.Controllers
 {
     public class WasteBinSensorController : ApiController
     {
-        private dbSmartCityContext db = new dbSmartCityContext();
+        private IWasteBinService wasteBinService;
 
-        // GET: api/WasteBinSensor
+        public WasteBinSensorController()
+        {
+            this.wasteBinService = new WasteBinService();
+        }
+
+        // GET: api/wastebinsensor
         [Route("api/wastebinsensor")]
-        public IQueryable<tbWasteBinSensor> GettbWasteBinSensor()
+        public GetWasteBinDataModel GetWasteBinSensor()
         {
-            return db.tbWasteBinSensor;
+            return this.wasteBinService.getWasteBinSensorItems();
         }
 
-        [Route("api/wastebinlastdata")]
-        [ResponseType(typeof(tbWasteBinSensor))]
-        public async Task<IHttpActionResult> GettbWasteBinSensor(DateTime id)
+        // GET: api/wastebinsensor/all
+        [Route("api/wastebinsensor/all")]
+        public GetWasteBinDataModel GetWasteBinSensorAll()
         {
-            tbWasteBinSensor tbWasteBinSensor = await db.tbWasteBinSensor.FindAsync(id);
-            if (tbWasteBinSensor == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(tbWasteBinSensor);
+            return this.wasteBinService.getWasteBinSensorItemsAll();
         }
 
-        // PUT: api/WasteBinSensor/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PuttbWasteBinSensor(DateTime id, tbWasteBinSensor tbWasteBinSensor)
+        // GET: api/wastebinsensor/all
+        [Route("api/wastebinsensor/filter")]
+        public GetWasteBinDataModel GetWasteBinSensorFilter([FromUri]WasteBinDataFilterOptions filters)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.wasteBinService.getWasteBinSensorItemsFilter(filters);
             }
-
-            if (id != tbWasteBinSensor.Date)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(tbWasteBinSensor).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!tbWasteBinSensorExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            throw new HttpResponseException(Request.CreateResponse(
+                HttpStatusCode.BadRequest,
+                new { Message = ModelState.GetErrorModelState() }
+            ));
         }
 
-        // POST: api/WasteBinSensor
-        [ResponseType(typeof(tbWasteBinSensor))]
-        public async Task<IHttpActionResult> PosttbWasteBinSensor(tbWasteBinSensor tbWasteBinSensor)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.tbWasteBinSensor.Add(tbWasteBinSensor);
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (tbWasteBinSensorExists(tbWasteBinSensor.Date))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = tbWasteBinSensor.Date }, tbWasteBinSensor);
-        }
-
-        // DELETE: api/WasteBinSensor/5
-        [ResponseType(typeof(tbWasteBinSensor))]
-        public async Task<IHttpActionResult> DeletetbWasteBinSensor(DateTime id)
-        {
-            tbWasteBinSensor tbWasteBinSensor = await db.tbWasteBinSensor.FindAsync(id);
-            if (tbWasteBinSensor == null)
-            {
-                return NotFound();
-            }
-
-            db.tbWasteBinSensor.Remove(tbWasteBinSensor);
-            await db.SaveChangesAsync();
-
-            return Ok(tbWasteBinSensor);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool tbWasteBinSensorExists(DateTime id)
-        {
-            return db.tbWasteBinSensor.Count(e => e.Date == id) > 0;
-        }
     }
 }

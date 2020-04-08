@@ -30,7 +30,14 @@ namespace PTT_SmartCity_Web_API.Controllers
         [Route("api/sensorhub")]
         public GetSensorHubDataModel GettbSensorHub()
         {
-            return this.sensorHubService.getSensorHubData();
+            return this.sensorHubService.getSensorHubItems();
+        }
+
+        // GET: api/sensorhub/all
+        [Route("api/sensorhub/all")]
+        public GetSensorHubDataModel GettbSensorHubAll()
+        {
+            return this.sensorHubService.getSensorHubItemsAll();
         }
 
         // GET: api/sensorhub
@@ -39,20 +46,13 @@ namespace PTT_SmartCity_Web_API.Controllers
         {
             if (ModelState.IsValid)
             {
-                return this.sensorHubService.getSensorHubDataFilter(filters);
+                return this.sensorHubService.getSensorHubItemsFilter(filters);
             }
             throw new HttpResponseException(Request.CreateResponse(
                 HttpStatusCode.BadRequest,
                 new { Message = ModelState.GetErrorModelState() }
             ));
         }
-
-        [Route("api/sensorhub/all")]
-        public GetSensorHubDataModel GettbSensorHubAllData()
-        {
-            return this.sensorHubService.getSensorHubDataAll();
-        }
-
 
         //public IEnumerable<tbSensorHub> GettbSensorHub()
         //{

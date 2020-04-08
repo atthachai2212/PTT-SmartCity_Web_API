@@ -26,7 +26,7 @@ namespace PTT_SmartCity_Web_API.Models
 
     public class WasteBinDataFilterOptions
     {
-        public int start { get; set; }
-        public int limit { get; set; }
+        public string deveui { get; set; }
+        public int length { get; set; }
     }
 }

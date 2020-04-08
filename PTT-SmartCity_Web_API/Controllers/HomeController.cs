@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Http;
 using System.Web.Mvc;
 using System.IO;
 using PTT_SmartCity_Web_API.DataSet;
@@ -38,6 +37,27 @@ namespace PTT_SmartCity_Web_API.Controllers
             var model = this.loRaWANService.GetLoRaWANRealTimeData();
             return View(model);
         }
+
+        [HttpGet]
+        public JsonResult GetUplink()
+        {
+            var items = this.loRaWANService.LorawanRealtimeItems.Select(m => new {
+                DateTime = string.Format($"{m.Date.ToString("yyyy/MM/dd")}  {m.Time.ToString("hh\\:mm\\:ss")}"),
+                DevAddr = m.DevAddr,
+                DevEUI = m.DevEUI,
+                GatewayEUI = m.GatewayEUI,     
+                RSSI = m.RSSI,
+                SNR = m.SNR,
+                SF = m.SF,
+                BW = m.BW,
+                Freq = m.Freq,
+                UpCtr = m.UpCtr,
+                Size = m.Size,
+                Data = m.Data
+            });
+            return Json(new { data = items }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult DeviceList(LoRaWANDeviceFilterOptions filters)
         {
             List<string> serachType = new List<string>(new string[]
@@ -66,5 +86,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             ViewBag.loraDeviceType = this.loRaDeviceService.loraDeviceTypeItems;
             return View(devTypeModel);
         }
+
+
     }
 }

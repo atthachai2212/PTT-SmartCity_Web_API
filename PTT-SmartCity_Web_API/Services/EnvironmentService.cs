@@ -17,7 +17,25 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbSmartCityContext();
         }
 
-        public IEnumerable<tbEnvironmentSensor> environmentSensorItems => this.db.tbEnvironmentSensor.ToList();
+        public IEnumerable<GetEnvironmentData> environmentSensorItems => this.db.tbEnvironmentSensor.Select(m => new GetEnvironmentData
+        {
+            Date = m.Date,
+            Time = m.Time,
+            DevEUI = m.DevEUI,
+            GatewayEUI = m.GatewayEUI,
+            O2 = m.O2,
+            O3 = m.O3,
+            PM1 = m.PM1,
+            PM2_5 = m.PM2_5,
+            PM10 = m.PM10,
+            AirTemp = m.AirTemp,
+            AirHumidity = m.AirHumidity,
+            AirPressure = m.AirPressure,
+            BATLevel = m.BATLevel,
+            BATVolt = m.BATVolt,
+            RSSI = m.RSSI,
+            SNR = m.SNR
+        });
 
         public void environmentSensorData(LoRaWANDataModel model)
         {

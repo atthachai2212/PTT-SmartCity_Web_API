@@ -13,44 +13,44 @@ using PTT_SmartCity_Web_API.Entity;
 
 namespace PTT_SmartCity_Web_API.Controllers
 {
-    public class EnvironmentSensorController : ApiController
+    public class GpsTrackingController : ApiController
     {
         private dbSmartCityContext db = new dbSmartCityContext();
 
-        // GET: api/EnvironmentSensor
-        public IQueryable<tbEnvironmentSensor> GettbEnvironmentSensor()
+        // GET: api/GpsTracking
+        public IQueryable<tbGPS_Realtime> GettbGPS_Realtime()
         {
-            return db.tbEnvironmentSensor;
+            return db.tbGPS_Realtime;
         }
 
-        // GET: api/EnvironmentSensor/5
-        [ResponseType(typeof(tbEnvironmentSensor))]
-        public async Task<IHttpActionResult> GettbEnvironmentSensor(DateTime id)
+        // GET: api/GpsTracking/5
+        [ResponseType(typeof(tbGPS_Realtime))]
+        public async Task<IHttpActionResult> GettbGPS_Realtime(string id)
         {
-            tbEnvironmentSensor tbEnvironmentSensor = await db.tbEnvironmentSensor.FindAsync(id);
-            if (tbEnvironmentSensor == null)
+            tbGPS_Realtime tbGPS_Realtime = await db.tbGPS_Realtime.FindAsync(id);
+            if (tbGPS_Realtime == null)
             {
                 return NotFound();
             }
 
-            return Ok(tbEnvironmentSensor);
+            return Ok(tbGPS_Realtime);
         }
 
-        // PUT: api/EnvironmentSensor/5
+        // PUT: api/GpsTracking/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PuttbEnvironmentSensor(DateTime id, tbEnvironmentSensor tbEnvironmentSensor)
+        public async Task<IHttpActionResult> PuttbGPS_Realtime(string id, tbGPS_Realtime tbGPS_Realtime)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != tbEnvironmentSensor.Date)
+            if (id != tbGPS_Realtime.DevEUI)
             {
                 return BadRequest();
             }
 
-            db.Entry(tbEnvironmentSensor).State = EntityState.Modified;
+            db.Entry(tbGPS_Realtime).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!tbEnvironmentSensorExists(id))
+                if (!tbGPS_RealtimeExists(id))
                 {
                     return NotFound();
                 }
@@ -71,16 +71,16 @@ namespace PTT_SmartCity_Web_API.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/EnvironmentSensor
-        [ResponseType(typeof(tbEnvironmentSensor))]
-        public async Task<IHttpActionResult> PosttbEnvironmentSensor(tbEnvironmentSensor tbEnvironmentSensor)
+        // POST: api/GpsTracking
+        [ResponseType(typeof(tbGPS_Realtime))]
+        public async Task<IHttpActionResult> PosttbGPS_Realtime(tbGPS_Realtime tbGPS_Realtime)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.tbEnvironmentSensor.Add(tbEnvironmentSensor);
+            db.tbGPS_Realtime.Add(tbGPS_Realtime);
 
             try
             {
@@ -88,7 +88,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             }
             catch (DbUpdateException)
             {
-                if (tbEnvironmentSensorExists(tbEnvironmentSensor.Date))
+                if (tbGPS_RealtimeExists(tbGPS_Realtime.DevEUI))
                 {
                     return Conflict();
                 }
@@ -98,23 +98,23 @@ namespace PTT_SmartCity_Web_API.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = tbEnvironmentSensor.Date }, tbEnvironmentSensor);
+            return CreatedAtRoute("DefaultApi", new { id = tbGPS_Realtime.DevEUI }, tbGPS_Realtime);
         }
 
-        // DELETE: api/EnvironmentSensor/5
-        [ResponseType(typeof(tbEnvironmentSensor))]
-        public async Task<IHttpActionResult> DeletetbEnvironmentSensor(DateTime id)
+        // DELETE: api/GpsTracking/5
+        [ResponseType(typeof(tbGPS_Realtime))]
+        public async Task<IHttpActionResult> DeletetbGPS_Realtime(string id)
         {
-            tbEnvironmentSensor tbEnvironmentSensor = await db.tbEnvironmentSensor.FindAsync(id);
-            if (tbEnvironmentSensor == null)
+            tbGPS_Realtime tbGPS_Realtime = await db.tbGPS_Realtime.FindAsync(id);
+            if (tbGPS_Realtime == null)
             {
                 return NotFound();
             }
 
-            db.tbEnvironmentSensor.Remove(tbEnvironmentSensor);
+            db.tbGPS_Realtime.Remove(tbGPS_Realtime);
             await db.SaveChangesAsync();
 
-            return Ok(tbEnvironmentSensor);
+            return Ok(tbGPS_Realtime);
         }
 
         protected override void Dispose(bool disposing)
@@ -126,9 +126,9 @@ namespace PTT_SmartCity_Web_API.Controllers
             base.Dispose(disposing);
         }
 
-        private bool tbEnvironmentSensorExists(DateTime id)
+        private bool tbGPS_RealtimeExists(string id)
         {
-            return db.tbEnvironmentSensor.Count(e => e.Date == id) > 0;
+            return db.tbGPS_Realtime.Count(e => e.DevEUI == id) > 0;
         }
     }
 }

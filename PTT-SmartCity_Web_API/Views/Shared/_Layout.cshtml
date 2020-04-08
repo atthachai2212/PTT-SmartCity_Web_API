@@ -23,6 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="~/Content/css/main.css" rel="stylesheet" />
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.dataTables.min.css" rel="stylesheet" />
     @*@Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -69,7 +70,7 @@
             <li class="treeview" id="applicationNav">
                 <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-windows"></i><span class="app-menu__label">Applications</span><i class="treeview-indicator fa fa-angle-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a class="treeview-item" id="enviromentNav" href="/Application/EnvironmentSensor"><i class="icon fa fa-envira"></i> Environment Sensor</a></li>
+                    <li><a class="treeview-item" id="enviromentNav"  href="/Application/EnvironmentSensor"><i class="icon fa fa-envira"></i> Environment Sensor</a></li>
                     <li><a class="treeview-item" id="sensorHubNav" href="/Application/SensorHub"><i class="icon fa fa-sitemap"></i> Sensor Hub</a></li>
                     <li><a class="treeview-item" id="wasteBinNav" href="/Application/WasteBinSensor"><i class="icon fa fa-refresh"></i> Waste Bin Sensor</a></li>
                     <li><a class="treeview-item" id="warterLevelNav" href="/Application/WaterLevelSensor"><i class="icon fa fa-thermometer-empty"></i> Warter Level Sensor</a></li>
@@ -84,7 +85,6 @@
                     <span class="app-menu__label">REST API</span>
                 </a>
             </li>
-
         </ul>
     </aside>
     <main class="app-content">
@@ -130,6 +130,7 @@
         @Scripts.Render("~/bundles/bootstrap")
         <script src="~/Scripts/js/plugins/jquery.dataTables.min.js"></script>
         <script src="~/Scripts/js/plugins/dataTables.bootstrap.min.js"></script>
+        <script src="~/Scripts/js/plugins/dataTables.responsive.min.js"></script>
         @RenderSection("scripts", required: false)
     </main>
     <!-- Essential javascripts for application to work-->
@@ -137,6 +138,6 @@
 
     <!-- The javascript plugin to display page loading on top-->
     <script src="~/Scripts/js/plugins/pace.min.js"></script>
-
+    <script src="~/Scripts/app.js"></script>
 </body>
 </html>

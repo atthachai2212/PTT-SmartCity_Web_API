@@ -34,7 +34,7 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
 
-        public IEnumerable<GetSensorHubData> getSensorHubItems => this.sensorHubItems.GroupBy(m => m.DevEUI, (key, g) => new GetSensorHubData {
+        public IEnumerable<GetSensorHubData> getSensorHub => this.sensorHubItems.GroupBy(m => m.DevEUI, (key, g) => new GetSensorHubData {
             Date = g.FirstOrDefault().Date,
             Time = g.FirstOrDefault().Time,
             DevEUI = key,
@@ -51,17 +51,17 @@ namespace PTT_SmartCity_Web_API.Services
         });
 
 
-        public GetSensorHubDataModel getSensorHubData()
+        public GetSensorHubDataModel getSensorHubItems()
         {
             var sensorHubItems = new GetSensorHubDataModel
             {
-                items = this.getSensorHubItems.ToArray(),
-                totalItems = this.getSensorHubItems.Count()
+                items = this.getSensorHub.ToArray(),
+                totalItems = this.getSensorHub.Count()
             };
             return sensorHubItems;
         }
 
-        public GetSensorHubDataModel getSensorHubDataAll()
+        public GetSensorHubDataModel getSensorHubItemsAll()
         {
             var sensorHubItems = new GetSensorHubDataModel
             {
@@ -71,7 +71,7 @@ namespace PTT_SmartCity_Web_API.Services
             return sensorHubItems;
         }
 
-        public GetSensorHubDataModel getSensorHubDataFilter(SensorHubDataFilterOptions filters)
+        public GetSensorHubDataModel getSensorHubItemsFilter(SensorHubDataFilterOptions filters)
         {
             var sensorHubItems = new GetSensorHubDataModel
             {

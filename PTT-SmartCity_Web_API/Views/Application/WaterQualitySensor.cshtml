@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PTT_SmartCity_Web_API.Entity.tbWaterQualitySensor>
+﻿
 @{
     ViewBag.Title = "Water Quality Sensor";
 }
@@ -29,7 +29,7 @@
                                 <th>SNR</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        @*<tbody>
                             @foreach (var item in Model)
                             {
                                 <tr style="text-align:center">
@@ -45,7 +45,7 @@
                                     <td>@item.SNR</td>
                                 </tr>
                             }
-                        </tbody>
+                        </tbody>*@
                     </table>
                 </div>
             </div>
@@ -60,6 +60,23 @@
     </script>
     <script type="text/javascript">
         $('#tbWaterQualitySensor').DataTable({
+            "ajax": {
+               "url": "/Application/GetWaterQualitySensor",
+               "tye": "GET",
+               "datatype": "json",
+            },
+            "columns": [
+                { "data": "DateTime", "autowidth": true },
+                { "data": "DevEUI", "autowidth": true },
+                { "data": "GatewayEUI", "autowidth": true },
+                { "data": "WaterTemp", "autowidth": true },
+                { "data": "DO", "autowidth": true },
+                { "data": "DO_Cal", "autowidth": true },
+                { "data": "BATLevel", "autowidth": true },
+                { "data": "BATVolt", "autowidth": true },
+                { "data": "RSSI", "autowidth": true },
+                { "data": "SNR", "autowidth": true },
+            ],
             "order": [[0, "desc"]]
         });
     </script>
