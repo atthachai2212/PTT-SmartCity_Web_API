@@ -1,6 +1,6 @@
 ﻿@model PTT_SmartCity_Web_API.Models.GetLoRaWANDataModel
 @{
-    ViewBag.Title = "Uplink Realtime";
+    ViewBag.Title = "Uplink";
 }
 
 <div class="row">
@@ -9,12 +9,12 @@
             <!-- ส่วนหัว -->
             <div class="tile-title-w-btn">
                 <h3 class="title">
-                    <i class="fa fa-database"></i> Uplink Realtime
+                    <i class="fa fa-database"></i> @ViewBag.Title
                 </h3>
             </div>
             <div class="tile-body">
                 <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-striped" id="sampleTable">
+                    <table class="table table-hover table-bordered table-striped" id="tbLoraWANRealTime">
                         <thead>
                             <tr style="text-align:center">
                                 <th>DateTime</th>
@@ -34,7 +34,7 @@
                         <tbody>
                             @foreach (var item in Model.items)
                             {
-                                <tr>
+                                <tr style="font-size:90%">
                                     <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
                                     <td>@item.DevAddr</td>
                                     <td>@item.DevEUI</td>
@@ -46,7 +46,7 @@
                                     <td>@item.Freq</td>
                                     <td>@item.UpCtr</td>
                                     <td>@item.Size</td>
-                                    <td style="font-size:11px">@item.Data</td>
+                                    <td>@item.Data</td>
                                 </tr>
                             }
                         </tbody>
@@ -64,7 +64,31 @@
     </script>
 
     <script type="text/javascript">
-        $('#sampleTable').DataTable({
+        var table = $('#tbLoraWANRealTime').DataTable({
+            //"ajax": {
+            //   "url": "/Home/GetUplink",
+            //   "tye": "GET",
+            //   "datatype": "json",
+            //},
+            //"columns": [
+            //    { "data": "DateTime", "autowidth": true },
+            //    { "data": "DevAddr", "autowidth": true },
+            //    { "data": "DevEUI", "autowidth": true },
+            //    {
+            //        "className": 'details-control',
+            //        "data": "GatewayEUI",
+            //        "defaultContent": '',
+            //        "autowidth": true
+            //    },
+            //    { "data": "RSSI", "autowidth": true },
+            //    { "data": "SNR", "autowidth": true },
+            //    { "data": "SF", "autowidth": true },
+            //    { "data": "BW", "autowidth": true },
+            //    { "data": "Freq", "autowidth": true },
+            //    { "data": "UpCtr", "autowidth": true },
+            //    { "data": "Size", "autowidth": true },
+            //    { "data": "Data", "autowidth": true },
+            //],
             "order": [[ 0, "desc" ]]
         });
     </script>

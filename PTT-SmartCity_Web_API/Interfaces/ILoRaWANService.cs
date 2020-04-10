@@ -16,7 +16,7 @@ namespace PTT_SmartCity_Web_API.Interfaces
 
         GetLoRaWANDataModel GetLoRaWANRealTimeData();
 
-        GetLoRaWANDataModel GetLoRaWANData(LoRaWANDataFilterOptions filterOptions);
+        GetLoRaWANDataModel GetLoRaWANData(LoRaWANDataFilterOptions filters);
 
         void LorawanData(LoRaWANDataModel model);
 

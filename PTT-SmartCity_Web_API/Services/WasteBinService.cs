@@ -29,7 +29,7 @@ namespace PTT_SmartCity_Web_API.Services
             Battery = m.Battery,
             RSSI = m.RSSI,
             SNR = m.SNR
-        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
         public IEnumerable<GetWasteBinData> getWasteBinSensor => this.wasteBinSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWasteBinData
         {
@@ -43,7 +43,7 @@ namespace PTT_SmartCity_Web_API.Services
             Battery = g.FirstOrDefault().Battery,
             RSSI = g.FirstOrDefault().RSSI,
             SNR = g.FirstOrDefault().SNR
-        });
+        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
         public GetWasteBinDataModel getWasteBinSensorItems()
         {

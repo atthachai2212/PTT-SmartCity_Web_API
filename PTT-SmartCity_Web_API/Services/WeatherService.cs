@@ -17,7 +17,88 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbSmartCityContext();
         }
 
-        public IEnumerable<tbWeatherSensor> WeatherSensorItems => this.db.tbWeatherSensor.ToList();
+        public IEnumerable<GetWeatherData> WeatherSensorItems => this.db.tbWeatherSensor.Select(m => new GetWeatherData
+        {
+            Date = m.Date,
+            Time = m.Time,
+            DevEUI = m.DevEUI,
+            GatewayEUI = m.GatewayEUI,
+            WindSpeed = m.WindSpeed,
+            WindVane = m.WindVane,
+            RainfallCurrentHour = m.RainfallCurrentHour,
+            RainfallPreviousHour = m.RainfallPreviousHour,
+            RainfallLast_24Hours = m.RainfallLast_24Hours,
+            Luminosity = m.Luminosity,
+            BATVolt = m.BATVolt,
+            BATLevel = m.BATLevel,
+            RSSI = m.RSSI,
+            SNR = m.SNR
+        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
+
+        public IEnumerable<GetWeatherData> getWeatherSensor => this.WeatherSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWeatherData
+        {
+            Date = g.FirstOrDefault().Date,
+            Time = g.FirstOrDefault().Time,
+            DevEUI = key,
+            GatewayEUI = g.FirstOrDefault().GatewayEUI,
+            WindSpeed = g.FirstOrDefault().WindSpeed,
+            WindVane = g.FirstOrDefault().WindVane,
+            RainfallCurrentHour = g.FirstOrDefault().RainfallCurrentHour,
+            RainfallPreviousHour = g.FirstOrDefault().RainfallPreviousHour,
+            RainfallLast_24Hours = g.FirstOrDefault().RainfallLast_24Hours,
+            Luminosity = g.FirstOrDefault().Luminosity,
+            BATVolt = g.FirstOrDefault().BATVolt,
+            BATLevel = g.FirstOrDefault().BATLevel,
+            RSSI = g.FirstOrDefault().RSSI,
+            SNR = g.FirstOrDefault().SNR
+        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
+
+
+        public GetWeatherDataModel getWeatherSensorItems()
+        {
+            var weatherSensorItems = new GetWeatherDataModel
+            {
+                items = this.getWeatherSensor.ToArray(),
+                totalItems = this.getWeatherSensor.Count()
+            };
+            return weatherSensorItems;
+        }
+
+        public GetWeatherDataModel getWeatherSensorItemsAll()
+        {
+            var weatherSensorItems = new GetWeatherDataModel
+            {
+                items = this.WeatherSensorItems.ToArray(),
+                totalItems = this.WeatherSensorItems.Count()
+            };
+            return weatherSensorItems;
+        }
+
+        public GetWeatherDataModel getWeatherSensorItemsFilter(WeatherDataFilterOptions filters)
+        {
+            var weatherSensorItems = new GetWeatherDataModel
+            {
+                items = this.WeatherSensorItems.Take(filters.length).ToArray(),
+                totalItems = filters.length
+            };
+
+            if (!string.IsNullOrEmpty(filters.deveui))
+            {
+                IEnumerable<GetWeatherData> searchItem = new GetWeatherData[] { };
+
+                if (filters.length > 0)
+                {
+                    searchItem = this.WeatherSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                }
+                else
+                {
+                    searchItem = this.WeatherSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                }
+                weatherSensorItems.items = searchItem.ToArray();
+                weatherSensorItems.totalItems = searchItem.Count();
+            }
+            return weatherSensorItems;
+        }
 
         public void WeatherSensorData(LoRaWANDataModel model)
         {

@@ -182,12 +182,12 @@ namespace PTT_SmartCity_Web_API.Services
             var latBinary = string.Join("", latArray.Skip(2).Take(30).ToArray());
             var latIntArray = HelperService.SplitString(Convert.ToInt32(latBinary, 2).ToString(), 1);
             var latDegree = Convert.ToInt32(string.Join("", latIntArray.Take(2).ToArray()));
-            var latMinutesM = Convert.ToDouble(string.Format($"{string.Format($"{Convert.ToInt32(string.Join("", latIntArray.Skip(2).Take(7).ToArray()))}")}")) / 100000f;
+            var latMinutesM = latIntArray.Count() > 1 ? Convert.ToDouble(string.Format($"{string.Format($"{Convert.ToInt32(string.Join("", latIntArray.Skip(2).Take(7).ToArray()))}")}")) / 100000f : 0;
             var longArry = HelperService.HexToBinary(string.Join("", dataArray.Skip(8).Take(4).Reverse().ToArray())).ToArray();
             var longBinary = string.Join("", longArry.Skip(2).Take(30).ToArray());
             var longIntArray = HelperService.SplitString(Convert.ToInt32(longBinary, 2).ToString(), 1);
             var longDegree = Convert.ToInt32(string.Join("", longIntArray.Take(3).ToArray()));
-            var longMinutesM = Convert.ToDouble(string.Format($"{string.Format($"{Convert.ToInt32(string.Join("", longIntArray.Skip(3).Take(7).ToArray()))}")}")) / 100000f;
+            var longMinutesM = longIntArray.Count() > 1 ? Convert.ToDouble(string.Format($"{string.Format($"{Convert.ToInt32(string.Join("", longIntArray.Skip(3).Take(7).ToArray()))}")}")) / 100000f : 0;
 
             var GpsTrackingData = new GpsTrackingDataModel{
                 Latitude = HelperService.ConvertDegreesMinutesMToDecimalDegrees(latDegree, latMinutesM),

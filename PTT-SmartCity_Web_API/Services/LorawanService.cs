@@ -35,7 +35,7 @@ namespace PTT_SmartCity_Web_API.Services
             UpCtr = m.UpCtr,
             Size = m.Size,
             Data = m.Data
-        }).OrderByDescending(m => m.Date).ThenByDescending(m => m.Time).ToList();
+        }).OrderByDescending(m => m.Date).ThenByDescending(m => m.Time);
 
         public IEnumerable<GetLoRaWANData> LorawanRealtimeItems => this.db.tbLoRaWAN_RealTime.Select(m => new GetLoRaWANData
         {
@@ -52,16 +52,31 @@ namespace PTT_SmartCity_Web_API.Services
             UpCtr = m.UpCtr,
             Size = m.Size,
             Data = m.Data
-        }).OrderByDescending(m => m.Time).ToList();
+        }).OrderByDescending(m => m.Date).ThenByDescending(m => m.Time);
 
-        public GetLoRaWANDataModel GetLoRaWANData(LoRaWANDataFilterOptions filterOptions)
+        public GetLoRaWANDataModel GetLoRaWANData(LoRaWANDataFilterOptions filters)
         {
             var loraWanItems = new GetLoRaWANDataModel
             {
-                items = this.LorawanItems.Skip(filterOptions.start).Take(filterOptions.limit).ToArray(),
+                items = this.LorawanItems.Take(filters.length).ToArray(),
                 totalItems = this.LorawanItems.Count()
             };
 
+            if (!string.IsNullOrEmpty(filters.deveui))
+            {
+                IEnumerable<GetLoRaWANData> searchItem = new GetLoRaWANData[] { };
+
+                if (filters.length > 0)
+                {
+                    searchItem = this.LorawanItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                }
+                else
+                {
+                    searchItem = this.LorawanItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                }
+                loraWanItems.items = searchItem.ToArray();
+                loraWanItems.totalItems = searchItem.Count();
+            }
             return loraWanItems;
         }
 

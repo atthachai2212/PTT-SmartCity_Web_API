@@ -10,125 +10,47 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using PTT_SmartCity_Web_API.Entity;
+using PTT_SmartCity_Web_API.Interfaces;
+using PTT_SmartCity_Web_API.Models;
+using PTT_SmartCity_Web_API.Services;
 
 namespace PTT_SmartCity_Web_API.Controllers
 {
     public class GpsTrackingController : ApiController
     {
-        private dbSmartCityContext db = new dbSmartCityContext();
+        private IGpsTrackingService gpsTrackingService;
 
-        // GET: api/GpsTracking
-        public IQueryable<tbGPS_Realtime> GettbGPS_Realtime()
+        public GpsTrackingController()
         {
-            return db.tbGPS_Realtime;
+            this.gpsTrackingService = new GpsTrackingService();
         }
 
-        // GET: api/GpsTracking/5
-        [ResponseType(typeof(tbGPS_Realtime))]
-        public async Task<IHttpActionResult> GettbGPS_Realtime(string id)
+        // GET: api/gpstracking
+        [Route("api/gpstracking")]
+        public GetGpsDataModel GetGpsTracking()
         {
-            tbGPS_Realtime tbGPS_Realtime = await db.tbGPS_Realtime.FindAsync(id);
-            if (tbGPS_Realtime == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(tbGPS_Realtime);
+            return this.gpsTrackingService.getGpsItems();
         }
 
-        // PUT: api/GpsTracking/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PuttbGPS_Realtime(string id, tbGPS_Realtime tbGPS_Realtime)
+        // GET: api/gpstracking/all
+        [Route("api/gpstracking/all")]
+        public GetGpsDataModel GetGpsTrackingAll()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != tbGPS_Realtime.DevEUI)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(tbGPS_Realtime).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!tbGPS_RealtimeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            return this.gpsTrackingService.getGpsItemsAll();
         }
 
-        // POST: api/GpsTracking
-        [ResponseType(typeof(tbGPS_Realtime))]
-        public async Task<IHttpActionResult> PosttbGPS_Realtime(tbGPS_Realtime tbGPS_Realtime)
+        // GET: api/gpstracking/filter
+        [Route("api/gpstracking/filter")]
+        public GetGpsDataModel GetGpsTrackingFilter([FromUri]GpsDataFilterOptions filters)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.gpsTrackingService.getGpsItemsFilter(filters);
             }
-
-            db.tbGPS_Realtime.Add(tbGPS_Realtime);
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (tbGPS_RealtimeExists(tbGPS_Realtime.DevEUI))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = tbGPS_Realtime.DevEUI }, tbGPS_Realtime);
-        }
-
-        // DELETE: api/GpsTracking/5
-        [ResponseType(typeof(tbGPS_Realtime))]
-        public async Task<IHttpActionResult> DeletetbGPS_Realtime(string id)
-        {
-            tbGPS_Realtime tbGPS_Realtime = await db.tbGPS_Realtime.FindAsync(id);
-            if (tbGPS_Realtime == null)
-            {
-                return NotFound();
-            }
-
-            db.tbGPS_Realtime.Remove(tbGPS_Realtime);
-            await db.SaveChangesAsync();
-
-            return Ok(tbGPS_Realtime);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool tbGPS_RealtimeExists(string id)
-        {
-            return db.tbGPS_Realtime.Count(e => e.DevEUI == id) > 0;
+            throw new HttpResponseException(Request.CreateResponse(
+                HttpStatusCode.BadRequest,
+                new { Message = ModelState.GetErrorModelState() }
+            ));
         }
     }
 }

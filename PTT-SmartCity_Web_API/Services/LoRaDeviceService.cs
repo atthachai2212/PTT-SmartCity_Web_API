@@ -49,13 +49,10 @@ namespace PTT_SmartCity_Web_API.Services
                 Updated = m.Updated
             }).OrderByDescending(m => m.Updated);
 
-            var pager = new Pager(items.Count(), filters.startPage);
-
             var loraDeviceItems = new GetLoRaWANDeviceModel
             {
                 items = items.ToArray(),
-                totalItems = items.Count(),
-                Pager = pager
+                totalItems = items.Count()
             };
             return loraDeviceItems;
         }

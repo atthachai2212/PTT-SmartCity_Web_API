@@ -17,9 +17,81 @@ namespace PTT_SmartCity_Web_API.Services
         {
             db = new dbSmartCityContext();
         }
-        public IEnumerable<tbGPS> gpsItems => this.db.tbGPS.ToList();
+        public IEnumerable<GetGpsData> gpsItems => this.db.tbGPS.Select(m => new GetGpsData
+        {
+            Date = m.Date,
+            Time = m.Time,
+            DevEUI = m.DevEUI,
+            GatewayEUI = m.GatewayEUI,
+            Latitude = m.Latitude,
+            Longitude = m.Longitude,
+            Emergency = string.Empty,
+            Battery = m.Battery,
+            RSSI = m.RSSI,
+            SNR = m.SNR
+        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<tbGPS_Realtime> gpsRealtimeItems => this.db.tbGPS_Realtime.ToList();
+        public IEnumerable<GetGpsData> gpsRealTimeItems => this.db.tbGPS_Realtime.Select(m => new GetGpsData
+        {
+            Date = m.Date,
+            Time = m.Time,
+            DevEUI = m.DevEUI,
+            GatewayEUI = m.GatewayEUI,
+            Latitude = m.Latitude,
+            Longitude = m.Longitude,
+            Emergency = string.Empty,
+            Battery = m.Battery,
+            RSSI = m.RSSI,
+            SNR = m.SNR
+        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
+
+
+        public GetGpsDataModel getGpsItems()
+        {
+            var gpsItems = new GetGpsDataModel
+            {
+                items = this.gpsRealTimeItems.ToArray(),
+                totalItems = this.gpsRealTimeItems.Count()
+            };
+            return gpsItems;
+        }
+
+        public GetGpsDataModel getGpsItemsAll()
+        {
+            var gpsItems = new GetGpsDataModel
+            {
+                items = this.gpsItems.ToArray(),
+                totalItems = this.gpsItems.Count()
+            };
+            return gpsItems;
+        }
+
+        public GetGpsDataModel getGpsItemsFilter(GpsDataFilterOptions filters)
+        {
+            var gpsItems = new GetGpsDataModel
+            {
+                items = this.gpsItems.Take(filters.length).ToArray(),
+                totalItems = filters.length
+            };
+
+            if (!string.IsNullOrEmpty(filters.deveui))
+            {
+                IEnumerable<GetGpsData> searchItem = new GetGpsData[] { };
+
+                if (filters.length > 0)
+                {
+                    searchItem = this.gpsItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                }
+                else
+                {
+                    searchItem = this.gpsItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                }
+                gpsItems.items = searchItem.ToArray();
+                gpsItems.totalItems = searchItem.Count();
+            }
+
+            return gpsItems;
+        }
 
         public void GpsData(LoRaWANDataModel model)
         {
@@ -109,22 +181,21 @@ namespace PTT_SmartCity_Web_API.Services
             var data = LoRaDataService.TLM932V2_Tracker(model.raw_data);
             try
             {
-                var gpsRealtimeUpdate = this.gpsRealtimeItems
-                    .SingleOrDefault(g => g.DevEUI == model.deveui);
-                if (gpsRealtimeUpdate == null)
+                var gpsRealTimeUpdate = this.db.tbGPS_Realtime.SingleOrDefault(g => g.DevEUI == model.deveui);
+                if (gpsRealTimeUpdate == null)
                     throw new Exception("Not Found Data.");
-                this.db.tbGPS_Realtime.Attach(gpsRealtimeUpdate);
-                gpsRealtimeUpdate.Date = dateTime.Date;
-                gpsRealtimeUpdate.Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second);
-                gpsRealtimeUpdate.DevEUI = model.deveui;
-                gpsRealtimeUpdate.GatewayEUI = model.gateway_eui;
-                gpsRealtimeUpdate.Latitude = Convert.ToSingle(data.Latitude);
-                gpsRealtimeUpdate.Longitude = Convert.ToSingle(data.Longitude);
-                gpsRealtimeUpdate.Emergency = string.Empty;
-                gpsRealtimeUpdate.Battery = data.Battery;
-                gpsRealtimeUpdate.RSSI = model.rssi;
-                gpsRealtimeUpdate.SNR = model.snr;
-                this.db.Entry(gpsRealtimeUpdate).State = EntityState.Modified;
+                this.db.tbGPS_Realtime.Attach(gpsRealTimeUpdate);
+                gpsRealTimeUpdate.Date = dateTime.Date;
+                gpsRealTimeUpdate.Time = new TimeSpan(dateTime.Hour, dateTime.Minute, dateTime.Second);
+                gpsRealTimeUpdate.DevEUI = model.deveui;
+                gpsRealTimeUpdate.GatewayEUI = model.gateway_eui;
+                gpsRealTimeUpdate.Latitude = Convert.ToSingle(data.Latitude);
+                gpsRealTimeUpdate.Longitude = Convert.ToSingle(data.Longitude);
+                gpsRealTimeUpdate.Emergency = string.Empty;
+                gpsRealTimeUpdate.Battery = data.Battery;
+                gpsRealTimeUpdate.RSSI = model.rssi;
+                gpsRealTimeUpdate.SNR = model.snr;
+                this.db.Entry(gpsRealTimeUpdate).State = EntityState.Modified;
                 this.db.SaveChanges();
             }
             catch (Exception ex)

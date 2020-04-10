@@ -35,7 +35,27 @@ namespace PTT_SmartCity_Web_API.Services
             BATVolt = m.BATVolt,
             RSSI = m.RSSI,
             SNR = m.SNR
-        });
+        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
+
+        public IEnumerable<GetEnvironmentData> getEnvironmentSensor => this.environmentSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetEnvironmentData 
+        {
+            Date = g.FirstOrDefault().Date,
+            Time = g.FirstOrDefault().Time,
+            DevEUI = key,
+            GatewayEUI = g.FirstOrDefault().GatewayEUI,
+            O2 = g.FirstOrDefault().O2,
+            O3 = g.FirstOrDefault().O3,
+            PM1 = g.FirstOrDefault().PM1,
+            PM2_5 = g.FirstOrDefault().PM2_5,
+            PM10 = g.FirstOrDefault().PM10,
+            AirTemp = g.FirstOrDefault().AirTemp,
+            AirHumidity = g.FirstOrDefault().AirHumidity,
+            AirPressure = g.FirstOrDefault().AirPressure,
+            BATLevel = g.FirstOrDefault().BATLevel,
+            BATVolt = g.FirstOrDefault().BATVolt,
+            RSSI = g.FirstOrDefault().RSSI,
+            SNR = g.FirstOrDefault().SNR
+        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
         public void environmentSensorData(LoRaWANDataModel model)
         {
@@ -86,6 +106,52 @@ namespace PTT_SmartCity_Web_API.Services
 
                 throw ex.GetErrorException();
             }
+        }
+
+        public GetEnvironmentDataModel getEnvironmentSensorItems()
+        {
+            var environmentSensorItems = new GetEnvironmentDataModel
+            {
+                items = this.getEnvironmentSensor.ToArray(),
+                totalItems = this.getEnvironmentSensor.Count()
+            };
+            return environmentSensorItems;
+        }
+
+        public GetEnvironmentDataModel getEnvironmentSensorItemsAll()
+        {
+            var environmentSensorItems = new GetEnvironmentDataModel
+            {
+                items = this.environmentSensorItems.ToArray(),
+                totalItems = this.environmentSensorItems.Count()
+            };
+            return environmentSensorItems;
+        }
+
+        public GetEnvironmentDataModel getEnvironmentSensorItemsFilter(EnvironmentDataFilterOptions filters)
+        {
+            var environmentSensorItems = new GetEnvironmentDataModel
+            {
+                items = this.environmentSensorItems.Take(filters.length).ToArray(),
+                totalItems = filters.length
+            };
+
+            if (!string.IsNullOrEmpty(filters.deveui))
+            {
+                IEnumerable<GetEnvironmentData> searchItem = new GetEnvironmentData[] { };
+
+                if (filters.length > 0)
+                {
+                    searchItem = this.environmentSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                }
+                else
+                {
+                    searchItem = this.environmentSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                }
+                environmentSensorItems.items = searchItem.ToArray();
+                environmentSensorItems.totalItems = searchItem.Count();
+            }
+            return environmentSensorItems;
         }
     }
 }

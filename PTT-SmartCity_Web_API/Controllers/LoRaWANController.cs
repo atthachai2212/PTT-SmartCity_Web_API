@@ -90,7 +90,7 @@ namespace PTT_SmartCity_Web_API.Controllers
         }
 
         // GET: api/LoRaWANLastData
-        [Route("api/lorawanlastdata")]
+        [Route("api/lorawandata")]
         [ResponseType(typeof(GetLoRaWANDataModel))]
         public GetLoRaWANDataModel GetLoRaWANLastData()
         {
@@ -106,7 +106,7 @@ namespace PTT_SmartCity_Web_API.Controllers
 
 
         // GET: api/LoRaWANData
-        [Route("api/lorawandata")]
+        [Route("api/lorawandata/filter")]
         [ResponseType(typeof(GetLoRaWANDataModel))]
         public GetLoRaWANDataModel GetLoRaWAN([FromUri]LoRaWANDataFilterOptions filters)
         {

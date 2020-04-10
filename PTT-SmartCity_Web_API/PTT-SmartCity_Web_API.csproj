@@ -175,13 +175,16 @@
     <Compile Include="Controllers\GpsTrackingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoRaDeviceController.cs" />
-    <Compile Include="Controllers\LoRaGatewayController.cs" />
     <Compile Include="Controllers\LoRaWANController.cs" />
     <Compile Include="Controllers\SensorHubController.cs" />
     <Compile Include="Controllers\WasteBinSensorController.cs" />
-    <Compile Include="Controllers\WaterLevelSensorController.cs" />
-    <Compile Include="Controllers\WaterQualitySensorController.cs" />
+    <Compile Include="Controllers\WaterSensorController.cs" />
     <Compile Include="Controllers\WeatherSensorController.cs" />
+    <Compile Include="DataSet\dsDeviceSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsDeviceSettings.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DataSet\dsDeviceType.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -215,10 +218,12 @@
     <Compile Include="Models\EnvironmentSensorDataModel.cs" />
     <Compile Include="Models\ExtensionModel.cs" />
     <Compile Include="Models\GetEnvironmentDataModel.cs" />
+    <Compile Include="Models\GetGpsDataModel.cs" />
     <Compile Include="Models\GetLoRaWANDataModel.cs" />
     <Compile Include="Models\GetLoRaWANDeviceModel.cs" />
     <Compile Include="Models\GetSensorHubDataModel.cs" />
     <Compile Include="Models\GetWasteBinDataModel.cs" />
+    <Compile Include="Models\GetWaterDataModel.cs" />
     <Compile Include="Models\GetWeatherDataModel.cs" />
     <Compile Include="Models\GpsTrackingDataModel.cs" />
     <Compile Include="Models\LoRaWANDeviceDataModel.cs" />
@@ -256,6 +261,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\banner.jpg" />
+    <Content Include="DataSet\DeviceSettings.xml" />
     <Content Include="DataSet\Devices.xml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -311,6 +317,17 @@
     <Content Include="Areas\HelpPage\Views\Help\BusTracking.cshtml" />
     <Content Include="DataSet\dsDeviceType.xsc">
       <DependentUpon>dsDeviceType.xsd</DependentUpon>
+    </Content>
+    <Content Include="DataSet\dsDeviceSettings.xsc">
+      <DependentUpon>dsDeviceSettings.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSet\dsDeviceSettings.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsDeviceSettings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="DataSet\dsDeviceSettings.xss">
+      <DependentUpon>dsDeviceSettings.xsd</DependentUpon>
     </Content>
     <None Include="DataSet\dsDeviceType.xsd">
       <SubType>Designer</SubType>

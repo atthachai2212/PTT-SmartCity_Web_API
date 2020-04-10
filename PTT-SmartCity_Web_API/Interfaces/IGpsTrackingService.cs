@@ -10,9 +10,8 @@ namespace PTT_SmartCity_Web_API.Interfaces
 {
     interface IGpsTrackingService
     {
-        IEnumerable<tbGPS> gpsItems { get; }
-
-        IEnumerable<tbGPS_Realtime> gpsRealtimeItems { get; }
+        IEnumerable<GetGpsData> gpsItems { get; }
+        IEnumerable<GetGpsData> gpsRealTimeItems { get; }
 
         void GpsData(LoRaWANDataModel model);
 
@@ -21,5 +20,11 @@ namespace PTT_SmartCity_Web_API.Interfaces
         void GpsRealtimeDataInsert(LoRaWANDataModel model);
 
         void GpsRealtimeDataUpdate(LoRaWANDataModel model);
+
+        GetGpsDataModel getGpsItems();
+
+        GetGpsDataModel getGpsItemsAll();
+
+        GetGpsDataModel getGpsItemsFilter(GpsDataFilterOptions filters);
     }
 }

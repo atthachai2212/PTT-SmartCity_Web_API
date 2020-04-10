@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsDeviceSettings" targetNamespace="http://tempuri.org/dsDeviceSettings.xsd" xmlns:mstns="http://tempuri.org/dsDeviceSettings.xsd" xmlns="http://tempuri.org/dsDeviceSettings.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsDeviceSettings" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsDeviceSettings" msprop:Generator_UserDSName="dsDeviceSettings">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="LoRaDevice" msprop:Generator_TableClassName="LoRaDeviceDataTable" msprop:Generator_TableVarName="tableLoRaDevice" msprop:Generator_TablePropName="LoRaDevice" msprop:Generator_RowDeletingName="LoRaDeviceRowDeleting" msprop:Generator_RowChangingName="LoRaDeviceRowChanging" msprop:Generator_RowEvHandlerName="LoRaDeviceRowChangeEventHandler" msprop:Generator_RowDeletedName="LoRaDeviceRowDeleted" msprop:Generator_UserTableName="LoRaDevice" msprop:Generator_RowChangedName="LoRaDeviceRowChanged" msprop:Generator_RowEvArgName="LoRaDeviceRowChangeEvent" msprop:Generator_RowClassName="LoRaDeviceRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DevEUI" msprop:Generator_ColumnVarNameInTable="columnDevEUI" msprop:Generator_ColumnPropNameInRow="DevEUI" msprop:Generator_ColumnPropNameInTable="DevEUIColumn" msprop:Generator_UserColumnName="DevEUI" type="xs:string" minOccurs="0" />
+              <xs:element name="DevAddr" msprop:Generator_ColumnVarNameInTable="columnDevAddr" msprop:Generator_ColumnPropNameInRow="DevAddr" msprop:Generator_ColumnPropNameInTable="DevAddrColumn" msprop:Generator_UserColumnName="DevAddr" type="xs:string" minOccurs="0" />
+              <xs:element name="Appskey" msprop:Generator_ColumnVarNameInTable="columnAppskey" msprop:Generator_ColumnPropNameInRow="Appskey" msprop:Generator_ColumnPropNameInTable="AppskeyColumn" msprop:Generator_UserColumnName="Appskey" type="xs:string" minOccurs="0" />
+              <xs:element name="Nwkskey" msprop:Generator_ColumnVarNameInTable="columnNwkskey" msprop:Generator_ColumnPropNameInRow="Nwkskey" msprop:Generator_ColumnPropNameInTable="NwkskeyColumn" msprop:Generator_UserColumnName="Nwkskey" type="xs:string" minOccurs="0" />
+              <xs:element name="DevType" msprop:Generator_ColumnVarNameInTable="columnDevType" msprop:Generator_ColumnPropNameInRow="DevType" msprop:Generator_ColumnPropNameInTable="DevTypeColumn" msprop:Generator_UserColumnName="DevType" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="LoRaGateway" msprop:Generator_TableClassName="LoRaGatewayDataTable" msprop:Generator_TableVarName="tableLoRaGateway" msprop:Generator_TablePropName="LoRaGateway" msprop:Generator_RowDeletingName="LoRaGatewayRowDeleting" msprop:Generator_RowChangingName="LoRaGatewayRowChanging" msprop:Generator_RowEvHandlerName="LoRaGatewayRowChangeEventHandler" msprop:Generator_RowDeletedName="LoRaGatewayRowDeleted" msprop:Generator_UserTableName="LoRaGateway" msprop:Generator_RowChangedName="LoRaGatewayRowChanged" msprop:Generator_RowEvArgName="LoRaGatewayRowChangeEvent" msprop:Generator_RowClassName="LoRaGatewayRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="GatewayEUI" msprop:Generator_ColumnVarNameInTable="columnGatewayEUI" msprop:Generator_ColumnPropNameInRow="GatewayEUI" msprop:Generator_ColumnPropNameInTable="GatewayEUIColumn" msprop:Generator_UserColumnName="GatewayEUI" type="xs:string" minOccurs="0" />
+              <xs:element name="API_Token" msprop:Generator_ColumnVarNameInTable="columnAPI_Token" msprop:Generator_ColumnPropNameInRow="API_Token" msprop:Generator_ColumnPropNameInTable="API_TokenColumn" msprop:Generator_UserColumnName="API_Token" type="xs:string" minOccurs="0" />
+              <xs:element name="IPAddress" msprop:Generator_ColumnVarNameInTable="columnIPAddress" msprop:Generator_ColumnPropNameInRow="IPAddress" msprop:Generator_ColumnPropNameInTable="IPAddressColumn" msprop:Generator_UserColumnName="IPAddress" type="xs:string" minOccurs="0" />
+              <xs:element name="Port" msprop:Generator_ColumnVarNameInTable="columnPort" msprop:Generator_ColumnPropNameInRow="Port" msprop:Generator_ColumnPropNameInTable="PortColumn" msprop:Generator_UserColumnName="Port" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
