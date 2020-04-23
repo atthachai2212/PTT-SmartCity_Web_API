@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "LoRaGateway";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-8">
+    <div class="tile">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="mb-3 line-head tile-title"><i class="icon fa fa-th-list"></i> LoRaGateway</h3>
+                </div>
+            </div>
+        </div>
+        <div class="tile-body">
+            <button class="btn btn-info text-white mb-2 icon-btn" data-toggle="modal" data-target="#loraGatewayModel">Create LoRaGateway</button>
+            <table id="tbLoRaGateway" class="table table-hover table-bordered table-striped" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="text-center">
+                        <th>GatewayEUI</th>
+                        <th>IP Address</th>
+                        <th>API Token </th>
+                        <th>Port</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade bd-example-modal-lg" id="loraGatewayModel" tabindex="-1" role="dialog" aria-labelledby="loraGatewayModel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loraGatewayModelTitle"><i class="icon fa fa-th-list"></i> Create LoRaGateway</h5>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="control-label col-md-2 font-weight-bold">GatewayEUI : </label>
+                        <div class="col-md-8">
+                            <input id="GatewayEUI" class="form-control col-md-9 " type="text" placeholder="GatewayEUI (Required)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-2 font-weight-bold">IP Address : </label>
+                        <div class="col-md-8">
+                            <input id="IP_Address" class="form-control col-md-9" placeholder="IP Address (Required)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-2 font-weight-bold">API Token : </label>
+                        <div class="col-md-8">
+                            <input id="API_Token" class="form-control col-md-9" type="text" placeholder="API Token (Required)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-2 font-weight-bold">Port : </label>
+                        <div class="col-md-8">
+                            <input id="Port" class="form-control col-md-4" placeholder="Port (Required)">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Close</button>
+                <button type="button" class="btn btn-primary" id="btnCreate" onclick="PostCreateLoRaGateway()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('#DeviceManagementNav').addClass('is-expanded');
+        $('#loraGatewayNav').addClass('active').css('font-weight', 'bold');
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#tbLoRaGateway').DataTable({
+                "ajax": {
+                    "url": "/DeviceManagement/GetLoRaGateway",
+                    "tye": "GET",
+                    "datatype": "json",
+                    "contentType": "application/json; charset=utf-8",
+                },
+                "columns": [
+                    { "data": "GatewayEUI", "autowidth": true },                   
+                    { "data": "IP_Address", "autowidth": true },
+                    { "data": "API_Token", "autowidth": true },
+                    { "data": "Port", "autowidth": true },
+                    {
+                        data: null,
+                        className: "text-center",
+                        defaultContent: '<div class="bs-component"><button id="btnEdit" class="btn btn-outline-warning fa fa-pencil-square-o" name="btnEdit" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></button>' +
+                            '&nbsp;&nbsp;<button id="btnDelete" class="btn btn-outline-danger fa fa-trash-o" name="btnDelete" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></button></div>',
+                        autowidth: true
+                    },
+                ],
+                "searching": false,
+                "lengthChange": false,
+                "order": [[0, "desc"]]
+            });
+            $('.bs-component [data-toggle="tooltip"]').tooltip();
+        });
+
+
+        function PostCreateLoRaGateway() {
+            var data = {
+                GatewayEUI : $('#GatewayEUI').val(),
+                IP_Address : $('#IP_Address').val(),
+                Port : $('#Port').val(),
+                API_Token : $('#API_Token').val()
+            };
+            $.ajax({
+                type: "POST",
+                url: "/DeviceManagement/CreateLoRaGateway",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {                 
+                    if (data.message == "success") {
+                        $('#loraGatewayModel').hide();
+                        location.reload(true);
+                        table.ajax.reload(null, false);
+                    }
+                    console.log(data.message);
+                }
+            });
+        }
+
+
+    </script>
+}

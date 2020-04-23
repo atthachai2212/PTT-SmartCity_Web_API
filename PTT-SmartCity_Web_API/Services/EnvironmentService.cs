@@ -10,11 +10,11 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class EnvironmentService : IEnvironmentService
     {
-        private dbSmartCityContext db;
+        private dbLoRaSmartCityContext db;
 
         public EnvironmentService()
         {
-            db = new dbSmartCityContext();
+            db = new dbLoRaSmartCityContext();
         }
 
         public IEnumerable<GetEnvironmentData> environmentSensorItems => this.db.tbEnvironmentSensor.Select(m => new GetEnvironmentData

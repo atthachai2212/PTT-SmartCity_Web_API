@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "LoRaDevice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-9">
+    <div class="tile">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="mb-3 line-head tile-title"><i class="icon fa fa-object-ungroup"></i> LoRaDevice</h3>
+                </div>
+            </div>
+        </div>
+        <div class="tile-body">
+            <button class="btn btn-info text-white mb-2 icon-btn" data-toggle="modal" data-target="#loraDeviceModel">Create LoRaDevice</button>
+            <table id="tbLoRaDevice" class="table table-hover table-bordered table-striped" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="text-center">
+                        <th>Device Address</th>
+                        <th>Device EUI</th>
+                        <th>Device Type</th>
+                        <th>Activate</th>
+                        <th>Class</th>
+                        <th>Channel Plan</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade bd-example-modal-lg" id="loraDeviceModel" tabindex="-1" role="dialog" aria-labelledby="loraDeviceModel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loraDeviceModelTitle"><i class="icon fa fa-object-ungroup"></i> Create LoRaDevice</h5>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 font-weight-bold">Device EUI : </label>
+                        <div class="col-md-8">
+                            <input id="DevEUI" class="form-control col-md-9 " type="text" placeholder="Device EUI (Required)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 font-weight-bold">Device Address : </label>
+                        <div class="col-md-8">
+                            <input id="DevAddr" class="form-control col-md-9" placeholder="Device Address (Required)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 font-weight-bold">Device Type : </label>
+                        <div class="col-md-8">
+                            <select id="DevType" class="form-control col-md-9" formControlName="role">
+                                <option value="" selected disabled>Select DeviceType (Required)</option>
+                                @foreach (var item in ViewBag.loraDeviceType)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 font-weight-bold">Device Model : </label>
+                        <div class="col-md-8">
+                            <input id="DevModel" class="form-control col-md-9" placeholder="Device Model (Optional)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 font-weight-bold">Activation : </label>
+                        <div class="col-md-8">
+                            <select id="Activate" class="form-control col-md-9" formControlName="role">
+                                @foreach (var item in ViewBag.activation)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 font-weight-bold">LoRaWAN Class : </label>
+                        <div class="col-md-8">
+                            <select id="Class" class="form-control col-md-9" formControlName="role">
+                                <option value="A">Class A</option>
+                                <option value="C">Class C</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 font-weight-bold">Channel Plan : </label>
+                        <div class="col-md-8">
+                            <select id="Channel" class="form-control col-md-9" formControlName="role">
+                                @foreach (var item in ViewBag.channelPlan)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 font-weight-bold">Application Session Key : </label>
+                        <div class="col-md-8">
+                            <input id="AppSKey" class="form-control col-md-10" type="text" placeholder="Application Session Key (Required)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 font-weight-bold">Network Session Key : </label>
+                        <div class="col-md-8">
+                            <input id="NwkSkey" class="form-control col-md-10" placeholder="Network Session Key (Required)">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Close</button>
+                <button type="button" class="btn btn-primary" id="btnCreate" onclick="PostCreateLoRaDevice()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $('#DeviceManagementNav').addClass('is-expanded');
+        $('#loraDeviceNav').addClass('active').css('font-weight', 'bold');
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#tbLoRaDevice').DataTable({
+                "ajax": {
+                    "url": "/DeviceManagement/GetLoRaDevice",
+                    "tye": "GET",
+                    "datatype": "json",
+                    "contentType": "application/json; charset=utf-8",
+                },
+                "columns": [
+                    { "data": "DevAddr", "autowidth": true },
+                    { "data": "DevEUI", "autowidth": true },
+                    { "data": "DevType", "autowidth": true },
+                    { "data": "Activate", "autowidth": true },
+                    { "data": "Class", "autowidth": true },
+                    { "data": "Channel", "autowidth": true },
+                    {
+                        data: null,
+                        className: "text-center",
+                        defaultContent: '<div class="bs-component"><button id="btnEdit" class="btn btn-outline-warning fa fa-pencil-square-o" name="btnEdit" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></button>' +
+                            '&nbsp;&nbsp;<button id="btnDelete" class="btn btn-outline-danger fa fa-trash-o" name="btnDelete" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></button></div>',
+                        autowidth: true
+                    },
+                ],
+                "searching": false,
+                "lengthChange": false,
+                "order": [[0, "desc"]]
+            });
+            $('.bs-component [data-toggle="tooltip"]').tooltip();
+        });
+
+        function PostCreateLoRaDevice() {
+            var data = {
+                DevAddr : $('#DevAddr').val(),
+                DevEUI : $('#DevEUI').val(),
+                DevType: $('#DevType').val(),
+                DevModel: $('#DevModel').val(),
+                GatewayEUI : $('#GatewayEUI').val(),
+                Activate : $('#Activate').val(),
+                Class : $('#Class').val(),
+                Channel : $('#Channel').val(),
+                AppSKey: $('#AppSKey').val(),
+                NwkSkey : $('#NwkSkey').val()
+            };
+            $.ajax({
+                type: "POST",
+                url: "/DeviceManagement/CreateLoRaDevice",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.message  == "success") {
+                        $('#loraDeviceModel').hide();
+                        location.reload(true);
+                        table.ajax.reload(null, false);
+                    }
+                    console.log(data.message);
+                }
+            });
+        }
+    </script>
+}

@@ -24,7 +24,7 @@ namespace PTT_SmartCity_Web_API.Controllers
         private IGpsTrackingService gpsTrackingService;
         private ISensorHubService sensorHubService;
         private IWaterService waterService;
-        private ILoRaDeviceService loraDeviceService;
+        private ILoRaDeviceSettingService loraDeviceSettingService;
         private IWeatherService weatherService;
         private IEnvironmentService environmentService;
 
@@ -34,7 +34,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             this.wasteBinService = new WasteBinService();
             this.gpsTrackingService = new GpsTrackingService();
             this.sensorHubService = new SensorHubService();
-            this.loraDeviceService = new LoRaDeviceService();
+            this.loraDeviceSettingService = new LoRaDeviceSettingService();
             this.waterService = new WaterService();
             this.weatherService = new WeatherService();
             this.environmentService = new EnvironmentService();
@@ -47,43 +47,59 @@ namespace PTT_SmartCity_Web_API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var deviceType = this.loraDeviceService.DeviceType(model.deveui);
-                try
+                if (model != null && !string.IsNullOrEmpty(model.deveui))
                 {
-                    this.lorawanService.LorawanData(model);
-                    if (deviceType.Equals(AppSettingService.GpsTracking))
+                    var deviceType = this.loraDeviceSettingService.getDeviceType(model.deveui);
+                    try
                     {
-                        this.gpsTrackingService.GpsData(model);
+                        this.lorawanService.LorawanData(model);
+                        if (deviceType.Equals(AppSettingService.GpsTracking))
+                        {
+                            this.gpsTrackingService.GpsData(model);
+                        }
+                        else if (deviceType.Equals(AppSettingService.EnvironmentSensor))
+                        {
+                            this.environmentService.environmentSensorData(model);
+                        }
+                        else if (deviceType.Equals(AppSettingService.SensorHub))
+                        {
+                            this.sensorHubService.SensorHubData(model);
+                        }
+                        else if (deviceType.Equals(AppSettingService.WasteBinSensor))
+                        {
+                            this.wasteBinService.WasteBinSensorData(model);
+                        }
+                        else if (deviceType.Equals(AppSettingService.WaterLevelSensor))
+                        {
+                            this.waterService.WaterLevelSensorData(model);
+                        }
+                        else if (deviceType.Equals(AppSettingService.WaterQualitySensor))
+                        {
+                            this.waterService.WaterQualitySensorData(model);
+                        }
+                        else if (deviceType.Equals(AppSettingService.WeatherSensor))
+                        {
+                            this.weatherService.WeatherSensorData(model);
+                        }
+
+                        if (deviceType != "Unkhown")
+                        {
+                            return Ok("Successful.");
+                        }
+                        else
+                        {
+                            return Ok("Unkhown Device Type.");
+                        }
                     }
-                    else if (deviceType.Equals(AppSettingService.EnvironmentSensor))
+                    catch (Exception ex)
                     {
-                        this.environmentService.environmentSensorData(model);
+                        ModelState.AddModelError("Exception", ex.Message);
                     }
-                    else if (deviceType.Equals(AppSettingService.SensorHub))
-                    {
-                        this.sensorHubService.SensorHubData(model);
-                    }
-                    else if (deviceType.Equals(AppSettingService.WasteBinSensor))
-                    {
-                        this.wasteBinService.WasteBinSensorData(model);
-                    }
-                    else if (deviceType.Equals(AppSettingService.WaterLevelSensor))
-                    {
-                        this.waterService.WaterLevelSensorData(model);
-                    }
-                    else if (deviceType.Equals(AppSettingService.WaterQualitySensor))
-                    {
-                        this.waterService.WaterQualitySensorData(model);
-                    }
-                    else if (deviceType.Equals(AppSettingService.WeatherSensor))
-                    {
-                        this.weatherService.WeatherSensorData(model);
-                    }
-                    return Ok("Successful.");
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    ModelState.AddModelError("Exception", ex.Message);
+                    ModelState.AddModelError("Exception", "Model IsNullOrEmpty");
                 }
             }
             return BadRequest(ModelState.GetErrorModelState());

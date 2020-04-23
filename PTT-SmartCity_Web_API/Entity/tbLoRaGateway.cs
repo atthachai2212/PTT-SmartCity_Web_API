@@ -10,20 +10,22 @@ namespace PTT_SmartCity_Web_API.Entity
     public partial class tbLoRaGateway
     {
         [Key]
-        [Column(Order = 0, TypeName = "date")]
-        public DateTime Date { get; set; }
-
-        [Key]
-        [Column(Order = 1)]
-        public TimeSpan Time { get; set; }
-
-        [Key]
-        [Column(Order = 2)]
         [StringLength(50)]
         public string GatewayEUI { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string Status { get; set; }
+        [StringLength(32)]
+        public string IP_Address { get; set; }
+
+        [Required]
+        [StringLength(10)]
+        public string Port { get; set; }
+
+        [Required]
+        public string API_Token { get; set; }
+
+        public DateTime Created { get; set; }
+
+        public DateTime Updated { get; set; }
     }
 }

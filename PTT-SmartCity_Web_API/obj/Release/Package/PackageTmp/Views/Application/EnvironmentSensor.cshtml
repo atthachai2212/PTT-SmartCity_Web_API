@@ -16,7 +16,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-striped" id="tbEnvironment">
                         <thead>
-                            <tr style="text-align:center">
+                            <tr style="text-align:center;">
                                 <th>DateTime</th>
                                 <th>DevEUI</th>
                                 <th>GatewayEUI</th>
@@ -35,27 +35,27 @@
                             </tr>
                         </thead>
                         @*<tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr style="text-align:center">
-                                    <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
-                                    <td>@item.DevEUI</td>
-                                    <td>@item.GatewayEUI</td>
-                                    <td>@item.O2</td>
-                                    <td>@item.O3</td>
-                                    <td>@item.PM1</td>
-                                    <td>@item.PM2_5</td>
-                                    <td>@item.PM10</td>
-                                    <td>@item.AirTemp</td>
-                                    <td>@item.AirHumidity</td>
-                                    <td>@item.AirPressure</td>
-                                    <td>@item.BATLevel</td>
-                                    <td>@item.BATVolt</td>
-                                    <td>@item.RSSI</td>
-                                    <td>@item.SNR</td>
-                                </tr>
-                            }
-                        </tbody>*@
+                                @foreach (var item in Model)
+                                {
+                                    <tr style="text-align:center">
+                                        <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
+                                        <td>@item.DevEUI</td>
+                                        <td>@item.GatewayEUI</td>
+                                        <td>@item.O2</td>
+                                        <td>@item.O3</td>
+                                        <td>@item.PM1</td>
+                                        <td>@item.PM2_5</td>
+                                        <td>@item.PM10</td>
+                                        <td>@item.AirTemp</td>
+                                        <td>@item.AirHumidity</td>
+                                        <td>@item.AirPressure</td>
+                                        <td>@item.BATLevel</td>
+                                        <td>@item.BATVolt</td>
+                                        <td>@item.RSSI</td>
+                                        <td>@item.SNR</td>
+                                    </tr>
+                                }
+                            </tbody>*@
                     </table>
                 </div>
             </div>
@@ -69,30 +69,38 @@
         $('#enviromentNav').addClass('active').css('font-weight', 'bold');
     </script>
     <script type="text/javascript">
-        $('#tbEnvironment').DataTable({
-            "ajax": {
-               "url": "/Application/GetEnvironmentSensor",
-               "tye": "GET",
-               "datatype": "json",
-            },
-            "columns": [
-                { "data": "DateTime", "autowidth": true },
-                { "data": "DevEUI", "autowidth": true },
-                { "data": "GatewayEUI", "autowidth": true },
-                { "data": "O2", "autowidth": true },
-                { "data": "O3", "autowidth": true },
-                { "data": "PM1", "autowidth": true },
-                { "data": "PM2_5", "autowidth": true },
-                { "data": "PM10", "autowidth": true },
-                { "data": "AirTemp", "autowidth": true },
-                { "data": "AirHumidity", "autowidth": true },
-                { "data": "AirPressure", "autowidth": true },
-                { "data": "BATLevel", "autowidth": true },
-                { "data": "BATVolt", "autowidth": true },
-                { "data": "RSSI", "autowidth": true },
-                { "data": "SNR", "autowidth": true },
-            ],
-            "order": [[0, "desc"]]
-        });
+        $(document).ready(function() {
+            var table = $('#tbEnvironment').DataTable({
+                "ajax": {
+                    "url": "/Application/GetLoRaWANData",
+                    "tye": "GET",
+                    "datatype": "json",
+                    "data": { "deviceType" : "EnvironmentSensor"},
+                    "contentType": "application/json; charset=utf-8",
+                },
+                "columns": [
+                    { "data": "DateTime", "autowidth": true },
+                    { "data": "DevEUI", "autowidth": true },
+                    { "data": "GatewayEUI", "autowidth": true },
+                    { "data": "O2", "autowidth": true },
+                    { "data": "O3", "autowidth": true },
+                    { "data": "PM1", "autowidth": true },
+                    { "data": "PM2_5", "autowidth": true },
+                    { "data": "PM10", "autowidth": true },
+                    { "data": "AirTemp", "autowidth": true },
+                    { "data": "AirHumidity", "autowidth": true },
+                    { "data": "AirPressure", "autowidth": true },
+                    { "data": "BATLevel", "autowidth": true },
+                    { "data": "BATVolt", "autowidth": true },
+                    { "data": "RSSI", "autowidth": true },
+                    { "data": "SNR", "autowidth": true },
+                ],
+                "order": [[0, "desc"]]
+            });
+
+            setInterval(function () {
+                table.ajax.reload(null, false);
+            }, 60 * 1000);
+        } );
     </script>
 }

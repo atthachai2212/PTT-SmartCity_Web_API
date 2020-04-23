@@ -10,11 +10,11 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class WeatherService : IWeatherService
     {
-        private dbSmartCityContext db;
+        private dbLoRaSmartCityContext db;
 
         public WeatherService()
         {
-            db = new dbSmartCityContext();
+            db = new dbLoRaSmartCityContext();
         }
 
         public IEnumerable<GetWeatherData> WeatherSensorItems => this.db.tbWeatherSensor.Select(m => new GetWeatherData
@@ -135,7 +135,7 @@ namespace PTT_SmartCity_Web_API.Services
                     RainfallCurrentHour = data.PLV1 / 100f,
                     RainfallPreviousHour = data.PLV2 / 100f,
                     RainfallLast_24Hours = data.PLV3 / 10f,
-                    Luminosity = data.LUX,
+                    Luminosity = Convert.ToUInt16(data.LUX),
                     BATVolt = data.BATVolt / 1000f,
                     BATLevel = data.BAT,
                     RSSI = model.rssi,

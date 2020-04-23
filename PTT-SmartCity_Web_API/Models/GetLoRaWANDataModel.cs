@@ -22,6 +22,8 @@ namespace PTT_SmartCity_Web_API.Models
 
         public string DevEUI { get; set; }
 
+        public string DevType { get; set; }
+
         public string GatewayEUI { get; set; }
 
         public int RSSI { get; set; }

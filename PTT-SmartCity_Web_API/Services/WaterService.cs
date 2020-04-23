@@ -10,11 +10,11 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class WaterService : IWaterService
     {
-        private dbSmartCityContext db;
+        private dbLoRaSmartCityContext db;
 
         public WaterService()
         {
-            db = new dbSmartCityContext();
+            db = new dbLoRaSmartCityContext();
         }
 
         public IEnumerable<GetWaterLevelData> WaterLevelSensorItems => this.db.tbWaterLevelSensor.Select(m => new GetWaterLevelData

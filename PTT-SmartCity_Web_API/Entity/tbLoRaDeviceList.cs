@@ -6,10 +6,11 @@ namespace PTT_SmartCity_Web_API.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tbLoRaDevice")]
-    public partial class tbLoRaDevice
+    [Table("tbLoRaDeviceList")]
+    public partial class tbLoRaDeviceList
     {
         [Key]
+        [Column(Order = 0)]
         [StringLength(50)]
         public string DevEUI { get; set; }
 
@@ -23,6 +24,11 @@ namespace PTT_SmartCity_Web_API.Entity
 
         [StringLength(30)]
         public string DevModel { get; set; }
+
+        [Key]
+        [Column(Order = 1)]
+        [StringLength(50)]
+        public string GatewayEUI { get; set; }
 
         [Required]
         [StringLength(10)]

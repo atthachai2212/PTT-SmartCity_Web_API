@@ -1,6 +1,7 @@
 ﻿@using PTT_SmartCity_Web_API.Services
 @{ 
-    var listTypeCount = ViewBag.devTypeConut as List<PTT_SmartCity_Web_API.Entity.tbLoRaDevice>;
+    var listTypeCount = ViewBag.devTypeConut as List<PTT_SmartCity_Web_API.Models.GetLoRaDeviceData>;
+    var gwCount = ViewBag.gwConut as List<PTT_SmartCity_Web_API.Models.GetLoRaGatewayData>;
     var devTypeConut = listTypeCount.GroupBy(g => g.DevType).Select(s => new { DevType = s.Key, Count = s.Count() }).ToList();
 }
 <div class="row">
@@ -9,7 +10,7 @@
             <i class="icon fa fa-server fa-3x"></i>
             <div class="info">
                 <h4>LoRa Gateway</h4>
-                <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.LoRaGateway)?.Count ?? 0)</b></p>
+                <p><b>@gwCount.Count()</b></p>
             </div>
         </div>
     </div>
@@ -18,7 +19,7 @@
             <i class="icon fa fa-envira fa-3x"></i>
             <div class="info">
                 <h4>Environment Sensor</h4>
-                <p><b>@devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.EnvironmentSensor).Count</b></p>
+                <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.EnvironmentSensor)?.Count ?? 0)</b></p>
             </div>
         </div>
     </div>
@@ -27,7 +28,7 @@
             <i class="icon fa fa-sitemap fa-3x"></i>
             <div class="info">
                 <h4>Sensor Hub</h4>
-                <p><b>@devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.SensorHub).Count</b></p>
+                <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.SensorHub)?.Count ?? 0)</b></p>
             </div>
         </div>
     </div>
@@ -36,7 +37,7 @@
             <i class="icon fa fa-refresh fa-3x"></i>
             <div class="info">
                 <h4>Waste Bin Sensor</h4>
-                <p><b>@devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WasteBinSensor).Count</b></p>
+                <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WasteBinSensor)?.Count ?? 0)</b></p>
             </div>
         </div>
     </div>
@@ -45,7 +46,7 @@
             <i class="icon fa fa-snowflake-o fa-3x"></i>
             <div class="info">
                 <h4>Weather Sensor</h4>
-                <p><b>@devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WeatherSensor).Count</b></p>
+                <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WeatherSensor)?.Count ?? 0)</b></p>
             </div>
         </div>
     </div>
@@ -54,7 +55,7 @@
             <i class="icon fa fa-thermometer-empty fa-3x"></i>
             <div class="info">
                 <h4>Water Level Sensor</h4>
-                <p><b>@devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WaterLevelSensor).Count</b></p>
+                <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WaterLevelSensor)?.Count ?? 0)</b></p>
             </div>
         </div>
     </div>
@@ -63,7 +64,7 @@
             <i class="icon fa fa-thermometer-full fa-3x"></i>
             <div class="info">
                 <h4>Water Quality Sensor</h4>
-                <p><b>@devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WaterQualitySensor).Count</b></p>
+                <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WaterQualitySensor)?.Count ?? 0)</b></p>
             </div>
         </div>
     </div>
@@ -72,7 +73,7 @@
             <i class="icon fa fa-podcast fa-3x"></i>
             <div class="info">
                 <h4>Gps Tracking</h4>
-                <p><b>@devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.GpsTracking).Count</b></p>
+                <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.GpsTracking)?.Count ?? 0)</b></p>
             </div>
         </div>
     </div>

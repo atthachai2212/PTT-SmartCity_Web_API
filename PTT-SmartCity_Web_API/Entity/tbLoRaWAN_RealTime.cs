@@ -8,15 +8,6 @@ namespace PTT_SmartCity_Web_API.Entity
 
     public partial class tbLoRaWAN_RealTime
     {
-        [Column(TypeName = "date")]
-        public DateTime Date { get; set; }
-
-        public TimeSpan Time { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string DevAddr { get; set; }
-
         [Key]
         [Column(Order = 0)]
         [StringLength(50)]
@@ -26,6 +17,15 @@ namespace PTT_SmartCity_Web_API.Entity
         [Column(Order = 1)]
         [StringLength(50)]
         public string GatewayEUI { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime Date { get; set; }
+
+        public TimeSpan Time { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string DevAddr { get; set; }
 
         public int RSSI { get; set; }
 

@@ -12,21 +12,23 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class LoRaWANService : ILoRaWANService
     {
-
-        private dbSmartCityContext db;
+        private dbLoRaSmartCityContext db;
+        private ILoRaDeviceSettingService loraDeviceSettingService;
 
         public LoRaWANService()
         {
-            db = new dbSmartCityContext();
+            this.db = new dbLoRaSmartCityContext();
+            this.loraDeviceSettingService = new LoRaDeviceSettingService();
         }
 
-        public IEnumerable<GetLoRaWANData> LorawanItems => this.db.tbLoRaWAN.Select(m => new GetLoRaWANData
+        public IEnumerable<GetLoRaWANData> LorawanItems => this.db.tbLoRaWAN.ToList().Select(m => new GetLoRaWANData
         {
             Date = m.Date,
             Time = m.Time,
             DevEUI = m.DevEUI,
-            GatewayEUI = m.GatewayEUI,
             DevAddr = m.DevAddr,
+            DevType = this.loraDeviceSettingService.getDeviceType(m.DevEUI),
+            GatewayEUI = m.GatewayEUI,
             RSSI = m.RSSI,
             SNR = m.SNR,
             SF = m.SF,
@@ -37,13 +39,14 @@ namespace PTT_SmartCity_Web_API.Services
             Data = m.Data
         }).OrderByDescending(m => m.Date).ThenByDescending(m => m.Time);
 
-        public IEnumerable<GetLoRaWANData> LorawanRealtimeItems => this.db.tbLoRaWAN_RealTime.Select(m => new GetLoRaWANData
+        public IEnumerable<GetLoRaWANData> LorawanRealtimeItems => this.db.tbLoRaWAN_RealTime.ToList().Select(m => new GetLoRaWANData
         {
             Date = m.Date,
             Time = m.Time,
-            DevEUI = m.DevEUI,
-            GatewayEUI = m.GatewayEUI,
             DevAddr = m.DevAddr,
+            DevEUI = m.DevEUI,
+            DevType = this.loraDeviceSettingService.getDeviceType(m.DevEUI),
+            GatewayEUI = m.GatewayEUI,
             RSSI = m.RSSI,
             SNR = m.SNR,
             SF = m.SF,

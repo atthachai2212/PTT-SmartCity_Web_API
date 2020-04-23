@@ -314,15 +314,25 @@ namespace PTT_SmartCity_Web_API.DataSet {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class LoRaDeviceDataTable : global::System.Data.TypedTableBase<LoRaDeviceRow> {
             
-            private global::System.Data.DataColumn columnDevEUI;
-            
             private global::System.Data.DataColumn columnDevAddr;
             
-            private global::System.Data.DataColumn columnAppskey;
-            
-            private global::System.Data.DataColumn columnNwkskey;
+            private global::System.Data.DataColumn columnDevEUI;
             
             private global::System.Data.DataColumn columnDevType;
+            
+            private global::System.Data.DataColumn columnActivate;
+            
+            private global::System.Data.DataColumn columnClass;
+            
+            private global::System.Data.DataColumn columnChannel;
+            
+            private global::System.Data.DataColumn columnAppSKey;
+            
+            private global::System.Data.DataColumn columnNwkSkey;
+            
+            private global::System.Data.DataColumn columnCreated;
+            
+            private global::System.Data.DataColumn columnUpdated;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -359,14 +369,6 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn DevEUIColumn {
-                get {
-                    return this.columnDevEUI;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public global::System.Data.DataColumn DevAddrColumn {
                 get {
                     return this.columnDevAddr;
@@ -375,17 +377,9 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn AppskeyColumn {
+            public global::System.Data.DataColumn DevEUIColumn {
                 get {
-                    return this.columnAppskey;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn NwkskeyColumn {
-                get {
-                    return this.columnNwkskey;
+                    return this.columnDevEUI;
                 }
             }
             
@@ -394,6 +388,62 @@ namespace PTT_SmartCity_Web_API.DataSet {
             public global::System.Data.DataColumn DevTypeColumn {
                 get {
                     return this.columnDevType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ActivateColumn {
+                get {
+                    return this.columnActivate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ClassColumn {
+                get {
+                    return this.columnClass;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ChannelColumn {
+                get {
+                    return this.columnChannel;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn AppSKeyColumn {
+                get {
+                    return this.columnAppSKey;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn NwkSkeyColumn {
+                get {
+                    return this.columnNwkSkey;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CreatedColumn {
+                get {
+                    return this.columnCreated;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn UpdatedColumn {
+                get {
+                    return this.columnUpdated;
                 }
             }
             
@@ -434,14 +484,19 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public LoRaDeviceRow AddLoRaDeviceRow(string DevEUI, string DevAddr, string Appskey, string Nwkskey, string DevType) {
+            public LoRaDeviceRow AddLoRaDeviceRow(string DevAddr, string DevEUI, string DevType, string Activate, string Class, string Channel, string AppSKey, string NwkSkey, string Created, string Updated) {
                 LoRaDeviceRow rowLoRaDeviceRow = ((LoRaDeviceRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        DevEUI,
                         DevAddr,
-                        Appskey,
-                        Nwkskey,
-                        DevType};
+                        DevEUI,
+                        DevType,
+                        Activate,
+                        Class,
+                        Channel,
+                        AppSKey,
+                        NwkSkey,
+                        Created,
+                        Updated};
                 rowLoRaDeviceRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowLoRaDeviceRow);
                 return rowLoRaDeviceRow;
@@ -464,26 +519,41 @@ namespace PTT_SmartCity_Web_API.DataSet {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
-                this.columnDevEUI = base.Columns["DevEUI"];
                 this.columnDevAddr = base.Columns["DevAddr"];
-                this.columnAppskey = base.Columns["Appskey"];
-                this.columnNwkskey = base.Columns["Nwkskey"];
+                this.columnDevEUI = base.Columns["DevEUI"];
                 this.columnDevType = base.Columns["DevType"];
+                this.columnActivate = base.Columns["Activate"];
+                this.columnClass = base.Columns["Class"];
+                this.columnChannel = base.Columns["Channel"];
+                this.columnAppSKey = base.Columns["AppSKey"];
+                this.columnNwkSkey = base.Columns["NwkSkey"];
+                this.columnCreated = base.Columns["Created"];
+                this.columnUpdated = base.Columns["Updated"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             private void InitClass() {
-                this.columnDevEUI = new global::System.Data.DataColumn("DevEUI", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDevEUI);
                 this.columnDevAddr = new global::System.Data.DataColumn("DevAddr", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDevAddr);
-                this.columnAppskey = new global::System.Data.DataColumn("Appskey", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAppskey);
-                this.columnNwkskey = new global::System.Data.DataColumn("Nwkskey", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNwkskey);
+                this.columnDevEUI = new global::System.Data.DataColumn("DevEUI", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDevEUI);
                 this.columnDevType = new global::System.Data.DataColumn("DevType", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDevType);
+                this.columnActivate = new global::System.Data.DataColumn("Activate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnActivate);
+                this.columnClass = new global::System.Data.DataColumn("Class", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnClass);
+                this.columnChannel = new global::System.Data.DataColumn("Channel", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnChannel);
+                this.columnAppSKey = new global::System.Data.DataColumn("AppSKey", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAppSKey);
+                this.columnNwkSkey = new global::System.Data.DataColumn("NwkSkey", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNwkSkey);
+                this.columnCreated = new global::System.Data.DataColumn("Created", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreated);
+                this.columnUpdated = new global::System.Data.DataColumn("Updated", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUpdated);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -621,9 +691,13 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             private global::System.Data.DataColumn columnAPI_Token;
             
-            private global::System.Data.DataColumn columnIPAddress;
+            private global::System.Data.DataColumn columnIP_Address;
             
             private global::System.Data.DataColumn columnPort;
+            
+            private global::System.Data.DataColumn columnCreated;
+            
+            private global::System.Data.DataColumn columnUpdated;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -676,9 +750,9 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn IPAddressColumn {
+            public global::System.Data.DataColumn IP_AddressColumn {
                 get {
-                    return this.columnIPAddress;
+                    return this.columnIP_Address;
                 }
             }
             
@@ -687,6 +761,22 @@ namespace PTT_SmartCity_Web_API.DataSet {
             public global::System.Data.DataColumn PortColumn {
                 get {
                     return this.columnPort;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CreatedColumn {
+                get {
+                    return this.columnCreated;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn UpdatedColumn {
+                get {
+                    return this.columnUpdated;
                 }
             }
             
@@ -727,13 +817,15 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public LoRaGatewayRow AddLoRaGatewayRow(string GatewayEUI, string API_Token, string IPAddress, string Port) {
+            public LoRaGatewayRow AddLoRaGatewayRow(string GatewayEUI, string API_Token, string IP_Address, string Port, string Created, string Updated) {
                 LoRaGatewayRow rowLoRaGatewayRow = ((LoRaGatewayRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         GatewayEUI,
                         API_Token,
-                        IPAddress,
-                        Port};
+                        IP_Address,
+                        Port,
+                        Created,
+                        Updated};
                 rowLoRaGatewayRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowLoRaGatewayRow);
                 return rowLoRaGatewayRow;
@@ -758,8 +850,10 @@ namespace PTT_SmartCity_Web_API.DataSet {
             internal void InitVars() {
                 this.columnGatewayEUI = base.Columns["GatewayEUI"];
                 this.columnAPI_Token = base.Columns["API_Token"];
-                this.columnIPAddress = base.Columns["IPAddress"];
+                this.columnIP_Address = base.Columns["IP_Address"];
                 this.columnPort = base.Columns["Port"];
+                this.columnCreated = base.Columns["Created"];
+                this.columnUpdated = base.Columns["Updated"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -769,10 +863,14 @@ namespace PTT_SmartCity_Web_API.DataSet {
                 base.Columns.Add(this.columnGatewayEUI);
                 this.columnAPI_Token = new global::System.Data.DataColumn("API_Token", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAPI_Token);
-                this.columnIPAddress = new global::System.Data.DataColumn("IPAddress", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnIPAddress);
+                this.columnIP_Address = new global::System.Data.DataColumn("IP_Address", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIP_Address);
                 this.columnPort = new global::System.Data.DataColumn("Port", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPort);
+                this.columnCreated = new global::System.Data.DataColumn("Created", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreated);
+                this.columnUpdated = new global::System.Data.DataColumn("Updated", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUpdated);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -915,22 +1013,6 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string DevEUI {
-                get {
-                    try {
-                        return ((string)(this[this.tableLoRaDevice.DevEUIColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DevEUI\' in table \'LoRaDevice\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableLoRaDevice.DevEUIColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public string DevAddr {
                 get {
                     try {
@@ -947,33 +1029,17 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Appskey {
+            public string DevEUI {
                 get {
                     try {
-                        return ((string)(this[this.tableLoRaDevice.AppskeyColumn]));
+                        return ((string)(this[this.tableLoRaDevice.DevEUIColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Appskey\' in table \'LoRaDevice\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'DevEUI\' in table \'LoRaDevice\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableLoRaDevice.AppskeyColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Nwkskey {
-                get {
-                    try {
-                        return ((string)(this[this.tableLoRaDevice.NwkskeyColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Nwkskey\' in table \'LoRaDevice\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableLoRaDevice.NwkskeyColumn] = value;
+                    this[this.tableLoRaDevice.DevEUIColumn] = value;
                 }
             }
             
@@ -995,14 +1061,114 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsDevEUINull() {
-                return this.IsNull(this.tableLoRaDevice.DevEUIColumn);
+            public string Activate {
+                get {
+                    try {
+                        return ((string)(this[this.tableLoRaDevice.ActivateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Activate\' in table \'LoRaDevice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLoRaDevice.ActivateColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetDevEUINull() {
-                this[this.tableLoRaDevice.DevEUIColumn] = global::System.Convert.DBNull;
+            public string Class {
+                get {
+                    try {
+                        return ((string)(this[this.tableLoRaDevice.ClassColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Class\' in table \'LoRaDevice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLoRaDevice.ClassColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Channel {
+                get {
+                    try {
+                        return ((string)(this[this.tableLoRaDevice.ChannelColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Channel\' in table \'LoRaDevice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLoRaDevice.ChannelColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string AppSKey {
+                get {
+                    try {
+                        return ((string)(this[this.tableLoRaDevice.AppSKeyColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AppSKey\' in table \'LoRaDevice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLoRaDevice.AppSKeyColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string NwkSkey {
+                get {
+                    try {
+                        return ((string)(this[this.tableLoRaDevice.NwkSkeyColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NwkSkey\' in table \'LoRaDevice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLoRaDevice.NwkSkeyColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Created {
+                get {
+                    try {
+                        return ((string)(this[this.tableLoRaDevice.CreatedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Created\' in table \'LoRaDevice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLoRaDevice.CreatedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Updated {
+                get {
+                    try {
+                        return ((string)(this[this.tableLoRaDevice.UpdatedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Updated\' in table \'LoRaDevice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLoRaDevice.UpdatedColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1019,26 +1185,14 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsAppskeyNull() {
-                return this.IsNull(this.tableLoRaDevice.AppskeyColumn);
+            public bool IsDevEUINull() {
+                return this.IsNull(this.tableLoRaDevice.DevEUIColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetAppskeyNull() {
-                this[this.tableLoRaDevice.AppskeyColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsNwkskeyNull() {
-                return this.IsNull(this.tableLoRaDevice.NwkskeyColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetNwkskeyNull() {
-                this[this.tableLoRaDevice.NwkskeyColumn] = global::System.Convert.DBNull;
+            public void SetDevEUINull() {
+                this[this.tableLoRaDevice.DevEUIColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1051,6 +1205,90 @@ namespace PTT_SmartCity_Web_API.DataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetDevTypeNull() {
                 this[this.tableLoRaDevice.DevTypeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsActivateNull() {
+                return this.IsNull(this.tableLoRaDevice.ActivateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetActivateNull() {
+                this[this.tableLoRaDevice.ActivateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsClassNull() {
+                return this.IsNull(this.tableLoRaDevice.ClassColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetClassNull() {
+                this[this.tableLoRaDevice.ClassColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsChannelNull() {
+                return this.IsNull(this.tableLoRaDevice.ChannelColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetChannelNull() {
+                this[this.tableLoRaDevice.ChannelColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsAppSKeyNull() {
+                return this.IsNull(this.tableLoRaDevice.AppSKeyColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetAppSKeyNull() {
+                this[this.tableLoRaDevice.AppSKeyColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsNwkSkeyNull() {
+                return this.IsNull(this.tableLoRaDevice.NwkSkeyColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetNwkSkeyNull() {
+                this[this.tableLoRaDevice.NwkSkeyColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCreatedNull() {
+                return this.IsNull(this.tableLoRaDevice.CreatedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCreatedNull() {
+                this[this.tableLoRaDevice.CreatedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsUpdatedNull() {
+                return this.IsNull(this.tableLoRaDevice.UpdatedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetUpdatedNull() {
+                this[this.tableLoRaDevice.UpdatedColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -1102,17 +1340,17 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string IPAddress {
+            public string IP_Address {
                 get {
                     try {
-                        return ((string)(this[this.tableLoRaGateway.IPAddressColumn]));
+                        return ((string)(this[this.tableLoRaGateway.IP_AddressColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'IPAddress\' in table \'LoRaGateway\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'IP_Address\' in table \'LoRaGateway\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableLoRaGateway.IPAddressColumn] = value;
+                    this[this.tableLoRaGateway.IP_AddressColumn] = value;
                 }
             }
             
@@ -1129,6 +1367,38 @@ namespace PTT_SmartCity_Web_API.DataSet {
                 }
                 set {
                     this[this.tableLoRaGateway.PortColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Created {
+                get {
+                    try {
+                        return ((string)(this[this.tableLoRaGateway.CreatedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Created\' in table \'LoRaGateway\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLoRaGateway.CreatedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Updated {
+                get {
+                    try {
+                        return ((string)(this[this.tableLoRaGateway.UpdatedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Updated\' in table \'LoRaGateway\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLoRaGateway.UpdatedColumn] = value;
                 }
             }
             
@@ -1158,14 +1428,14 @@ namespace PTT_SmartCity_Web_API.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsIPAddressNull() {
-                return this.IsNull(this.tableLoRaGateway.IPAddressColumn);
+            public bool IsIP_AddressNull() {
+                return this.IsNull(this.tableLoRaGateway.IP_AddressColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetIPAddressNull() {
-                this[this.tableLoRaGateway.IPAddressColumn] = global::System.Convert.DBNull;
+            public void SetIP_AddressNull() {
+                this[this.tableLoRaGateway.IP_AddressColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1178,6 +1448,30 @@ namespace PTT_SmartCity_Web_API.DataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetPortNull() {
                 this[this.tableLoRaGateway.PortColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCreatedNull() {
+                return this.IsNull(this.tableLoRaGateway.CreatedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCreatedNull() {
+                this[this.tableLoRaGateway.CreatedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsUpdatedNull() {
+                return this.IsNull(this.tableLoRaGateway.UpdatedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetUpdatedNull() {
+                this[this.tableLoRaGateway.UpdatedColumn] = global::System.Convert.DBNull;
             }
         }
         

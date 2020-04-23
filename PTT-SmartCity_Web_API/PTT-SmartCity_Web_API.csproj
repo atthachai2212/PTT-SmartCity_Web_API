@@ -171,6 +171,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\DeviceManagementController.cs" />
     <Compile Include="Controllers\EnvironmentSensorController.cs" />
     <Compile Include="Controllers\GpsTrackingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -190,11 +191,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dsDeviceType.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Entity\dbSmartCityContext.cs" />
+    <Compile Include="Entity\dbLoRaDeviceSettingContext.cs" />
+    <Compile Include="Entity\dbLoRaSmartCityContext.cs" />
     <Compile Include="Entity\tbEnvironmentSensor.cs" />
     <Compile Include="Entity\tbGPS.cs" />
     <Compile Include="Entity\tbGPS_Realtime.cs" />
     <Compile Include="Entity\tbLoRaDevice.cs" />
+    <Compile Include="Entity\tbLoRaDeviceList.cs" />
     <Compile Include="Entity\tbLoRaGateway.cs" />
     <Compile Include="Entity\tbLoRaWAN.cs" />
     <Compile Include="Entity\tbLoRaWAN_RealTime.cs" />
@@ -209,7 +212,7 @@
     <Compile Include="Interfaces\IApplicationService.cs" />
     <Compile Include="Interfaces\IEnvironmentService.cs" />
     <Compile Include="Interfaces\IGpsTrackingService.cs" />
-    <Compile Include="Interfaces\ILoRaDeviceService.cs" />
+    <Compile Include="Interfaces\ILoRaDeviceSettingService.cs" />
     <Compile Include="Interfaces\ISensorHubService.cs" />
     <Compile Include="Interfaces\IWasteBinService.cs" />
     <Compile Include="Interfaces\ILoRaWANService.cs" />
@@ -219,14 +222,15 @@
     <Compile Include="Models\ExtensionModel.cs" />
     <Compile Include="Models\GetEnvironmentDataModel.cs" />
     <Compile Include="Models\GetGpsDataModel.cs" />
+    <Compile Include="Models\GetLoRaDeviceListDataModel.cs" />
+    <Compile Include="Models\GetLoRaGatewayDataModel.cs" />
     <Compile Include="Models\GetLoRaWANDataModel.cs" />
-    <Compile Include="Models\GetLoRaWANDeviceModel.cs" />
+    <Compile Include="Models\GetLoRaDeviceDataModel.cs" />
     <Compile Include="Models\GetSensorHubDataModel.cs" />
     <Compile Include="Models\GetWasteBinDataModel.cs" />
     <Compile Include="Models\GetWaterDataModel.cs" />
     <Compile Include="Models\GetWeatherDataModel.cs" />
     <Compile Include="Models\GpsTrackingDataModel.cs" />
-    <Compile Include="Models\LoRaWANDeviceDataModel.cs" />
     <Compile Include="Models\SensorHubDataModel.cs" />
     <Compile Include="Models\WasteBinSensorDataModel.cs" />
     <Compile Include="Models\LoRaWANDataModel.cs" />
@@ -240,7 +244,7 @@
     <Compile Include="Services\GpsTrackingService.cs" />
     <Compile Include="Services\HelperService.cs" />
     <Compile Include="Services\LoRaDataService.cs" />
-    <Compile Include="Services\LoRaDeviceService.cs" />
+    <Compile Include="Services\LoRaDeviceSettingService.cs" />
     <Compile Include="Services\LoRaWANService.cs" />
     <Compile Include="Services\SensorHubService.cs" />
     <Compile Include="Services\WasteBinService.cs" />
@@ -461,7 +465,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\DeviceList.cshtml" />
     <Content Include="Views\Home\CreateDevice.cshtml" />
-    <Content Include="Views\Home\UplinkRealtime.cshtml" />
+    <Content Include="Views\Home\UplinkData.cshtml" />
     <Content Include="Views\Application\EnvironmentSensor.cshtml" />
     <Content Include="Views\Application\GpsTracking.cshtml" />
     <Content Include="Views\Application\SensorHub.cshtml" />
@@ -469,7 +473,8 @@
     <Content Include="Views\Application\WaterLevelSensor.cshtml" />
     <Content Include="Views\Application\WaterQualitySensor.cshtml" />
     <Content Include="Views\Application\WeatherSensor.cshtml" />
-    <Content Include="Views\Application\Index.cshtml" />
+    <Content Include="Views\DeviceManagement\LoRaGateway.cshtml" />
+    <Content Include="Views\DeviceManagement\LoRaDevice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

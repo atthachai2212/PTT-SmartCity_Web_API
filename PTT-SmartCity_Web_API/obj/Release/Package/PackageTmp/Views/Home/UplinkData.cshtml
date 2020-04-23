@@ -1,6 +1,6 @@
 ﻿@model PTT_SmartCity_Web_API.Models.GetLoRaWANDataModel
 @{
-    ViewBag.Title = "Uplink";
+    ViewBag.Title = "UplinkData";
 }
 
 <div class="row">
@@ -16,10 +16,11 @@
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-striped" id="tbLoraWANRealTime">
                         <thead>
-                            <tr style="text-align:center">
+                            <tr class="text-center" style="font-size:90%">
                                 <th>DateTime</th>
                                 <th>DevAddr</th>
                                 <th>DevEUI</th>
+                                <th>DevType</th>
                                 <th>GatewayEUI</th>
                                 <th>RSSI</th>
                                 <th>SNR</th>
@@ -34,10 +35,11 @@
                         <tbody>
                             @foreach (var item in Model.items)
                             {
-                                <tr style="font-size:90%">
+                                <tr style="font-size:84%">
                                     <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
                                     <td>@item.DevAddr</td>
                                     <td>@item.DevEUI</td>
+                                    <td>@item.DevType</td>
                                     <td>@item.GatewayEUI</td>
                                     <td>@item.RSSI</td>
                                     <td>@item.SNR</td>
@@ -46,7 +48,7 @@
                                     <td>@item.Freq</td>
                                     <td>@item.UpCtr</td>
                                     <td>@item.Size</td>
-                                    <td>@item.Data</td>
+                                    <td style="font-size:83%">@item.Data</td>
                                 </tr>
                             }
                         </tbody>
@@ -60,7 +62,7 @@
 @section scripts{
     <script>
         $('#loraWANNav').addClass('is-expanded');
-        $('#uplinkRealtimeNav').addClass('active').css('font-weight', 'bold');
+        $('#uplinkDataNav').addClass('active').css('font-weight', 'bold');
     </script>
 
     <script type="text/javascript">

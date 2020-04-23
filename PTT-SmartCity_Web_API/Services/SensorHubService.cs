@@ -10,11 +10,11 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class SensorHubService : ISensorHubService
     {
-        private dbSmartCityContext db;
+        private dbLoRaSmartCityContext db;
 
         public SensorHubService()
         {
-            db = new dbSmartCityContext();
+            db = new dbLoRaSmartCityContext();
         }
 
         public IEnumerable<GetSensorHubData> sensorHubItems => this.db.tbSensorHub.Select(m => new GetSensorHubData

@@ -10,11 +10,11 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class WasteBinService : IWasteBinService
     {
-        private dbSmartCityContext db;
+        private dbLoRaSmartCityContext db;
 
         public WasteBinService()
         {
-            db = new dbSmartCityContext();
+            db = new dbLoRaSmartCityContext();
         }
 
         public IEnumerable<GetWasteBinData> wasteBinSensorItems => this.db.tbWasteBinSensor.Select(m => new GetWasteBinData

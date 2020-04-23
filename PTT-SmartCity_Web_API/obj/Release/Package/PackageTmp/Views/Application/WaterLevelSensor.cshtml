@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PTT_SmartCity_Web_API.Entity.tbWaterLevelSensor>
+﻿
 @{
     ViewBag.Title = "Water Level Sensor";
 }
@@ -56,25 +56,34 @@
         $('#applicationNav').addClass('is-expanded');
         $('#warterLevelNav').addClass('active').css('font-weight', 'bold');
     </script>
-    <script type="text/javascript">
-        $('#tbWaterLevelSensor').DataTable({
-            "ajax": {
-               "url": "/Application/GetWaterLevelSensor",
-               "tye": "GET",
-               "datatype": "json",
-            },
-            "columns": [
-                { "data": "DateTime", "autowidth": true },
-                { "data": "DevEUI", "autowidth": true },
-                { "data": "GatewayEUI", "autowidth": true },
-                { "data": "WaterLevel", "autowidth": true },
-                { "data": "Distance", "autowidth": true },
-                { "data": "BATLevel", "autowidth": true },
-                { "data": "BATVolt", "autowidth": true },
-                { "data": "RSSI", "autowidth": true },
-                { "data": "SNR", "autowidth": true },
-            ],
-            "order": [[0, "desc"]]
+    <script type="text/javascript"> 
+        $(document).ready(function() {
+            var table = $('#tbWaterLevelSensor').DataTable({
+                "ajax": {
+                    "url": "/Application/GetLoRaWANData",
+                    "tye": "GET",
+                    "datatype": "json",
+                    "data": { "deviceType" : "WaterLevelSensor"},
+                    "contentType": "application/json; charset=utf-8",
+                },
+                "columns": [
+                    { "data": "DateTime", "autowidth": true },
+                    { "data": "DevEUI", "autowidth": true },
+                    { "data": "GatewayEUI", "autowidth": true },
+                    { "data": "WaterLevel", "autowidth": true },
+                    { "data": "Distance", "autowidth": true },
+                    { "data": "BATLevel", "autowidth": true },
+                    { "data": "BATVolt", "autowidth": true },
+                    { "data": "RSSI", "autowidth": true },
+                    { "data": "SNR", "autowidth": true },
+                ],
+                "order": [[0, "desc"]]
+            });
+
+            setInterval(function () {
+                table.ajax.reload(null, false);
+            }, 60 * 1000);
+
         });
     </script>
 }

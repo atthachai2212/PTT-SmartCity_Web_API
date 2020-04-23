@@ -28,20 +28,20 @@
                             </tr>
                         </thead>
                         @*<tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr style="text-align:center">
-                                    <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
-                                    <td>@item.DevEUI</td>
-                                    <td>@item.GatewayEUI</td>
-                                    <td>@item.Latitude</td>
-                                    <td>@item.Longitude</td>
-                                    <td>@item.Battery</td>
-                                    <td>@item.RSSI</td>
-                                    <td>@item.SNR</td>
-                                </tr>
-                            }
-                        </tbody>*@
+                                @foreach (var item in Model)
+                                {
+                                    <tr style="text-align:center">
+                                        <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
+                                        <td>@item.DevEUI</td>
+                                        <td>@item.GatewayEUI</td>
+                                        <td>@item.Latitude</td>
+                                        <td>@item.Longitude</td>
+                                        <td>@item.Battery</td>
+                                        <td>@item.RSSI</td>
+                                        <td>@item.SNR</td>
+                                    </tr>
+                                }
+                            </tbody>*@
                     </table>
                 </div>
             </div>
@@ -56,23 +56,32 @@
         $('#gpsTrackingNav').addClass('active').css('font-weight', 'bold');
     </script>
     <script type="text/javascript">
-        $('#tbGpsTracking').DataTable({
-            "ajax": {
-               "url": "/Application/GetGpsTracking",
-               "tye": "GET",
-               "datatype": "json",
-            },
-            "columns": [
-                { "data": "DateTime", "autowidth": true },
-                { "data": "DevEUI", "autowidth": true },
-                { "data": "GatewayEUI", "autowidth": true },
-                { "data": "Latitude", "autowidth": true },
-                { "data": "Longitude", "autowidth": true },
-                { "data": "Battery", "autowidth": true },
-                { "data": "RSSI", "autowidth": true },
-                { "data": "SNR", "autowidth": true },
-            ],
-            "order": [[0, "desc"]]
+        $(document).ready(function() {
+            var table = $('#tbGpsTracking').DataTable({
+                "ajax": {
+                    "url": "/Application/GetLoRaWANData",
+                    "tye": "GET",
+                    "datatype": "json",
+                    "data": { "deviceType" : "GpsTracking"},
+                    "contentType": "application/json; charset=utf-8",
+                },
+                "columns": [
+                    { "data": "DateTime", "autowidth": true },
+                    { "data": "DevEUI", "autowidth": true },
+                    { "data": "GatewayEUI", "autowidth": true },
+                    { "data": "Latitude", "autowidth": true },
+                    { "data": "Longitude", "autowidth": true },
+                    { "data": "Battery", "autowidth": true },
+                    { "data": "RSSI", "autowidth": true },
+                    { "data": "SNR", "autowidth": true },
+                ],
+                "order": [[0, "desc"]]
+            });
+
+            setInterval(function () {
+                table.ajax.reload(null, false);
+            }, 60 * 1000);
         });
+
     </script>
 }

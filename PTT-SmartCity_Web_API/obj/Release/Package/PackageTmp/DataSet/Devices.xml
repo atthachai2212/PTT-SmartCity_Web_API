@@ -21,7 +21,4 @@
   <DeviceType>
     <TypeName>WaterQualitySensor</TypeName>
   </DeviceType>
-  <DeviceType>
-    <TypeName>LoRaGateway</TypeName>
-  </DeviceType>
 </dsDeviceType>

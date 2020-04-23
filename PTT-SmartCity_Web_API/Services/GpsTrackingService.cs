@@ -11,11 +11,11 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class GpsTrackingService : IGpsTrackingService
     {
-        private dbSmartCityContext db;
+        private dbLoRaSmartCityContext db;
 
         public GpsTrackingService()
         {
-            db = new dbSmartCityContext();
+            db = new dbLoRaSmartCityContext();
         }
         public IEnumerable<GetGpsData> gpsItems => this.db.tbGPS.Select(m => new GetGpsData
         {

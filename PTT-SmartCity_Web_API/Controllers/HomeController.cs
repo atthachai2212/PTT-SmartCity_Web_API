@@ -14,12 +14,12 @@ namespace PTT_SmartCity_Web_API.Controllers
 {
     public class HomeController : Controller
     {
-        private ILoRaDeviceService loRaDeviceService;
+        private ILoRaDeviceSettingService loRaDeviceSettingService;
         private ILoRaWANService loRaWANService;
 
         public HomeController()
         {
-            this.loRaDeviceService = new LoRaDeviceService();
+            this.loRaDeviceSettingService = new LoRaDeviceSettingService();
             this.loRaWANService = new LoRaWANService();
         }
 
@@ -28,18 +28,19 @@ namespace PTT_SmartCity_Web_API.Controllers
             ViewBag.Title = "Dashboard";
             ViewBag.appTitle = "Dashboard";
             ViewBag.appSubtitle = "PTT SmartCity Web API";
-            ViewBag.devTypeConut = this.loRaDeviceService.loraDeviceItems;
+            ViewBag.devTypeConut = this.loRaDeviceSettingService.loraDeviceItems;
+            ViewBag.gwConut = this.loRaDeviceSettingService.loraGatewayItems;
             return View();
         }
 
-        public ActionResult UplinkRealtime()
+        public ActionResult UplinkData()
         {
             var model = this.loRaWANService.GetLoRaWANRealTimeData();
             return View(model);
         }
 
         [HttpGet]
-        public JsonResult GetUplink()
+        public JsonResult GetUplinkData()
         {
             var items = this.loRaWANService.LorawanRealtimeItems.Select(m => new {
                 DateTime = string.Format($"{m.Date.ToString("yyyy/MM/dd")}  {m.Time.ToString("hh\\:mm\\:ss")}"),
@@ -58,20 +59,9 @@ namespace PTT_SmartCity_Web_API.Controllers
             return Json(new { data = items }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult DeviceList(LoRaWANDeviceFilterOptions filters)
+        public ActionResult DeviceList()
         {
-            List<string> serachType = new List<string>(new string[]
-{
-                "Device EUI",
-                "Device Type",
-                "Gateway EUI",
-                "Device Model",
-                "Date"
-            });
-            ViewBag.serachType = serachType;
-
-            var model = this.loRaDeviceService.GetLoRaWANDevice(filters);
-            return View(model);
+            return View();
         }
 
         public ActionResult CreateDevice()
@@ -83,10 +73,13 @@ namespace PTT_SmartCity_Web_API.Controllers
                 ds.ReadXml(path);
             };
             var devTypeModel = ds.Tables[0].AsEnumerable().Select(dataRow => dataRow.Field<string>("TypeName")).ToList();
-            ViewBag.loraDeviceType = this.loRaDeviceService.loraDeviceTypeItems;
+            ViewBag.loraDeviceType = this.loRaDeviceSettingService.loraDeviceTypeItems();
             return View(devTypeModel);
         }
 
-
+        public ActionResult LoRaGateway()
+        {
+            return View();
+        }
     }
 }

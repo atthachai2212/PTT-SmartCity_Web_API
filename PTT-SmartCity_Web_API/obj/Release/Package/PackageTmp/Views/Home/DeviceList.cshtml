@@ -1,4 +1,4 @@
-﻿@model PTT_SmartCity_Web_API.Models.GetLoRaWANDeviceModel
+﻿@model  List<PTT_SmartCity_Web_API.Models.GetLoRaDeviceListDataModel>
 @{
     ViewBag.Title = "Device List";
 }
@@ -26,17 +26,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.items)
+                            @*@foreach (var item in Model.items)
                             {
                                 <tr style="text-align:center">
                                     <td>@item.DevEUI</td>
                                     <td>@item.DevType</td>
                                     <td>@item.GatewayEUI</td>
                                     <td>@item.DevModel</td>
-                                    <td>@Html.Raw(item.Created?.ToString("MM/dd/yyyy HH:mm:ss"))</td>
-                                    <td>@Html.Raw(item.Updated?.ToString("MM/dd/yyyy HH:mm:ss"))</td>
+                                    <td>@Html.Raw(item.Created.ToString("MM/dd/yyyy HH:mm:ss") ?? string.Empty)</td>
+                                    <td>@Html.Raw(item.Updated.ToString("MM/dd/yyyy HH:mm:ss") ?? string.Empty)</td>
                                 </tr>
-                            }
+                            }*@
                         </tbody>
                     </table>
                 </div>
@@ -47,7 +47,7 @@
 
 @section scripts{
     <script>
-        $('#DeviceManagementNav').addClass('is-expanded');
+        $('#loraWANNav').addClass('is-expanded');
         $('#deviceListNav').addClass('active').css('font-weight', 'bold');
     </script>
     <script type="text/javascript">

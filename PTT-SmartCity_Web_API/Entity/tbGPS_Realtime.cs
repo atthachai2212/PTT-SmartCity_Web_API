@@ -8,14 +8,14 @@ namespace PTT_SmartCity_Web_API.Entity
 
     public partial class tbGPS_Realtime
     {
+        [Key]
+        [StringLength(50)]
+        public string DevEUI { get; set; }
+
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
         public TimeSpan Time { get; set; }
-
-        [Key]
-        [StringLength(50)]
-        public string DevEUI { get; set; }
 
         [Required]
         [StringLength(50)]

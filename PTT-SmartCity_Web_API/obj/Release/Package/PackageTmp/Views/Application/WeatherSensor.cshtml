@@ -19,7 +19,7 @@
                             <tr style="text-align:center">
                                 <th>DateTime</th>
                                 <th>DevEUI</th>
-                                <th class="details-control">GatewayEUI</th>
+                                <th>GatewayEUI</th>
                                 <th>WindSpeed</th>
                                 <th>WindVane</th>
                                 <th>RainfallCurrentHour</th>
@@ -33,25 +33,25 @@
                             </tr>
                         </thead>
                         @*<tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr style="text-align:center" data-child-value="hidden 1">
-                                    <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
-                                    <td>@item.DevEUI</td>
-                                    <td>@item.GatewayEUI</td>
-                                    <td>@item.WindSpeed</td>
-                                    <td>@item.WindVane</td>
-                                    <td>@item.RainfallCurrentHour</td>
-                                    <td>@item.RainfallPreviousHour</td>
-                                    <td>@item.RainfallLast_24Hours</td>
-                                    <td>@item.Luminosity</td>
-                                    <td>@item.BATLevel</td>
-                                    <td>@item.BATVolt</td>
-                                    <td>@item.RSSI</td>
-                                    <td>@item.SNR</td>
-                                </tr>
-                            }
-                        </tbody>*@
+                                @foreach (var item in Model)
+                                {
+                                    <tr style="text-align:center" data-child-value="hidden 1">
+                                        <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
+                                        <td>@item.DevEUI</td>
+                                        <td>@item.GatewayEUI</td>
+                                        <td>@item.WindSpeed</td>
+                                        <td>@item.WindVane</td>
+                                        <td>@item.RainfallCurrentHour</td>
+                                        <td>@item.RainfallPreviousHour</td>
+                                        <td>@item.RainfallLast_24Hours</td>
+                                        <td>@item.Luminosity</td>
+                                        <td>@item.BATLevel</td>
+                                        <td>@item.BATVolt</td>
+                                        <td>@item.RSSI</td>
+                                        <td>@item.SNR</td>
+                                    </tr>
+                                }
+                            </tbody>*@
                     </table>
                 </div>
             </div>
@@ -65,28 +65,37 @@
         $('#weatherNav').addClass('active').css('font-weight', 'bold');
     </script>
     <script type="text/javascript">
-        var table = $('#tbWeatherSensor').DataTable({
-           "ajax": {
-               "url": "/Application/GetWeatherSensor",
-               "tye": "GET",
-               "datatype": "json",
-            },
-            "columns": [
-                { "data": "DateTime", "autowidth": true },
-                { "data": "DevEUI", "autowidth": true },
-                { "data": "GatewayEUI", "autowidth": true },
-                { "data": "WindSpeed", "autowidth": true },
-                { "data": "WindVane", "autowidth": true },
-                { "data": "RainfallCurrentHour", "autowidth": true },
-                { "data": "RainfallPreviousHour", "autowidth": true },
-                { "data": "RainfallLast_24Hours", "autowidth": true },
-                { "data": "Luminosity", "autowidth": true },
-                { "data": "BATLevel", "autowidth": true },
-                { "data": "BATVolt", "autowidth": true },
-                { "data": "RSSI", "autowidth": true },
-                { "data": "SNR", "autowidth": true },
-            ],
-            "order": [[0, "desc"]]
+        $(document).ready(function() {
+            var table = $('#tbWeatherSensor').DataTable({
+                "ajax": {
+                    "url": "/Application/GetLoRaWANData",
+                    "tye": "GET",
+                    "datatype": "json",
+                    "data": { "deviceType" : "WeatherSensor"},
+                    "contentType": "application/json; charset=utf-8",
+                },
+                "columns": [
+                    { "data": "DateTime", "autowidth": true },
+                    { "data": "DevEUI", "autowidth": true },
+                    { "data": "GatewayEUI", "autowidth": true },
+                    { "data": "WindSpeed", "autowidth": true },
+                    { "data": "WindVane", "autowidth": true },
+                    { "data": "RainfallCurrentHour", "autowidth": true },
+                    { "data": "RainfallPreviousHour", "autowidth": true },
+                    { "data": "RainfallLast_24Hours", "autowidth": true },
+                    { "data": "Luminosity", "autowidth": true },
+                    { "data": "BATLevel", "autowidth": true },
+                    { "data": "BATVolt", "autowidth": true },
+                    { "data": "RSSI", "autowidth": true },
+                    { "data": "SNR", "autowidth": true },
+                ],
+                "order": [[0, "desc"]]
+            });
+
+            setInterval(function () {
+                table.ajax.reload(null, false);
+            }, 60 * 1000);
+
         });
     </script>
 }
