@@ -2,19 +2,59 @@
 @{
     ViewBag.Title = "Gps Tracking";
 }
-
+<div class="row">
+    <div class="col-md-6 col-lg-3">
+        <div class="widget-small danger coloured-icon">
+            <i class="icon fa fa-podcast fa-3x"></i>
+            <div class="info">
+                <h4 class="font-weight-bold">Gps Tracking</h4>
+                <p class="badge badge-danger"><b>@ViewBag.devTypeConut</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-8">
+        <div class="widget-small primary coloured-icon">
+            <i class="icon fa fa-filter fa-3x"></i>
+            <div class="info">
+                <h4 class="font-weight-bold">Data Filter</h4>
+                @*<p class="font-weight-bold">DateTime Filter :</p>*@
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="DateTime Start" id="date_timepicker_start" value="@DateTime.Now.AddHours(-1).ToString("yyyy-MM-dd HH:mm:ss")">
+                    </div>
+                    <h4 class="mt-2">To</h4>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="DateTime End" id="date_timepicker_end" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")">
+                    </div>
+                    <div class="col">
+                        <select id="deviceEUI" class="form-control" formControlName="role">
+                            <option value="" selected>EUI Filter (ALL)</option>
+                            @foreach (var item in ViewBag.devEUI)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary mb-2" id="btnDataFilter"><i class="fa fa-fw fa-lg fa-search"></i>Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="tile">
             <!-- ส่วนหัว -->
-            <div class="tile-title-w-btn">
+            @*<div class="tile-title-w-btn">
                 <h3 class="title">
                     <i class="fa fa-podcast"></i> @ViewBag.Title
                 </h3>
-            </div>
+            </div>*@
             <div class="tile-body">
                 <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-striped" id="tbGpsTracking">
+                    <table class="table table-hover table-bordered table-striped responsive nowrap display" cellspacing="0" width="100%" id="tbGpsTracking">
                         <thead>
                             <tr style="text-align:center">
                                 <th>DateTime</th>
@@ -57,13 +97,69 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
+            var dt = new Date();
+            var month = dt.getMonth() + 1;
+            var day = dt.getDate();
+            var strDateNow = dt.getFullYear() + '/' +
+                (month < 10 ? '0' : '') + month + '/' +
+                (day < 10 ? '0' : '') + day;
+            var minutes = dt.getMinutes();
+            var strTimeNow = dt.getHours() + ":" +
+                (minutes < 10 ? '0' + minutes : minutes);
+            var dateStart = strDateNow;
+            var dateEnd = strDateNow;
+            var timeStart = strTimeNow;
+            var timeLimit = strTimeNow;
+            $(function () {
+                $('#date_timepicker_start').datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'Y-m-d H:i' + ':00',
+                })
+
+                $('#date_timepicker_end').datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'Y-m-d H:i' + ':00',
+                })
+            });
+            InitOverviewDataTable();
+            $("#btnDataFilter").click(function () {
+                if ($.fn.DataTable.isDataTable('#tbGpsTracking')) {
+                    $('#tbGpsTracking').DataTable().destroy();
+                    $('#tbGpsTracking tbody').empty();
+                }
+                InitOverviewDataTable();
+            });
+
+        });
+
+        function InitOverviewDataTable() {
             var table = $('#tbGpsTracking').DataTable({
                 "ajax": {
                     "url": "/Application/GetLoRaWANData",
                     "tye": "GET",
                     "datatype": "json",
-                    "data": { "deviceType" : "GpsTracking"},
+                    "data": function (d) {
+                        d.deviceType = "GpsTracking",
+                        d.deviceEUI = $('#deviceEUI').val(),
+                        d.dateTimeStart = $('#date_timepicker_start').val(),
+                        d.dateTimeEnd = $('#date_timepicker_end').val()
+                    },
                     "contentType": "application/json; charset=utf-8",
+                    "dataSrc": function (dataResult) {
+                        //console.log(result);
+                        if (dataResult.data.length === 0) {
+                            $.notify({
+                                title: "DATA FILTER : ",
+                                message: "No data available",
+                                icon: 'fa fa-exclamation'
+                            }, {
+                                type: "warning"
+                            });
+                        }
+                        return dataResult.data;
+                    }
                 },
                 "columns": [
                     { "data": "DateTime", "autowidth": true },
@@ -77,11 +173,11 @@
                 ],
                 "order": [[0, "desc"]]
             });
-
             setInterval(function () {
+                var DateTime = getDateTime();
+                $('#date_timepicker_end').val(DateTime.strDateTimeNow);
                 table.ajax.reload(null, false);
             }, 60 * 1000);
-        });
-
+        }
     </script>
 }

@@ -10,8 +10,8 @@ namespace PTT_SmartCity_Web_API.Interfaces
 {
     interface IWaterService
     {
-        IEnumerable<GetWaterLevelData> WaterLevelSensorItems { get; }
-        IEnumerable<GetWaterQualityData> WaterQualitySensorItems { get; }
+        IEnumerable<GetWaterLevelData> waterLevelSensorItems { get; }
+        IEnumerable<GetWaterQualityData> waterQualitySensorItems { get; }
         IEnumerable<GetWaterLevelData> getWaterLevelSensor { get; }
         IEnumerable<GetWaterQualityData> getWaterQualitySensor { get; }
 

@@ -20,16 +20,16 @@ namespace PTT_SmartCity_Web_API.Interfaces
 
         string getDeviceType(string DevEUI);
 
-        void CreateLoRaDevice(GetLoRaDeviceData loraDeviceData);
+        void LoRaDeviceCreate(GetLoRaDeviceData loraDeviceData);
 
-        void CreateLoRaGateway(GetLoRaGatewayData loraGatewayData);     
+        void LoRaDeviceUpdate(GetLoRaDeviceData loraDeviceData);
 
-        void UpdateLoRaDevice(string DevEUI);
+        void LoRaDeviceDelete(string DevEUI);
 
-        void DeleteLoRaDevice(string DevEUI);
+        void LoRaGatewayCreate(GetLoRaGatewayData loraGatewayData);     
 
-        void UpdateLoRaGateway(string GatewayEUI);
+        void LoRaGatewayUpdate(GetLoRaGatewayData loraGatewayData);
 
-        void DeleteLoRaGateway(string GatewayEUI);
+        void LoRaGatewayDelete(string DevEUI);
     }
 }

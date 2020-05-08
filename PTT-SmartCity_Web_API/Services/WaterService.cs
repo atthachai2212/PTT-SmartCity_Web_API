@@ -17,7 +17,7 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbLoRaSmartCityContext();
         }
 
-        public IEnumerable<GetWaterLevelData> WaterLevelSensorItems => this.db.tbWaterLevelSensor.Select(m => new GetWaterLevelData
+        public IEnumerable<GetWaterLevelData> waterLevelSensorItems => this.db.tbWaterLevelSensor.Select(m => new GetWaterLevelData
         {
             Date = m.Date,
             Time = m.Time,
@@ -31,7 +31,7 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<GetWaterQualityData> WaterQualitySensorItems => this.db.tbWaterQualitySensor.Select(m => new GetWaterQualityData
+        public IEnumerable<GetWaterQualityData> waterQualitySensorItems => this.db.tbWaterQualitySensor.Select(m => new GetWaterQualityData
         {
             Date = m.Date,
             Time = m.Time,
@@ -46,7 +46,7 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<GetWaterLevelData> getWaterLevelSensor => this.WaterLevelSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWaterLevelData
+        public IEnumerable<GetWaterLevelData> getWaterLevelSensor => this.waterLevelSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWaterLevelData
         {
             Date = g.FirstOrDefault().Date,
             Time = g.FirstOrDefault().Time,
@@ -60,7 +60,7 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = g.FirstOrDefault().SNR
         });
 
-        public IEnumerable<GetWaterQualityData> getWaterQualitySensor => this.WaterQualitySensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWaterQualityData
+        public IEnumerable<GetWaterQualityData> getWaterQualitySensor => this.waterQualitySensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWaterQualityData
         {
             Date = g.FirstOrDefault().Date,
             Time = g.FirstOrDefault().Time,
@@ -90,8 +90,8 @@ namespace PTT_SmartCity_Web_API.Services
         {
             var waterLevelSensorItems = new GetWaterLevelDataModel
             {
-                items = this.WaterLevelSensorItems.ToArray(),
-                totalItems = this.WaterLevelSensorItems.Count()
+                items = this.waterLevelSensorItems.ToArray(),
+                totalItems = this.waterLevelSensorItems.Count()
             };
             return waterLevelSensorItems;
         }
@@ -100,7 +100,7 @@ namespace PTT_SmartCity_Web_API.Services
         {
             var waterLevelSensorItems = new GetWaterLevelDataModel
             {
-                items = this.WaterLevelSensorItems.Take(filters.length).ToArray(),
+                items = this.waterLevelSensorItems.Take(filters.length).ToArray(),
                 totalItems = filters.length
             };
 
@@ -110,11 +110,11 @@ namespace PTT_SmartCity_Web_API.Services
 
                 if (filters.length > 0)
                 {
-                    searchItem = this.WaterLevelSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    searchItem = this.waterLevelSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
                 }
                 else
                 {
-                    searchItem = this.WaterLevelSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                    searchItem = this.waterLevelSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
                 }
                 waterLevelSensorItems.items = searchItem.ToArray();
                 waterLevelSensorItems.totalItems = searchItem.Count();
@@ -136,8 +136,8 @@ namespace PTT_SmartCity_Web_API.Services
         {
             var waterQualitySensorItems = new GetWaterQualityDataModel
             {
-                items = this.WaterQualitySensorItems.ToArray(),
-                totalItems = this.WaterQualitySensorItems.Count()
+                items = this.waterQualitySensorItems.ToArray(),
+                totalItems = this.waterQualitySensorItems.Count()
             };
             return waterQualitySensorItems;
         }
@@ -146,7 +146,7 @@ namespace PTT_SmartCity_Web_API.Services
         {
             var waterQualitySensorItems = new GetWaterQualityDataModel
             {
-                items = this.WaterQualitySensorItems.Take(filters.length).ToArray(),
+                items = this.waterQualitySensorItems.Take(filters.length).ToArray(),
                 totalItems = filters.length
             };
 
@@ -156,11 +156,11 @@ namespace PTT_SmartCity_Web_API.Services
 
                 if (filters.length > 0)
                 {
-                    searchItem = this.WaterQualitySensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    searchItem = this.waterQualitySensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
                 }
                 else
                 {
-                    searchItem = this.WaterQualitySensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                    searchItem = this.waterQualitySensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
                 }
                 waterQualitySensorItems.items = searchItem.ToArray();
                 waterQualitySensorItems.totalItems = searchItem.Count();

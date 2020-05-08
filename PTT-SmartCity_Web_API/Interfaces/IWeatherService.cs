@@ -10,7 +10,7 @@ namespace PTT_SmartCity_Web_API.Interfaces
 {
     interface IWeatherService
     {
-        IEnumerable<GetWeatherData> WeatherSensorItems { get; }
+        IEnumerable<GetWeatherData> weatherSensorItems { get; }
 
         IEnumerable<GetWeatherData> getWeatherSensor { get; }
 

@@ -7,13 +7,19 @@ namespace PTT_SmartCity_Web_API.Interfaces
 {
     interface IApplicationService
     {
-        IEnumerable<tbEnvironmentSensor> environmentSensorItems { get; }
-        IEnumerable<tbGPS> GspTrackingItems { get; }
-        IEnumerable<tbSensorHub> sensorHubItems { get; }
-        IEnumerable<tbWasteBinSensor> wasteBinSensorItems { get; }
-        IEnumerable<tbWaterLevelSensor> waterLevelSensorItems { get; }
-        IEnumerable<tbWaterQualitySensor> waterQualitySensorItems { get; }
-        IEnumerable<tbWeatherSensor> weatherSensorItems { get; }
+        List<GetAppEnvironmentData> AppEnvironmentSensorItems(ApplicationDataFilterOptions filterOptions);
+
+        List<GetAppSensorHubData> AppSensorHubItems(ApplicationDataFilterOptions filterOptions);
+
+        List<GetAppWasteBinData> AppWasteBinSensorItems(ApplicationDataFilterOptions filterOptions);
+
+        List<GetAppWeatherData> AppWeatherSensorItems(ApplicationDataFilterOptions filterOptions);
+
+        List<GetAppWaterLevelData> AppWaterLevelSensorItems(ApplicationDataFilterOptions filterOptions);
+
+        List<GetAppWaterQualityData> AppWaterQualitySensorItems(ApplicationDataFilterOptions filterOptions);
+
+        List<GetAppGpsData> AppGspTrackingItems(ApplicationDataFilterOptions filterOptions);
 
     }
 }

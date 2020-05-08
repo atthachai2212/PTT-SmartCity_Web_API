@@ -17,7 +17,7 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbLoRaSmartCityContext();
         }
 
-        public IEnumerable<GetWeatherData> WeatherSensorItems => this.db.tbWeatherSensor.Select(m => new GetWeatherData
+        public IEnumerable<GetWeatherData> weatherSensorItems => this.db.tbWeatherSensor.Select(m => new GetWeatherData
         {
             Date = m.Date,
             Time = m.Time,
@@ -35,7 +35,7 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<GetWeatherData> getWeatherSensor => this.WeatherSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWeatherData
+        public IEnumerable<GetWeatherData> getWeatherSensor => this.weatherSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWeatherData
         {
             Date = g.FirstOrDefault().Date,
             Time = g.FirstOrDefault().Time,
@@ -68,8 +68,8 @@ namespace PTT_SmartCity_Web_API.Services
         {
             var weatherSensorItems = new GetWeatherDataModel
             {
-                items = this.WeatherSensorItems.ToArray(),
-                totalItems = this.WeatherSensorItems.Count()
+                items = this.weatherSensorItems.ToArray(),
+                totalItems = this.weatherSensorItems.Count()
             };
             return weatherSensorItems;
         }
@@ -78,7 +78,7 @@ namespace PTT_SmartCity_Web_API.Services
         {
             var weatherSensorItems = new GetWeatherDataModel
             {
-                items = this.WeatherSensorItems.Take(filters.length).ToArray(),
+                items = this.weatherSensorItems.Take(filters.length).ToArray(),
                 totalItems = filters.length
             };
 
@@ -88,11 +88,11 @@ namespace PTT_SmartCity_Web_API.Services
 
                 if (filters.length > 0)
                 {
-                    searchItem = this.WeatherSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
                 }
                 else
                 {
-                    searchItem = this.WeatherSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                    searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
                 }
                 weatherSensorItems.items = searchItem.ToArray();
                 weatherSensorItems.totalItems = searchItem.Count();

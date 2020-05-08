@@ -30,13 +30,24 @@ namespace PTT_SmartCity_Web_API.Controllers
 
         public ActionResult LoRaGateway()
         {
+            ViewBag.AppTitle = "LoRaGateway";
+            ViewBag.AppTitleIcon = "fa fa-th-list";
+            ViewBag.AppSubtitle = "SmartCity LoRaGateway";
+            ViewBag.AppBreadcrumbMemu = "DeviceManagement";
+            ViewBag.AppBreadcrumbItem = "LoRaGateway";
+            ViewBag.AppBreadcrumbItemIcon = "fa fa-tablet";
             return View();
         }
 
         public ActionResult LoRaDevice()
         {
+            ViewBag.AppTitle = "LoRaDevice";
+            ViewBag.AppTitleIcon = "fa fa-object-ungroup";
+            ViewBag.AppSubtitle = "SmartCity LoRaDevice";
+            ViewBag.AppBreadcrumbMemu = "DeviceManagement";
+            ViewBag.AppBreadcrumbItem = "LoRaDevice";
+            ViewBag.AppBreadcrumbItemIcon = "fa fa-tablet";
             var devTypeModel = this.loRaDeviceSettingService.loraDeviceTypeItems();
-
             List<string> channelPlan = new List<string>(new string[]
             {
                 "AS923",
@@ -61,7 +72,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             return View();
         }
 
-        public JsonResult CreateLoRaDevice(string DevAddr, string DevEUI, string DevType, string DevModel, string Activate, string Class, string Channel, string AppSKey, string NwkSkey)
+        public JsonResult DeviceCreate(string DevAddr, string DevEUI, string DevType, string DevModel, string Activate, string Class, string Channel, string AppSKey, string NwkSkey)
         {
             try
             {
@@ -79,7 +90,7 @@ namespace PTT_SmartCity_Web_API.Controllers
                     Created = DateTime.Now,
                     Updated = DateTime.Now
                 };
-                this.loRaDeviceSettingService.CreateLoRaDevice(loraDevice);
+                this.loRaDeviceSettingService.LoRaDeviceCreate(loraDevice);
             }
             catch (Exception ex)
             {
@@ -88,7 +99,52 @@ namespace PTT_SmartCity_Web_API.Controllers
             return Json(new { message = "success" });
         }
 
-        public JsonResult CreateLoRaGateway(string GatewayEUI, string IP_Address, string Port, string API_Token)
+        public JsonResult DeviceUpdate(string DevAddr, string DevEUI, string DevType, string DevModel, string Activate, string Class, string Channel, string AppSKey, string NwkSkey)
+        {
+            try
+            {
+                var loraDevice = new GetLoRaDeviceData
+                {
+                    DevAddr = DevAddr,
+                    DevEUI = DevEUI,
+                    DevType = DevType,
+                    DevModel = DevModel,
+                    Activate = Activate,
+                    Class = Class,
+                    Channel = Channel,
+                    AppSKey = AppSKey,
+                    NwkSkey = NwkSkey,
+                    Updated = DateTime.Now
+                };
+                this.loRaDeviceSettingService.LoRaDeviceUpdate(loraDevice);
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetErrorException();
+            }
+            return Json(new { message = "success" });
+        }
+        public JsonResult DeviceDelete(string DevEUI)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(DevEUI)) {
+                    this.loRaDeviceSettingService.LoRaDeviceDelete(DevEUI);
+                }
+                else
+                {
+                    throw new Exception("DeviceEUI is Empty");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { message = ex.GetErrorException() });
+                //throw ex.GetErrorException();
+            }
+            return Json(new { message = "success" });
+        }
+
+        public JsonResult GatewayCreate(string GatewayEUI, string IP_Address, string Port, string API_Token)
         {
             try
             {
@@ -101,7 +157,7 @@ namespace PTT_SmartCity_Web_API.Controllers
                     Created = DateTime.Now,
                     Updated = DateTime.Now
                 };
-                this.loRaDeviceSettingService.CreateLoRaGateway(loraGateway);
+                this.loRaDeviceSettingService.LoRaGatewayCreate(loraGateway);
             }
             catch (Exception ex)
             {

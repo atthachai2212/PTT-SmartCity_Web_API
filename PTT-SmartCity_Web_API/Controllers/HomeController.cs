@@ -25,9 +25,12 @@ namespace PTT_SmartCity_Web_API.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Title = "Dashboard";
-            ViewBag.appTitle = "Dashboard";
-            ViewBag.appSubtitle = "PTT SmartCity Web API";
+            ViewBag.AppTitle = "Dashboard";
+            ViewBag.AppTitleIcon = "fa fa-wifi";
+            ViewBag.AppSubtitle = "SmartCity Web API";
+            ViewBag.AppBreadcrumbMemu = "Dashboard";
+            ViewBag.AppBreadcrumbItem = "Home";
+            ViewBag.AppBreadcrumbItemIcon = "fa fa-home";
             ViewBag.devTypeConut = this.loRaDeviceSettingService.loraDeviceItems;
             ViewBag.gwConut = this.loRaDeviceSettingService.loraGatewayItems;
             return View();
@@ -35,17 +38,44 @@ namespace PTT_SmartCity_Web_API.Controllers
 
         public ActionResult UplinkData()
         {
-            var model = this.loRaWANService.GetLoRaWANRealTimeData();
-            return View(model);
+            ViewBag.AppTitle = "UplinkData";
+            ViewBag.AppTitleIcon = "fa fa-database";
+            ViewBag.AppSubtitle = "LoRaWAN UplinkData";
+            ViewBag.AppBreadcrumbMemu = "LoRaWAN";
+            ViewBag.AppBreadcrumbItem = "UplinkData";
+            ViewBag.AppBreadcrumbItemIcon = "fa fa-wifi";
+            //var model = this.loRaWANService.GetLoRaWANRealTimeData();
+            ViewBag.DevEUI = this.loRaWANService.LorawanRealtimeItems.GroupBy(g => g.DevEUI).Select(s => s.Key).ToList();
+            ViewBag.GatewayEUI = this.loRaWANService.LorawanRealtimeItems.GroupBy(g => g.GatewayEUI).Select(s => s.Key).ToList();
+            return View();
         }
 
         [HttpGet]
-        public JsonResult GetUplinkData()
+        public JsonResult GetUplinkData(string EUIFilter, string GatewayFilter)
         {
-            var items = this.loRaWANService.LorawanRealtimeItems.Select(m => new {
+            var lorawanRealtimeItems = new List<GetLoRaWANData>();
+            if (!string.IsNullOrEmpty(EUIFilter) && !string.IsNullOrEmpty(GatewayFilter))
+            {
+                lorawanRealtimeItems = this.loRaWANService.LorawanRealtimeItems.Where(m => m.DevEUI == EUIFilter && m.GatewayEUI == GatewayFilter).ToList();
+            }
+            else if (!string.IsNullOrEmpty(GatewayFilter))
+            {
+                lorawanRealtimeItems = this.loRaWANService.LorawanRealtimeItems.Where(m => m.GatewayEUI == GatewayFilter).ToList();
+            }
+            else if(!string.IsNullOrEmpty(EUIFilter))
+            {
+                lorawanRealtimeItems = this.loRaWANService.LorawanRealtimeItems.Where(m => m.DevEUI == EUIFilter).ToList();
+            }
+            else
+            {
+                lorawanRealtimeItems = this.loRaWANService.LorawanRealtimeItems.ToList();
+            }
+
+            var items = lorawanRealtimeItems.Select(m => new {
                 DateTime = string.Format($"{m.Date.ToString("yyyy/MM/dd")}  {m.Time.ToString("hh\\:mm\\:ss")}"),
                 DevAddr = m.DevAddr,
                 DevEUI = m.DevEUI,
+                DevType = this.loRaDeviceSettingService.getDeviceType(m.DevEUI),
                 GatewayEUI = m.GatewayEUI,     
                 RSSI = m.RSSI,
                 SNR = m.SNR,
@@ -56,11 +86,18 @@ namespace PTT_SmartCity_Web_API.Controllers
                 Size = m.Size,
                 Data = m.Data
             });
+
             return Json(new { data = items }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DeviceList()
         {
+            ViewBag.AppTitle = "DeviceList";
+            ViewBag.AppTitleIcon = "fa fa-gears";
+            ViewBag.AppSubtitle = "SmartCity DeviceList";
+            ViewBag.AppBreadcrumbMemu = "LoRaWAN";
+            ViewBag.AppBreadcrumbItem = "DeviceList";
+            ViewBag.AppBreadcrumbItemIcon = "fa fa-wifi";
             return View();
         }
 
