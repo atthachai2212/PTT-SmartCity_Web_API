@@ -54,9 +54,9 @@
             </div>*@
             <div class="tile-body">
                 <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-striped responsive nowrap display" cellspacing="0" width="100%" id="tbWeatherSensor">
+                    <table class="table table-hover table-bordered table-striped nowrap display" cellspacing="0" width="100%" id="tbWeatherSensor">
                         <thead>
-                            <tr style="text-align:center">
+                            <tr style="text-align:center;font-size:90%">
                                 <th>DateTime</th>
                                 <th>DevEUI</th>
                                 <th>GatewayEUI</th>
@@ -121,7 +121,7 @@
                 }
                 InitOverviewDataTable();
             });
-
+            $('#tbWeatherSensor tbody').css("fontSize", "90%");
         });
 
         function InitOverviewDataTable() {

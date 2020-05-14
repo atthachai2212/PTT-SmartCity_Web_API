@@ -2,19 +2,67 @@
 @{
     ViewBag.Title = "Environment Sensor";
 }
-
+<div class="row">
+    <div class="col-md-6 col-lg-3">
+        <div class="widget-small info coloured-icon">
+            <i class="icon fa fa-envira fa-3x"></i>
+            <div class="info">
+                <h4 class="font-weight-bold">Environment Sensor</h4>
+                <p class="badge badge-info"><b>@ViewBag.devTypeConut</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-8">
+        <div class="widget-small primary coloured-icon">
+            <i class="icon fa fa-filter fa-3x"></i>
+            <div class="info">
+                <h4 class="font-weight-bold">Data Filter</h4>
+                @*<p class="font-weight-bold">DateTime Filter :</p>*@
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="DateTime Start" id="date_timepicker_start" value="@DateTime.Now.AddHours(-1).ToString("yyyy-MM-dd HH:mm:ss")">
+                    </div>
+                    <h4 class="mt-2">To</h4>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="DateTime End" id="date_timepicker_end" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")">
+                    </div>
+                    <div class="col">
+                        <select id="deviceEUI" class="form-control" formControlName="role">
+                            <option value="" selected>EUI Filter (ALL)</option>
+                            @foreach (var item in ViewBag.devEUI)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary mb-2" id="btnDataFilter"><i class="fa fa-fw fa-lg fa-search"></i>Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="tile">
             <!-- ส่วนหัว -->
-            <div class="tile-title-w-btn">
-                <h3 class="title">
-                    <i class="fa fa fa-envira"></i> @ViewBag.Title
-                </h3>
-            </div>
+            @*<div class="tile-title-w-btn">
+            <h3 class="title">
+                <i class="fa fa fa-envira"></i> @ViewBag.Title
+            </h3>
+        </div>*@
+            @*<div class="overlay">
+                <div class="m-loader mr-4">
+                    <svg class="m-circular" viewBox="25 25 50 50">
+                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10" />
+                    </svg>
+                </div>
+                <h3 class="l-text">Loading</h3>
+            </div>*@
             <div class="tile-body">
                 <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-striped" id="tbEnvironment">
+                    <table class="table table-hover table-bordered table-striped responsive nowrap display" cellspacing="0" width="100%" id="tbEnvironment">
                         <thead>
                             <tr style="text-align:center;">
                                 <th>DateTime</th>
@@ -34,28 +82,7 @@
                                 <th>SNR</th>
                             </tr>
                         </thead>
-                        @*<tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr style="text-align:center">
-                                        <td>@Html.Raw(string.Format($"{item.Date.ToString("yyyy/MM/dd")} {item.Time}"))</td>
-                                        <td>@item.DevEUI</td>
-                                        <td>@item.GatewayEUI</td>
-                                        <td>@item.O2</td>
-                                        <td>@item.O3</td>
-                                        <td>@item.PM1</td>
-                                        <td>@item.PM2_5</td>
-                                        <td>@item.PM10</td>
-                                        <td>@item.AirTemp</td>
-                                        <td>@item.AirHumidity</td>
-                                        <td>@item.AirPressure</td>
-                                        <td>@item.BATLevel</td>
-                                        <td>@item.BATVolt</td>
-                                        <td>@item.RSSI</td>
-                                        <td>@item.SNR</td>
-                                    </tr>
-                                }
-                            </tbody>*@
+                        @*<tbody></tbody>*@
                     </table>
                 </div>
             </div>
@@ -63,44 +90,199 @@
     </div>
 </div>
 
-@section scripts{
-    <script>
-        $('#applicationNav').addClass('is-expanded');
-        $('#enviromentNav').addClass('active').css('font-weight', 'bold');
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var table = $('#tbEnvironment').DataTable({
-                "ajax": {
-                    "url": "/Application/GetLoRaWANData",
-                    "tye": "GET",
-                    "datatype": "json",
-                    "data": { "deviceType" : "EnvironmentSensor"},
-                    "contentType": "application/json; charset=utf-8",
-                },
-                "columns": [
-                    { "data": "DateTime", "autowidth": true },
-                    { "data": "DevEUI", "autowidth": true },
-                    { "data": "GatewayEUI", "autowidth": true },
-                    { "data": "O2", "autowidth": true },
-                    { "data": "O3", "autowidth": true },
-                    { "data": "PM1", "autowidth": true },
-                    { "data": "PM2_5", "autowidth": true },
-                    { "data": "PM10", "autowidth": true },
-                    { "data": "AirTemp", "autowidth": true },
-                    { "data": "AirHumidity", "autowidth": true },
-                    { "data": "AirPressure", "autowidth": true },
-                    { "data": "BATLevel", "autowidth": true },
-                    { "data": "BATVolt", "autowidth": true },
-                    { "data": "RSSI", "autowidth": true },
-                    { "data": "SNR", "autowidth": true },
-                ],
-                "order": [[0, "desc"]]
+    @section scripts{
+        <script>
+            $('#applicationNav').addClass('is-expanded');
+            $('#enviromentNav').addClass('active').css('font-weight', 'bold');
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var dt = new Date();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var strDateNow = dt.getFullYear() + '/' +
+                    (month < 10 ? '0' : '') + month + '/' +
+                    (day < 10 ? '0' : '') + day;
+                var minutes = dt.getMinutes();
+                var strTimeNow = dt.getHours() + ":" +
+                    (minutes < 10 ? '0' + minutes : minutes);
+                var dateStart = strDateNow;
+                var dateEnd = strDateNow;
+                var timeStart = strTimeNow;
+                var timeLimit = strTimeNow;
+                //console.log(strDateNow, strTimeNow);
+                //console.log(dateStart);
+                //console.log(dateEnd);
+                //console.log(timeStart);
+                //console.log(timeLimit);
+                $(function () {
+                    $('#date_timepicker_start').datetimepicker({
+                        timepicker: true,
+                        datepicker: true,
+                        format: 'Y-m-d H:i' + ':00',
+                        //onSelectDate: function (ct, $i) {
+                        //    dateStart = ct.dateFormat('Y/m/d');
+                        //    timeStart = dateStart == strDateNow ? strTimeNow : timeStart = false;
+                        //    console.log(timeStart);
+                        //    console.log(dateStart);
+                        //    this.setOptions({
+                        //        maxDate: dateStart == strDateNow ? strDateNow : false,
+                        //        maxTime: timeStart == strTimeNow ? strTimeNow : false
+                        //    })
+                        //},
+                        //onSelectTime:function(ct,$i){
+                        //    timeStart = ct.dateFormat('H:i');
+                        //    dateStart = ct.dateFormat('Y/m/d');
+                        //    console.log(timeStart);
+                        //    console.log(dateStart);
+                        //    this.setOptions({
+                        //        maxDate: dateStart == strDateNow ? strDateNow : false,
+                        //        maxTime: timeStart == strTimeNow ? strTimeNow : false
+                        //    })
+                        //},
+                        //onShow: function (ct) {
+                        //    this.setOptions({
+                        //        maxDate: dateStart == strDateNow ? strDateNow : false,
+                        //        maxTime: timeStart == strTimeNow ? strTimeNow : false
+                        //    })
+                        //},
+                    })
+
+                    $('#date_timepicker_end').datetimepicker({
+                        timepicker: true,
+                        datepicker: true,
+                        format: 'Y-m-d H:i' + ':00',
+                        //onSelectDate: function (ct, $i) {
+                        //    dateEnd = ct.dateFormat('Y/m/d')
+                        //},
+                        //onShow: function (ct) {
+                        //    this.setOptions({
+                        //        minDate: dateStart ? dateStart : false,
+                        //        maxDate: dateStart == strDateNow ? false : strDateNow,
+                        //        mixTime: dateStart == dateEnd ? strTimeNow : false
+                        //    })
+                        //},
+                    })
+                });              
+                InitOverviewDataTable();             
+                $("#btnDataFilter").click(function () {
+                    if ($.fn.DataTable.isDataTable('#tbEnvironment')) {
+                        $('#tbEnvironment').DataTable().destroy();
+                        $('#tbEnvironment tbody').empty();
+                    }
+                    InitOverviewDataTable();
+                });
             });
 
-            setInterval(function () {
-                table.ajax.reload(null, false);
-            }, 60 * 1000);
-        } );
-    </script>
-}
+            function InitOverviewDataTable() {
+                var table = $('#tbEnvironment').DataTable({
+                    "ajax": {
+                        "url": "/Application/GetLoRaWANData",
+                        "tye": "GET",
+                        "datatype": "json",
+                        "data": function (d) {
+                            d.deviceType = "EnvironmentSensor",
+                            d.deviceEUI = $('#deviceEUI').val(),
+                            d.dateTimeStart = $('#date_timepicker_start').val(),
+                            d.dateTimeEnd = $('#date_timepicker_end').val()
+                        },
+                        "contentType": "application/json; charset=utf-8",
+                        "dataSrc": function (dataResult) {
+                            console.log(dataResult);
+                            if (dataResult.data.length === 0) {
+      	                        $.notify({
+      		                        title: "DATA FILTER : ",
+      		                        message: "No data available",
+      		                        icon: 'fa fa-exclamation' 
+      	                        },{
+      		                        type: "warning"
+                                });
+                            }
+                            return dataResult.data;
+                        }       
+                    },
+                    "columns": [
+                        { "data": "DateTime", "autowidth": true },
+                        { "data": "DevEUI", "autowidth": true },
+                        { "data": "GatewayEUI", "autowidth": true },
+                        { "data": "O2", "autowidth": true },
+                        { "data": "O3", "autowidth": true },
+                        { "data": "PM1", "autowidth": true },
+                        { "data": "PM2_5", "autowidth": true },
+                        { "data": "PM10", "autowidth": true },
+                        { "data": "AirTemp", "autowidth": true },
+                        { "data": "AirHumidity", "autowidth": true },
+                        { "data": "AirPressure", "autowidth": true },
+                        { "data": "BATLevel", "autowidth": true },
+                        { "data": "BATVolt", "autowidth": true },
+                        { "data": "RSSI", "autowidth": true },
+                        { "data": "SNR", "autowidth": true },
+                    ],
+                    "order": [[0, "desc"]]
+                }); 
+                setInterval(function () {
+                    var DateTime = getDateTime();
+                    $('#date_timepicker_end').val(DateTime.strDateTimeNow);
+                    table.ajax.reload(null, false);
+                }, 60 * 1000 );  
+            }
+
+            //function InitOverviewDataTable(JsonData) {
+            //    $('.overlay').show();
+            //    if ($.fn.DataTable.isDataTable('#tbEnvironment')) {
+            //        $('#tbEnvironment').DataTable().destroy();
+            //        $('#tbEnvironment tbody').empty();
+            //    }
+
+            //    var tbody = $("#tbEnvironment tbody");
+                
+            //    $.ajax({
+            //        type: 'GET',
+            //        url: '/Application/GetLoRaWANData',
+            //        data: JsonData,
+            //        contentType: 'application/json;charset=utf-8',
+            //        dataType: 'json',
+            //        xhrFields: {
+            //            withCredentials: true
+            //        },
+            //        success: function (result) {
+            //            console.log(result);
+            //            if (result.data.length === 0) {
+      	     //               $.notify({
+      		    //                title: "DATA FILTER : ",
+      		    //                message: "No data available",
+      		    //                icon: 'fa fa-exclamation' 
+      	     //               },{
+      		    //                type: "warning"
+            //                });
+            //                var table = InitTable();
+            //                $('.overlay').hide();
+            //            }
+            //            else
+            //            {
+            //                $.each(result.data, function () {
+            //                    tbody.append("<tr><td>" + this.DateTime + "</td>" +
+            //                        "<td>" + this.DevEUI + "</td>" +
+            //                        "<td>" + this.GatewayEUI + "</td>" +
+            //                        "<td>" + this.O2 + "</td>" +
+            //                        "<td>" + this.O3 + "</td>" +
+            //                        "<td>" + this.PM1 + "</td>" +
+            //                        "<td>" + this.PM2_5 + "</td>" +
+            //                        "<td>" + this.PM10 + "</td>" +
+            //                        "<td>" + this.AirTemp + "</td>" +
+            //                        "<td>" + this.AirHumidity + "</td>" +
+            //                        "<td>" + this.AirPressure + "</td>" +
+            //                        "<td>" + this.BATLevel + "</td>" +
+            //                        "<td>" + this.BATVolt + "</td>" +
+            //                        "<td>" + this.RSSI + "</td>" +
+            //                        "<td>" + this.SNR + "</td></tr>");
+            //                });
+            //                var table = InitTable();
+            //                $('.overlay').hide();
+            //            }
+
+            //        }
+            //    });
+            //}
+        </script>
+    }

@@ -9,7 +9,7 @@
         <div class="widget-small primary coloured-icon">
             <i class="icon fa fa-server fa-3x"></i>
             <div class="info">
-                <h4>LoRa Gateway</h4>
+                <h4>LoRaGateway</h4>
                 <p><b>@gwCount.Count()</b></p>
             </div>
         </div>
@@ -27,7 +27,7 @@
         <div class="widget-small warning coloured-icon">
             <i class="icon fa fa-sitemap fa-3x"></i>
             <div class="info">
-                <h4>Sensor Hub</h4>
+                <h4>SensorHub</h4>
                 <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.SensorHub)?.Count ?? 0)</b></p>
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="widget-small danger coloured-icon">
             <i class="icon fa fa-refresh fa-3x"></i>
             <div class="info">
-                <h4>Waste Bin Sensor</h4>
+                <h4>WasteBin Sensor</h4>
                 <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WasteBinSensor)?.Count ?? 0)</b></p>
             </div>
         </div>
@@ -54,7 +54,7 @@
         <div class="widget-small danger coloured-icon">
             <i class="icon fa fa-thermometer-empty fa-3x"></i>
             <div class="info">
-                <h4>Water Level Sensor</h4>
+                <h4>WaterLevel Sensor</h4>
                 <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WaterLevelSensor)?.Count ?? 0)</b></p>
             </div>
         </div>
@@ -63,7 +63,7 @@
         <div class="widget-small danger coloured-icon">
             <i class="icon fa fa-thermometer-full fa-3x"></i>
             <div class="info">
-                <h4>Water Quality Sensor</h4>
+                <h4>WaterQuality Sensor</h4>
                 <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WaterQualitySensor)?.Count ?? 0)</b></p>
             </div>
         </div>
@@ -72,7 +72,7 @@
         <div class="widget-small danger coloured-icon">
             <i class="icon fa fa-podcast fa-3x"></i>
             <div class="info">
-                <h4>Gps Tracking</h4>
+                <h4>GpsTracking</h4>
                 <p><b>@(devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.GpsTracking)?.Count ?? 0)</b></p>
             </div>
         </div>

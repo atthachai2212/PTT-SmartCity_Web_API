@@ -72,57 +72,81 @@ namespace PTT_SmartCity_Web_API.Controllers
             return View();
         }
 
-        public JsonResult DeviceCreate(string DevAddr, string DevEUI, string DevType, string DevModel, string Activate, string Class, string Channel, string AppSKey, string NwkSkey)
+        public JsonResult LoRaDevicePost(string PostType, string DevAddr, string DevEUI, string DevType, string DevModel, string Activate, string Class, string Channel, string AppSKey, string NwkSkey)
         {
             try
             {
-                var loraDevice = new GetLoRaDeviceData
+                if (!string.IsNullOrEmpty(PostType))
                 {
-                    DevAddr = DevAddr,
-                    DevEUI = DevEUI,
-                    DevType = DevType,
-                    DevModel = DevModel,
-                    Activate = Activate,
-                    Class = Class,
-                    Channel = Channel,
-                    AppSKey = AppSKey,
-                    NwkSkey = NwkSkey,
-                    Created = DateTime.Now,
-                    Updated = DateTime.Now
-                };
-                this.loRaDeviceSettingService.LoRaDeviceCreate(loraDevice);
+                    switch (PostType.ToLower())
+                    {
+                        case "create":
+                            var loraDeviceCreate = new GetLoRaDeviceData
+                            {
+                                DevAddr = DevAddr,
+                                DevEUI = DevEUI,
+                                DevType = DevType,
+                                DevModel = DevModel,
+                                Activate = Activate,
+                                Class = Class,
+                                Channel = Channel,
+                                AppSKey = AppSKey,
+                                NwkSkey = NwkSkey,
+                                Created = DateTime.Now,
+                                Updated = DateTime.Now
+                            };
+                            this.loRaDeviceSettingService.LoRaDeviceCreate(loraDeviceCreate);
+                            break;
+                        case "update":
+                            var loraDeviceUpdate = new GetLoRaDeviceData
+                            {
+                                DevAddr = DevAddr,
+                                DevEUI = DevEUI,
+                                DevType = DevType,
+                                DevModel = DevModel,
+                                Activate = Activate,
+                                Class = Class,
+                                Channel = Channel,
+                                AppSKey = AppSKey,
+                                NwkSkey = NwkSkey,
+                                Updated = DateTime.Now
+                            };
+                            this.loRaDeviceSettingService.LoRaDeviceUpdate(loraDeviceUpdate);
+                            break;
+                        default:
+                            break;
+                    }
+                    return Json(new { message = "success",postType = PostType });
+                }
+                return Json(new { message = "PostType is Empty" });
             }
             catch (Exception ex)
             {
-                throw ex.GetErrorException();
-            }
-            return Json(new { message = "success" });
+                return Json(new { message = ex.GetErrorException() });
+            }      
         }
 
-        public JsonResult DeviceUpdate(string DevAddr, string DevEUI, string DevType, string DevModel, string Activate, string Class, string Channel, string AppSKey, string NwkSkey)
+        public JsonResult DeviceUpdate(string DevEUI)
         {
             try
             {
-                var loraDevice = new GetLoRaDeviceData
+                if (!string.IsNullOrEmpty(DevEUI))
                 {
-                    DevAddr = DevAddr,
-                    DevEUI = DevEUI,
-                    DevType = DevType,
-                    DevModel = DevModel,
-                    Activate = Activate,
-                    Class = Class,
-                    Channel = Channel,
-                    AppSKey = AppSKey,
-                    NwkSkey = NwkSkey,
-                    Updated = DateTime.Now
-                };
-                this.loRaDeviceSettingService.LoRaDeviceUpdate(loraDevice);
+                    var loraDevice = this.loRaDeviceSettingService.loraDeviceItems.SingleOrDefault(m => m.DevEUI == DevEUI);
+                    var jsonResult = Json(new { data = loraDevice }, JsonRequestBehavior.AllowGet);
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+                }
+                else
+                {
+                    throw new Exception("DeviceEUI is Empty");
+                }
+
             }
             catch (Exception ex)
             {
                 throw ex.GetErrorException();
             }
-            return Json(new { message = "success" });
         }
         public JsonResult DeviceDelete(string DevEUI)
         {
@@ -139,37 +163,114 @@ namespace PTT_SmartCity_Web_API.Controllers
             catch (Exception ex)
             {
                 return Json(new { message = ex.GetErrorException() });
-                //throw ex.GetErrorException();
             }
             return Json(new { message = "success" });
         }
 
-        public JsonResult GatewayCreate(string GatewayEUI, string IP_Address, string Port, string API_Token)
+        public JsonResult LoRaGatewayPost(string PostType,string GatewayEUI, string IP_Address, string Port, string API_Token)
         {
             try
             {
-                var loraGateway = new GetLoRaGatewayData
+                if (!string.IsNullOrEmpty(PostType))
                 {
-                    GatewayEUI = GatewayEUI,
-                    IP_Address = IP_Address,
-                    Port = Port,
-                    API_Token = API_Token,
-                    Created = DateTime.Now,
-                    Updated = DateTime.Now
-                };
-                this.loRaDeviceSettingService.LoRaGatewayCreate(loraGateway);
+                    switch (PostType.ToLower())
+                    {
+                        case "create":
+                            var loraGatewayCreate = new GetLoRaGatewayData
+                            {
+                                GatewayEUI = GatewayEUI,
+                                IP_Address = IP_Address,
+                                Port = Port,
+                                API_Token = API_Token,
+                                Created = DateTime.Now,
+                                Updated = DateTime.Now
+                            };
+                            this.loRaDeviceSettingService.LoRaGatewayCreate(loraGatewayCreate);
+                            break;
+                        case "update":
+                            var loraGatewayUpdate = new GetLoRaGatewayData
+                            {
+                                GatewayEUI = GatewayEUI,
+                                IP_Address = IP_Address,
+                                Port = Port,
+                                API_Token = API_Token,
+                                Updated = DateTime.Now
+                            };
+                            this.loRaDeviceSettingService.LoRaGatewayUpdate(loraGatewayUpdate);
+                            break;
+                        default:
+                            break;
+                    }
+                    return Json(new { message = "success", postType = PostType });
+                }
+                return Json(new { message = "PostType is Empty" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { message = ex.GetErrorException() });
+            }
+        }
+
+        public JsonResult GatewayUpdate(string GatewayEUI)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(GatewayEUI))
+                {
+                    var loraDevice = this.loRaDeviceSettingService.loraGatewayItems.SingleOrDefault(m => m.GatewayEUI == GatewayEUI);
+                    var jsonResult = Json(new { data = loraDevice }, JsonRequestBehavior.AllowGet);
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+                }
+                else
+                {
+                    throw new Exception("GatewayEUI is Empty");
+                }
+
             }
             catch (Exception ex)
             {
                 throw ex.GetErrorException();
             }
-            return  Json(new { message = "success" });
+        }
+        public JsonResult GatewayDelete(string GatewayEUI)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(GatewayEUI))
+                {
+                    this.loRaDeviceSettingService.LoRaGatewayDelete(GatewayEUI);
+                }
+                else
+                {
+                    throw new Exception("GatewayEUI is Empty");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { message = ex.GetErrorException() });
+            }
+            return Json(new { message = "success" });
         }
 
         [HttpGet]
         public JsonResult GetLoRaDevice()
         {
-            var jsonResult = Json(new { data = this.loRaDeviceSettingService.loraDeviceItems }, JsonRequestBehavior.AllowGet);
+            var loraDevice = this.loRaDeviceSettingService.loraDeviceItems.Select(m => new
+            {
+                DevEUI = m.DevEUI,
+                DevAddr = m.DevAddr,
+                DevType = m.DevType,
+                DevModel = m.DevModel,
+                Activate = m.Activate,
+                Class = m.Class,
+                Channel = m.Channel,
+                AppSKey = m.AppSKey,
+                NwkSkey = m.NwkSkey,
+                Created = m.Created.ToString("yyyy-MM-dd HH:mm:ss"),
+                Updated = m.Updated.ToString("yyyy-MM-dd HH:mm:ss")
+            }).ToList();
+            var jsonResult = Json(new { data = loraDevice }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
 
@@ -178,7 +279,16 @@ namespace PTT_SmartCity_Web_API.Controllers
         [HttpGet]
         public JsonResult GetLoRaGateway()
         {
-            var jsonResult = Json(new { data = this.loRaDeviceSettingService.loraGatewayItems }, JsonRequestBehavior.AllowGet);
+            var loraGateway = this.loRaDeviceSettingService.loraGatewayItems.Select(m => new
+            {
+                GatewayEUI = m.GatewayEUI,
+                IP_Address = m.IP_Address,
+                Port = m.Port,
+                API_Token = m.API_Token,
+                Created = m.Created.ToString("yyyy-MM-dd HH:mm:ss"),
+                Updated = m.Updated.ToString("yyyy-MM-dd HH:mm:ss")
+            }).ToList();
+            var jsonResult = Json(new { data = loraGateway }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
 

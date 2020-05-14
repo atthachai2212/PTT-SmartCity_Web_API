@@ -127,7 +127,7 @@ namespace PTT_SmartCity_Web_API.Services
                     deviceData.Channel = loraDeviceData.Channel;
                     deviceData.AppSKey = loraDeviceData.AppSKey;
                     deviceData.NwkSkey = loraDeviceData.NwkSkey;
-                    deviceData.Created = loraDeviceData.Created;
+                    deviceData.Updated = loraDeviceData.Updated;
                     this.db.Entry(deviceData).State = EntityState.Modified;
                     this.db.SaveChanges();
                 }
@@ -201,7 +201,6 @@ namespace PTT_SmartCity_Web_API.Services
             }
             catch (Exception ex)
             {
-
                 throw ex.GetErrorException();
             }
         }

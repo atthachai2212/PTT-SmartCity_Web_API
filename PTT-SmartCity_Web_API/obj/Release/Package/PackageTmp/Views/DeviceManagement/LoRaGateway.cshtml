@@ -4,17 +4,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-md-8">
+<div class="col-md-9">
     <div class="tile">
-        <div class="page-header">
+        @*<div class="page-header">
             <div class="row">
                 <div class="col-lg-12">
                     <h3 class="mb-3 line-head tile-title"><i class="icon fa fa-th-list"></i> LoRaGateway</h3>
                 </div>
             </div>
+        </div>*@
+        <div class="tile-title-w-btn">
+            <h3 class="title"></h3>
+            <p><a class="btn btn-primary icon-btn text-white" data-toggle="modal" data-target="#loraGatewayModel" id="btnLoraGatewayCreate"><i class="fa fa-th-list"></i>Create LoRaGateway</a></p>
         </div>
         <div class="tile-body">
-            <button class="btn btn-info text-white mb-2 icon-btn" data-toggle="modal" data-target="#loraGatewayModel">Create LoRaGateway</button>
+            @*<button class="btn btn-info text-white mb-2 icon-btn" data-toggle="modal" data-target="#loraGatewayModel">Create LoRaGateway</button>*@
             <table id="tbLoRaGateway" class="table table-hover table-bordered table-striped" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center">
@@ -22,6 +26,8 @@
                         <th>IP Address</th>
                         <th>API Token </th>
                         <th>Port</th>
+                        <th>Updated</th>
+                        <th>Created</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -35,7 +41,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="loraGatewayModelTitle"><i class="icon fa fa-th-list"></i> Create LoRaGateway</h5>
+                <h5 class="modal-title" id="loraGatewayModelTitle"><i class="icon fa fa-th-list"></i><span id="txtModelTitle" class="m-2">Create LoRaGateway</span> </h5>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
@@ -66,8 +72,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Close</button>
-                <button type="button" class="btn btn-primary" id="btnCreate" onclick="PostCreateLoRaGateway()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Create</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnCancel"><i class="fa fa-fw fa-lg fa-times-circle"></i>Close</button>
+                <div id="GatewayDataPost"></div>
+                @*<button type="button" class="btn btn-primary" id="btnCreate" onclick="PostCreateLoRaGateway()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Create</button>*@
             </div>
         </div>
     </div>
@@ -81,58 +88,181 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var table = $('#tbLoRaGateway').DataTable({
+            InitOverviewDataTable();
+            $("#btnLoraGatewayCreate").click(function () {
+                InitFormInput();
+                $('#txtModelTitle').text("Create LoRaGateway");
+                $('#GatewayDataPost').html("");
+                $('#GatewayDataPost').append('<button type="button" class="btn btn-primary" id="btnGatewayDataPost" value="Create" onclick="PostLoRaGatewayData()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Create</button>');
+            });
+
+            $('#tbLoRaGateway tbody').on('click', '#btnEdit', function () {
+                var rowData = $('#tbLoRaGateway').DataTable().row($(this).parents('tr')).data();
+                EditLoRaGateway(rowData.GatewayEUI);
+                $('#txtModelTitle').text("Update LoRaGateway");
+                $('#GatewayDataPost').html("");
+                $('#GatewayDataPost').append('<button type="button" class="btn btn-info" id="btnGatewayDataPost" value="Update" onclick="PostLoRaGatewayData()"><i class="fa fa-fw fa-lg fa fa-floppy-o"></i>Update</button>');
+            });
+            $('#tbLoRaGateway tbody').on('click', '#btnDelete', function () {
+                var rowData = $('#tbLoRaGateway').DataTable().row($(this).parents('tr')).data();
+                Swal.fire({
+                    title: 'Are you sure?',
+                    html: '<strong>Do you want to delete  : </strong> ' + rowData.IP_Address + '<p class="text-danger">GatewayEUI : ' + rowData.GatewayEUI + '</p> ',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    console.log(result);
+                    if (result.value) {
+                        DeleteLoRaGateway(rowData.GatewayEUI);
+                    }
+                });
+            });
+        });
+
+        function InitFormInput() {
+            $('#GatewayEUI').val("");
+            $('#IP_Address').val("");
+            $('#API_Token').val("");
+            $('#Port').val("");
+        }
+
+        function InitOverviewDataTable() {
+            $('#tbLoRaGateway').DataTable({
                 "ajax": {
                     "url": "/DeviceManagement/GetLoRaGateway",
                     "tye": "GET",
                     "datatype": "json",
                     "contentType": "application/json; charset=utf-8",
+                    "dataSrc": function (dataResult) {
+                        //console.log(result);
+                        if (dataResult.data.length === 0) {
+                            $.notify({
+                                title: "",
+                                message: "No data available",
+                                icon: 'fa fa-exclamation'
+                            }, {
+                                type: "warning"
+                            });
+                        }
+                        return dataResult.data;
+                    }
                 },
+                "columnDefs": [ {
+                    "targets": -1,
+                    "data": null,
+                    "defaultContent": '<div class="bs-component"><button id="btnEdit" class="btn btn-outline-warning fa fa-pencil-square-o" name="btnEdit" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></button>' +
+                        '&nbsp;&nbsp;<button id="btnDelete" class="btn btn-outline-danger fa fa-trash-o" name="btnDelete" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></button></div>',
+                }],
                 "columns": [
                     { "data": "GatewayEUI", "autowidth": true },                   
                     { "data": "IP_Address", "autowidth": true },
                     { "data": "API_Token", "autowidth": true },
                     { "data": "Port", "autowidth": true },
-                    {
-                        data: null,
-                        className: "text-center",
-                        defaultContent: '<div class="bs-component"><button id="btnEdit" class="btn btn-outline-warning fa fa-pencil-square-o" name="btnEdit" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></button>' +
-                            '&nbsp;&nbsp;<button id="btnDelete" class="btn btn-outline-danger fa fa-trash-o" name="btnDelete" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></button></div>',
-                        autowidth: true
-                    },
+                    { "data": "Updated", "autowidth": true },
+                    { "data": "Created", "autowidth": true },
+                    { "data": null}
                 ],
                 "searching": false,
                 "lengthChange": false,
-                "order": [[0, "desc"]]
+                "pageLength": 10,
+                "order": [[4, "desc"]]
             });
-            $('.bs-component [data-toggle="tooltip"]').tooltip();
-        });
+        }
 
-
-        function PostCreateLoRaGateway() {
-            var data = {
+        function PostLoRaGatewayData() {
+            var LoRaGatewayValue = {
+                PostType: $('#btnGatewayDataPost').val(),
                 GatewayEUI : $('#GatewayEUI').val(),
                 IP_Address : $('#IP_Address').val(),
                 Port : $('#Port').val(),
                 API_Token : $('#API_Token').val()
             };
+
             $.ajax({
                 type: "POST",
-                url: "/DeviceManagement/CreateLoRaGateway",
-                data: JSON.stringify(data),
+                url: "/DeviceManagement/LoRaGatewayPost",
+                data: JSON.stringify(LoRaGatewayValue),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (data) {                 
-                    if (data.message == "success") {
-                        $('#loraGatewayModel').hide();
-                        location.reload(true);
-                        table.ajax.reload(null, false);
+                success: function (dataResult) {                 
+                    console.log(dataResult.postType);
+                    if (dataResult.message == "success") {
+                        $('#loraGatewayModel').modal('hide');
+                        if (dataResult.postType == "Create") {
+                            Swal.fire({
+                              position: 'center',
+                              icon: 'success',
+                              html: '<p class="text-success">Create susscess </p> ',
+                              showConfirmButton: false,
+                              timer: 1500
+                            })
+                        }
+                        else if (dataResult.postType == "Update") {
+                            Swal.fire({
+                              position: 'center',
+                              icon: 'success',
+                              html: '<p class="text-warning">Update susscess </p> ',
+                              showConfirmButton: false,
+                              timer: 1500
+                            })
+                        }                    
+                        $('#tbLoRaGateway').DataTable().ajax.reload(null, false);
                     }
-                    console.log(data.message);
+                    console.log(dataResult.message);
                 }
             });
         }
 
+        function EditLoRaGateway(GatewayEUI) {        
+            var data = { GatewayEUI: GatewayEUI };
+            $.ajax({
+                type: "POST",
+                url: "/DeviceManagement/GatewayUpdate",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dataResult) {
+                    console.log(dataResult);
+                    if (!$.trim(dataResult)){   
+                        alert("No data available!");
+                    }
+                    else {
+                        $('#GatewayEUI').val(dataResult.data.GatewayEUI);
+                        $('#IP_Address').val(dataResult.data.IP_Address);
+                        $('#API_Token').val(dataResult.data.API_Token);
+                        $('#Port').val(dataResult.data.Port);                  
+                        $('#loraGatewayModel').modal('show');
+                    }
+                }
+            });
+        }
+
+        function DeleteLoRaGateway(GatewayEUI) {
+            var data = { GatewayEUI: GatewayEUI };
+            $.ajax({
+                type: "POST",
+                url: "/DeviceManagement/GatewayDelete",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dataResult) {
+                    if (dataResult.message == "success") {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Deleted!.',
+                            html: '<p class="text-danger">GatewayEUI : ' + GatewayEUI + '</p> ',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        $('#tbLoRaGateway').DataTable().ajax.reload(null, false);
+                    }
+                }
+            });
+        }
 
     </script>
 }

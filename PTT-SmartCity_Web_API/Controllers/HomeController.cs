@@ -40,13 +40,14 @@ namespace PTT_SmartCity_Web_API.Controllers
         {
             ViewBag.AppTitle = "UplinkData";
             ViewBag.AppTitleIcon = "fa fa-database";
-            ViewBag.AppSubtitle = "LoRaWAN UplinkData";
+            ViewBag.AppSubtitle = "SmartCity LoRaWAN UplinkData";
             ViewBag.AppBreadcrumbMemu = "LoRaWAN";
             ViewBag.AppBreadcrumbItem = "UplinkData";
             ViewBag.AppBreadcrumbItemIcon = "fa fa-wifi";
             //var model = this.loRaWANService.GetLoRaWANRealTimeData();
             ViewBag.DevEUI = this.loRaWANService.LorawanRealtimeItems.GroupBy(g => g.DevEUI).Select(s => s.Key).ToList();
             ViewBag.GatewayEUI = this.loRaWANService.LorawanRealtimeItems.GroupBy(g => g.GatewayEUI).Select(s => s.Key).ToList();
+            ViewBag.uplinkCount = this.loRaWANService.LorawanRealtimeItems.Count();
             return View();
         }
 

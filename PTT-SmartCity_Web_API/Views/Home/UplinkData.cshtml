@@ -8,7 +8,7 @@
             <i class="icon fa fa-database fa-3x"></i>
             <div class="info">
                 <h4 class="font-weight-bold">UplinkData Total</h4>
-                <p class="badge badge-info"><b>1</b></p>
+                <p class="badge badge-info"><b>@ViewBag.uplinkCount</b></p>
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@
             </div>*@
             <div class="tile-body">
                 <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-striped responsive nowrap display" cellspacing="0" width="100%" id="tbLoraWANRealTime">
+                    <table class="table table-hover table-bordered table-striped nowrap display" cellspacing="0" width="100%" id="tbLoraWANRealTime">
                         <thead>
                             <tr class="text-center" style="font-size:90%">
                                 <th>DateTime</th>
@@ -90,6 +90,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             InitOverviewDataTable();
+            $('#tbLoraWANRealTime tbody').css("fontSize", "82%");
             $("#btnDataFilter").click(function () {
                 if ($.fn.DataTable.isDataTable('#tbLoraWANRealTime')) {
                     $('#tbLoraWANRealTime').DataTable().destroy();

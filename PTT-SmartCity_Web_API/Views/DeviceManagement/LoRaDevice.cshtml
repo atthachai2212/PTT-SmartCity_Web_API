@@ -4,27 +4,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-md-9">
+<div class="col-md-10">
     <div class="tile">
-        <div class="page-header">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="mb-3 line-head tile-title"><i class="icon fa fa-object-ungroup"></i> LoRaDevice</h3>
-                </div>
-            </div>
+        <div class="tile-title-w-btn">
+            <h3 class="title"></h3>
+            <p><a class="btn btn-primary icon-btn text-white" data-toggle="modal" data-target="#loraDeviceModel" id="btnLoraDeviceCreate"><i class="fa fa-tablet"></i>Create LoRaDevice</a></p>
         </div>
         <div class="tile-body">
-            <button class="btn btn-info text-white mb-2 icon-btn" data-toggle="modal" data-target="#loraDeviceModel">Create LoRaDevice</button>
+            @*<button class="btn btn-info text-white mb-2 icon-btn" data-toggle="modal" data-target="#loraDeviceModel" id="btnLoraDeviceCreate">Create LoRaDevice</button>*@
             <div class="table-responsive">
-                <table id="tbLoRaDevice" class="table table-hover table-bordered table-striped responsive nowrap display" cellspacing="0" width="100%">
+                <table id="tbLoRaDevice" class="table table-hover table-bordered table-striped nowrap display" cellspacing="0" width="100%">
                     <thead>
                         <tr class="text-center">
-                            <th>Device Address</th>
-                            <th>Device EUI</th>
-                            <th>Device Type</th>
+                            <th>DevAddr</th>
+                            <th>DevEUI</th>
+                            <th>DevType</th>
+                            <th>DevModel</th>
                             <th>Activate</th>
                             <th>Class</th>
                             <th>Channel Plan</th>
+                            <th>Updated</th>
+                            <th>Created</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -39,7 +39,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="loraDeviceModelTitle"><i class="icon fa fa-object-ungroup"></i> Create LoRaDevice</h5>
+                <h5 class="modal-title" id="loraDeviceModelTitle"><i class="icon fa fa-object-ungroup"></i><span id="txtModelTitle" class="m-2">Create LoRaDevice</span></h5>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
@@ -120,7 +120,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Close</button>
-                <button type="button" class="btn btn-primary" id="btnCreate" onclick="PostLoRaDeviceData()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Create</button>
+                <div id="DeviceDataPost"></div>                
             </div>
         </div>
     </div>
@@ -134,13 +134,19 @@
     <script type="text/javascript">
         $(document).ready(function () {
             InitOverviewDataTable();
-            //$('.bs-component [data-toggle="tooltip"]').tooltip();
-            //$('#tbLoRaDevice').on('click', '#btnEdit', function(){
-            //   $('#loraDeviceModel').hide();
-            //});
-            $('#tbLoRaDevice tbody').on( 'click', '#btnEdit', function () {
-                var rowData = $('#tbLoRaDevice').DataTable().row( $(this).parents('tr') ).data();
+            $("#btnLoraDeviceCreate").click(function () {
+                InitFormInput();
+                $('#txtModelTitle').text("Create LoRaDevice");
+                $('#DeviceDataPost').html("");
+                $('#DeviceDataPost').append('<button type="button" class="btn btn-primary" id="btnDeviceDataPost" value="Create" onclick="PostLoRaDeviceData()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Create</button>');
+            });
 
+            $('#tbLoRaDevice tbody').on( 'click', '#btnEdit', function () {
+                var rowData = $('#tbLoRaDevice').DataTable().row($(this).parents('tr')).data();
+                EditLoRaDevice(rowData.DevEUI);
+                $('#txtModelTitle').text("Update LoRaDevice");
+                $('#DeviceDataPost').html("");
+                $('#DeviceDataPost').append('<button type="button" class="btn btn-info" id="btnDeviceDataPost" value="Update" onclick="PostLoRaDeviceData()"><i class="fa fa-fw fa-lg fa fa-floppy-o"></i>Update</button>');
             });
             $('#tbLoRaDevice tbody').on( 'click', '#btnDelete', function () {
                 var rowData = $('#tbLoRaDevice').DataTable().row($(this).parents('tr')).data();
@@ -160,6 +166,19 @@
                 });
             });
         });
+
+        function InitFormInput() {
+            $('#DevAddr').val("");
+            $('#DevEUI').val("");
+            $('#DevType').val("");
+            $('#DevModel').val("");
+            $('#GatewayEUI').val("");
+            $('#Activate').val("");
+            $('#Class').val("");
+            $('#Channel').val("");
+            $('#AppSKey').val("");
+            $('#NwkSkey').val("");                   
+        }
 
         function InitOverviewDataTable() {
             $('#tbLoRaDevice').DataTable({
@@ -192,67 +211,97 @@
                     { "data": "DevAddr", "autowidth": true },
                     { "data": "DevEUI", "autowidth": true },
                     { "data": "DevType", "autowidth": true },
+                    { "data": "DevModel", "autowidth": true },
                     { "data": "Activate", "autowidth": true },
                     { "data": "Class", "autowidth": true },
                     { "data": "Channel", "autowidth": true },
-                    {
-                        //data: null,
-                        //className: "text-center",
-                        //defaultContent: '<div class="bs-component"><button id="btnEdit" class="btn btn-outline-warning fa fa-pencil-square-o" name="btnEdit" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></button>' +
-                        //    '&nbsp;&nbsp;<button id="btnDelete" class="btn btn-outline-danger fa fa-trash-o" name="btnDelete" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></button></div>',
-                        //autowidth: true
-                    },
+                    { "data": "Updated", "autowidth": true },
+                    { "data": "Created", "autowidth": true },
+                    { "data": null}
                 ],
                 "searching": false,
                 "lengthChange": false,
-                "order": [[0, "desc"]]
+                "pageLength": 10,
+                "order": [[7, "desc"]]
             });
         }
 
-        var LoRaDeviceValue = {
-                DevAddr : $('#DevAddr').val(),
-                DevEUI : $('#DevEUI').val(),
+        function PostLoRaDeviceData() {
+            var LoRaDeviceValue = {
+                PostType: $('#btnDeviceDataPost').val(),
+                DevAddr: $('#DevAddr').val(),
+                DevEUI: $('#DevEUI').val(),
                 DevType: $('#DevType').val(),
                 DevModel: $('#DevModel').val(),
-                GatewayEUI : $('#GatewayEUI').val(),
-                Activate : $('#Activate').val(),
-                Class : $('#Class').val(),
-                Channel : $('#Channel').val(),
+                GatewayEUI: $('#GatewayEUI').val(),
+                Activate: $('#Activate').val(),
+                Class: $('#Class').val(),
+                Channel: $('#Channel').val(),
                 AppSKey: $('#AppSKey').val(),
-                NwkSkey : $('#NwkSkey').val()
-        };
+                NwkSkey: $('#NwkSkey').val()
+            };
 
-        //function GetLoRaDeviceData() {
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "/DeviceManagement/CreateLoRaDevice",
-        //        data: JSON.stringify(LoRaDeviceValue),
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "json",
-        //        success: function (data) {
-        //            if (data.message  == "success") {
-        //                $('#loraDeviceModel').hide();
-        //                //location.reload(true);
-        //                //table.ajax.reload(null, false);
-        //            }
-        //            console.log(data.message);
-        //        }
-        //    });
-        //}
-
-        function PostLoRaDeviceData() {
             $.ajax({
                 type: "POST",
-                url: "/DeviceManagement/DeviceCreate",
+                url: "/DeviceManagement/LoRaDevicePost",
                 data: JSON.stringify(LoRaDeviceValue),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (data) {
-                    if (data.message  == "success") {
-                        $('#loraDeviceModel').hide();
+                success: function (dataResult) {
+                    console.log(dataResult.postType);
+                    if (dataResult.message == "success") {
+                        $('#loraDeviceModel').modal('hide');
+                        if (dataResult.postType == "Create") {
+                            Swal.fire({
+                              position: 'center',
+                              icon: 'success',
+                              html: '<p class="text-success">Create susscess </p> ',
+                              showConfirmButton: false,
+                              timer: 1500
+                            })
+                        }
+                        else if (dataResult.postType == "Update") {
+                            Swal.fire({
+                              position: 'center',
+                              icon: 'success',
+                              html: '<p class="text-warning">Update susscess </p> ',
+                              showConfirmButton: false,
+                              timer: 1500
+                            })
+                        }                    
                         $('#tbLoRaDevice').DataTable().ajax.reload(null, false);
                     }
-                    console.log(data.message);
+                    console.log(dataResult.message);
+                }
+            });
+        }
+
+        function EditLoRaDevice(DevEUI) {        
+            var data = { DevEUI: DevEUI };
+            $.ajax({
+                type: "POST",
+                url: "/DeviceManagement/DeviceUpdate",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dataResult) {
+                    console.log(dataResult);
+                    if (!$.trim(dataResult)){   
+                        alert("No data available!");
+                    }
+                    else {                      
+                        $('#DevAddr').val(dataResult.data.DevAddr),
+                        $('#DevEUI').val(dataResult.data.DevEUI),
+                        $('#DevType').val(dataResult.data.DevType),
+                        $('#DevModel').val(dataResult.data.DevModel),
+                        $('#GatewayEUI').val(dataResult.data.GatewayEUI),
+                        $('#Activate').val(dataResult.data.Activate),
+                        $('#Class').val(dataResult.data.Class),
+                        $('#Channel').val(dataResult.data.Channel),
+                        $('#AppSKey').val(dataResult.data.AppSKey),
+                        $('#NwkSkey').val(dataResult.data.NwkSkey)
+                        $('#loraDeviceModel').modal('show');
+                    }
                 }
             });
         }
@@ -265,13 +314,16 @@
                 data: JSON.stringify(data),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (data) {
-                    if (data.message == "success") {
-                        Swal.fire(
-                            'Deleted!',
-                            '<p class="text-danger">DeviceEUI : ' + DevEUI + ' deleted.</p> ',
-                            'success'
-                        );
+                success: function (dataResult) {
+                    if (dataResult.message == "success") {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Deleted!.',
+                            html: '<p class="text-danger">DeviceEUI : ' + DevEUI + '</p> ',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                         $('#tbLoRaDevice').DataTable().ajax.reload(null, false);
                     }
                 }
