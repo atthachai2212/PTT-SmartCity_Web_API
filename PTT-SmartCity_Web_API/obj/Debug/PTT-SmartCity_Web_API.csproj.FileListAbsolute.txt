@@ -89,3 +89,4 @@ D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\bin\EntityFramewo
 D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\bin\EntityFramework.SqlServer.dll
 D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\bin\EntityFramework.xml
 D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\bin\EntityFramework.SqlServer.xml
+D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\obj\Debug\PTT-SmartCity_Web_API.csproj.CoreCompileInputs.cache

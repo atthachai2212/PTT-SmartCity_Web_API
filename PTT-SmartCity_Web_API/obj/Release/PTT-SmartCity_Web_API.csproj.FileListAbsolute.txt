@@ -89,3 +89,4 @@ D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\obj\Release\PTT-S
 D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\obj\Release\PTT-SmartCity_Web_API.csproj.CopyComplete
 D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\obj\Release\PTT-SmartCity_Web_API.dll
 D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\obj\Release\PTT-SmartCity_Web_API.pdb
+D:\LocalRepository\PTT-SmartCity_Web_API\PTT-SmartCity_Web_API\obj\Release\PTT-SmartCity_Web_API.csproj.CoreCompileInputs.cache

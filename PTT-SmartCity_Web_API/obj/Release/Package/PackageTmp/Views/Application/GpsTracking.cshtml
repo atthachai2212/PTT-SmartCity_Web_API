@@ -138,7 +138,7 @@
             var table = $('#tbGpsTracking').DataTable({
                 "ajax": {
                     "url": "/Application/GetLoRaWANData",
-                    "tye": "GET",
+                    "type": "GET",
                     "datatype": "json",
                     "data": function (d) {
                         d.deviceType = "GpsTracking",
