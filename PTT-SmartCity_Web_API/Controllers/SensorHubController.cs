@@ -19,7 +19,7 @@ namespace PTT_SmartCity_Web_API.Controllers
     public class SensorHubController : ApiController
     {
 
-        private ISensorHubService sensorHubService;
+        private readonly ISensorHubService sensorHubService;
 
         public SensorHubController()
         {

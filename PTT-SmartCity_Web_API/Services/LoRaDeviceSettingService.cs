@@ -14,7 +14,7 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class LoRaDeviceSettingService : ILoRaDeviceSettingService
     {
-        private dbLoRaDeviceSettingContext db;
+        private readonly dbLoRaDeviceSettingContext db;
 
         public LoRaDeviceSettingService()
         {

@@ -12,12 +12,22 @@ namespace PTT_SmartCity_Web_API.Entity
         {
         }
 
+        public virtual DbSet<tbLoRaAlertLog> tbLoRaAlertLog { get; set; }
         public virtual DbSet<tbLoRaDevice> tbLoRaDevice { get; set; }
+        public virtual DbSet<tbLoRaDeviceDetail> tbLoRaDeviceDetail { get; set; }
         public virtual DbSet<tbLoRaDeviceList> tbLoRaDeviceList { get; set; }
         public virtual DbSet<tbLoRaGateway> tbLoRaGateway { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<tbLoRaAlertLog>()
+                .Property(e => e.Time)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<tbLoRaDevice>()
+                .HasOptional(e => e.tbLoRaDeviceDetail)
+                .WithRequired(e => e.tbLoRaDevice)
+                .WillCascadeOnDelete();
         }
     }
 }

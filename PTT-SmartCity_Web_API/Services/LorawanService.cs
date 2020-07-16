@@ -12,7 +12,7 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class LoRaWANService : ILoRaWANService
     {
-        private dbLoRaSmartCityContext db;
+        private readonly dbLoRaSmartCityContext db;
         private ILoRaDeviceSettingService loraDeviceSettingService;
 
         public LoRaWANService()

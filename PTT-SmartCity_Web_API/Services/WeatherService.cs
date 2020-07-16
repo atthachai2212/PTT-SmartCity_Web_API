@@ -1,4 +1,5 @@
-﻿using PTT_SmartCity_Web_API.Entity;
+﻿using Microsoft.Ajax.Utilities;
+using PTT_SmartCity_Web_API.Entity;
 using PTT_SmartCity_Web_API.Interfaces;
 using PTT_SmartCity_Web_API.Models;
 using System;
@@ -10,7 +11,7 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class WeatherService : IWeatherService
     {
-        private dbLoRaSmartCityContext db;
+        private readonly dbLoRaSmartCityContext db;
 
         public WeatherService()
         {
@@ -76,26 +77,101 @@ namespace PTT_SmartCity_Web_API.Services
 
         public GetWeatherDataModel getWeatherSensorItemsFilter(WeatherDataFilterOptions filters)
         {
-            var weatherSensorItems = new GetWeatherDataModel
+            GetWeatherDataModel weatherSensorItems = new GetWeatherDataModel();
+            if (filters != null)
             {
-                items = this.weatherSensorItems.Take(filters.length).ToArray(),
-                totalItems = filters.length
-            };
-
-            if (!string.IsNullOrEmpty(filters.deveui))
-            {
-                IEnumerable<GetWeatherData> searchItem = new GetWeatherData[] { };
-
-                if (filters.length > 0)
+                weatherSensorItems = new GetWeatherDataModel
                 {
-                    searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
-                }
-                else
+                    items = this.weatherSensorItems.Take(filters.length).ToArray(),
+                    totalItems = filters.length
+                };
+
+                if (!string.IsNullOrEmpty(filters.deveui) && filters.startDate != null)
                 {
-                    searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                    IEnumerable<GetWeatherData> searchItem = new GetWeatherData[] { };
+                    if(filters.limitDate != null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    weatherSensorItems.items = searchItem.ToArray();
+                    weatherSensorItems.totalItems = searchItem.Count();
                 }
-                weatherSensorItems.items = searchItem.ToArray();
-                weatherSensorItems.totalItems = searchItem.Count();
+                else if (!string.IsNullOrEmpty(filters.deveui))
+                {
+                    IEnumerable<GetWeatherData> searchItem = new GetWeatherData[] { };
+
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        var lastDate = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui).FirstOrDefault().Date;
+                        searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui && x.Date == lastDate).ToList();
+                    }
+                    weatherSensorItems.items = searchItem.ToArray();
+                    weatherSensorItems.totalItems = searchItem.Count();
+                }
+                else if (filters.startDate != null)
+                {
+                    IEnumerable<GetWeatherData> searchItem = new GetWeatherData[] { };
+                    if (filters.limitDate == null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.weatherSensorItems.Where(x => x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.weatherSensorItems.Where(x => x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.weatherSensorItems.Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.weatherSensorItems.Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    weatherSensorItems.items = searchItem.ToArray();
+                    weatherSensorItems.totalItems = searchItem.Count();
+                }
+                else if (filters.limitDate != null)
+                {
+                    IEnumerable<GetWeatherData> searchItem = new GetWeatherData[] { };
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.weatherSensorItems.Where(x => x.Date <= filters.limitDate).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        searchItem = this.weatherSensorItems.Where(x => x.Date == filters.limitDate).ToList();
+                    }
+                    weatherSensorItems.items = searchItem.ToArray();
+                    weatherSensorItems.totalItems = searchItem.Count();
+                }           
             }
             return weatherSensorItems;
         }

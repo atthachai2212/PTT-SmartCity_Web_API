@@ -10,7 +10,7 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class EnvironmentService : IEnvironmentService
     {
-        private dbLoRaSmartCityContext db;
+        private readonly dbLoRaSmartCityContext db;
 
         public EnvironmentService()
         {

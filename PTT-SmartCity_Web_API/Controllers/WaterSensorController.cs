@@ -12,7 +12,7 @@ namespace PTT_SmartCity_Web_API.Controllers
 {
     public class WaterSensorController : ApiController
     {
-        private IWaterService waterService;
+        private readonly IWaterService waterService;
 
         public WaterSensorController()
         {

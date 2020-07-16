@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,8 +9,9 @@ namespace PTT_SmartCity_Web_API.Models
 {
     public class GetWeatherDataModel
     {
-        public GetWeatherData[] items { get; set; }
         public int totalItems { get; set; }
+        public GetWeatherData[] items { get; set; }
+      
     }
 
     public class GetWeatherData
@@ -33,5 +36,14 @@ namespace PTT_SmartCity_Web_API.Models
     {
         public string deveui { get; set; }
         public int length { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? startDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? limitDate { get; set; }
     }
+
 }

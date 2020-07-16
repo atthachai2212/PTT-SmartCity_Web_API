@@ -12,7 +12,7 @@ namespace PTT_SmartCity_Web_API.Controllers
 {
     public class WeatherSensorController : ApiController
     {
-        private IWeatherService weatherService;
+        private readonly IWeatherService weatherService;
 
         public WeatherSensorController()
         {

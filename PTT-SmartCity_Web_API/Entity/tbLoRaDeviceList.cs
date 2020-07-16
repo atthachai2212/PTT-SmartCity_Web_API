@@ -14,6 +14,11 @@ namespace PTT_SmartCity_Web_API.Entity
         [StringLength(50)]
         public string DevEUI { get; set; }
 
+        [Key]
+        [Column(Order = 1)]
+        [StringLength(50)]
+        public string GatewayEUI { get; set; }
+
         [Required]
         [StringLength(50)]
         public string DevAddr { get; set; }
@@ -24,11 +29,6 @@ namespace PTT_SmartCity_Web_API.Entity
 
         [StringLength(30)]
         public string DevModel { get; set; }
-
-        [Key]
-        [Column(Order = 1)]
-        [StringLength(50)]
-        public string GatewayEUI { get; set; }
 
         [Required]
         [StringLength(10)]

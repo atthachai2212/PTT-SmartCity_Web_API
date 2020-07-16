@@ -9,6 +9,12 @@ namespace PTT_SmartCity_Web_API.Entity
     [Table("tbLoRaDevice")]
     public partial class tbLoRaDevice
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tbLoRaDevice()
+        {
+            tbLoRaAlertLog = new HashSet<tbLoRaAlertLog>();
+        }
+
         [Key]
         [StringLength(50)]
         public string DevEUI { get; set; }
@@ -45,5 +51,10 @@ namespace PTT_SmartCity_Web_API.Entity
         public DateTime Created { get; set; }
 
         public DateTime Updated { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tbLoRaAlertLog> tbLoRaAlertLog { get; set; }
+
+        public virtual tbLoRaDeviceDetail tbLoRaDeviceDetail { get; set; }
     }
 }

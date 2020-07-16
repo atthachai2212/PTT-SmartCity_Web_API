@@ -26,7 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>3.7</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,6 +36,19 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind />
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -175,7 +188,9 @@
     <Compile Include="Controllers\EnvironmentSensorController.cs" />
     <Compile Include="Controllers\GpsTrackingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoRaAlertLogController.cs" />
     <Compile Include="Controllers\LoRaDeviceController.cs" />
+    <Compile Include="Controllers\LoRaDeviceDetailController.cs" />
     <Compile Include="Controllers\LoRaWANController.cs" />
     <Compile Include="Controllers\SensorHubController.cs" />
     <Compile Include="Controllers\WasteBinSensorController.cs" />
@@ -196,7 +211,9 @@
     <Compile Include="Entity\tbEnvironmentSensor.cs" />
     <Compile Include="Entity\tbGPS.cs" />
     <Compile Include="Entity\tbGPS_Realtime.cs" />
+    <Compile Include="Entity\tbLoRaAlertLog.cs" />
     <Compile Include="Entity\tbLoRaDevice.cs" />
+    <Compile Include="Entity\tbLoRaDeviceDetail.cs" />
     <Compile Include="Entity\tbLoRaDeviceList.cs" />
     <Compile Include="Entity\tbLoRaGateway.cs" />
     <Compile Include="Entity\tbLoRaWAN.cs" />
@@ -206,12 +223,15 @@
     <Compile Include="Entity\tbWaterLevelSensor.cs" />
     <Compile Include="Entity\tbWaterQualitySensor.cs" />
     <Compile Include="Entity\tbWeatherSensor.cs" />
+    <Compile Include="Entity\vwLoRaAlertUpdate.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IApplicationService.cs" />
     <Compile Include="Interfaces\IEnvironmentService.cs" />
     <Compile Include="Interfaces\IGpsTrackingService.cs" />
+    <Compile Include="Interfaces\ILoRaAlertLogService.cs" />
+    <Compile Include="Interfaces\ILoRaDeviceDetailService.cs" />
     <Compile Include="Interfaces\ILoRaDeviceSettingService.cs" />
     <Compile Include="Interfaces\ISensorHubService.cs" />
     <Compile Include="Interfaces\IWasteBinService.cs" />
@@ -232,6 +252,8 @@
     <Compile Include="Models\GetWaterDataModel.cs" />
     <Compile Include="Models\GetWeatherDataModel.cs" />
     <Compile Include="Models\GpsTrackingDataModel.cs" />
+    <Compile Include="Models\LoRaAlertLogDataModel.cs" />
+    <Compile Include="Models\LoRaDeviceDetailDataModel.cs" />
     <Compile Include="Models\SensorHubDataModel.cs" />
     <Compile Include="Models\WasteBinSensorDataModel.cs" />
     <Compile Include="Models\LoRaWANDataModel.cs" />
@@ -244,7 +266,9 @@
     <Compile Include="Services\EnvironmentService.cs" />
     <Compile Include="Services\GpsTrackingService.cs" />
     <Compile Include="Services\HelperService.cs" />
+    <Compile Include="Services\LoRaAlertLogService.cs" />
     <Compile Include="Services\LoRaDataService.cs" />
+    <Compile Include="Services\LoRaDeviceDetailService.cs" />
     <Compile Include="Services\LoRaDeviceSettingService.cs" />
     <Compile Include="Services\LoRaWANService.cs" />
     <Compile Include="Services\SensorHubService.cs" />

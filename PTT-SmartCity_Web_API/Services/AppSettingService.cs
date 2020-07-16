@@ -56,6 +56,7 @@ namespace PTT_SmartCity_Web_API.Services
                 return Setting<string>("WeatherSensor");
             }
         }
+
         private static T Setting<T>(string name)
         {
             string value = ConfigurationManager.AppSettings[name];

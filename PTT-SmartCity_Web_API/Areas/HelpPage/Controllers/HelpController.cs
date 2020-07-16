@@ -20,6 +20,12 @@ namespace PTT_SmartCity_Web_API.Areas.HelpPage.Controllers
 
         public HelpController(HttpConfiguration config)
         {
+            ViewBag.AppTitle = "REST API";
+            ViewBag.AppTitleIcon = "fa fa-file-code-o";
+            ViewBag.AppSubtitle = "SmartCity API Help Page";
+            ViewBag.AppBreadcrumbMemu = "REST API";
+            ViewBag.AppBreadcrumbItem = "API Help Page";
+            ViewBag.AppBreadcrumbItemIcon = "fa fa-file-code-o";
             Configuration = config;
         }
 
@@ -27,6 +33,7 @@ namespace PTT_SmartCity_Web_API.Areas.HelpPage.Controllers
 
         public ActionResult Index(string ctrId)
         {
+
             ViewBag.ctrId = ctrId;
             ViewBag.DocumentationProvider = Configuration.Services.GetDocumentationProvider();
             var ApiDescriptions = Configuration.Services.GetApiExplorer().ApiDescriptions;

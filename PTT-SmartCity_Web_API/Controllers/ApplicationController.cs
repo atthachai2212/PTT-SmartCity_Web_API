@@ -14,8 +14,8 @@ namespace PTT_SmartCity_Web_API.Controllers
 {
     public class ApplicationController : Controller
     {
-        private IApplicationService applicationService;
-        private ILoRaDeviceSettingService loRaDeviceSettingService;
+        private readonly IApplicationService applicationService;
+        private readonly ILoRaDeviceSettingService loRaDeviceSettingService;
 
         public ApplicationController()
         {

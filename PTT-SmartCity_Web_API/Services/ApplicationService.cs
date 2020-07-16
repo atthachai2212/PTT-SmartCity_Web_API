@@ -12,12 +12,12 @@ namespace PTT_SmartCity_Web_API.Services
 {
     public class ApplicationService : IApplicationService
     {
-        private IEnvironmentService environmentService;
-        private ISensorHubService sensorHubService;
-        private IWasteBinService wasteBinService;
-        private IWeatherService weatherService;
-        private IWaterService waterService;
-        private IGpsTrackingService gpsTrackingService;
+        private readonly IEnvironmentService environmentService;
+        private readonly ISensorHubService sensorHubService;
+        private readonly IWasteBinService wasteBinService;
+        private readonly IWeatherService weatherService;
+        private readonly IWaterService waterService;
+        private readonly IGpsTrackingService gpsTrackingService;
 
         public ApplicationService()
         {
