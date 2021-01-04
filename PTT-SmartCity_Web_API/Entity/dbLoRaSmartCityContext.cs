@@ -8,6 +8,12 @@ namespace PTT_SmartCity_Web_API.Entity
 
     public partial class dbLoRaSmartCityContext : DbContext
     {
+
+        public dbLoRaSmartCityContext(int year)
+            : base(string.Format(ConfigurationManager.ConnectionStrings["dbLoRaSmartCityContext"].ConnectionString, year))
+        {
+        }
+
         public dbLoRaSmartCityContext()
             : base(string.Format(ConfigurationManager.ConnectionStrings["dbLoRaSmartCityContext"].ConnectionString, DateTime.Now.Year))
         {

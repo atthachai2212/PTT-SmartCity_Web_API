@@ -17,6 +17,60 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbLoRaSmartCityContext();
         }
 
+        public List<GetWaterLevelData> waterLevelSensorItemsFilter(int yearDb_start, int yearDb_end)
+        {
+            var waterLevelSensorItems = new List<GetWaterLevelData>();
+            for (int year = yearDb_start; year <= yearDb_end; year++)
+            {
+                using (dbLoRaSmartCityContext context = new dbLoRaSmartCityContext(year))
+                {
+                    var modelWaterLevel = context.tbWaterLevelSensor.Select(m => new GetWaterLevelData
+                    {
+                        Date = m.Date,
+                        Time = m.Time,
+                        DevEUI = m.DevEUI,
+                        GatewayEUI = m.GatewayEUI,
+                        WaterLevel = m.WaterLevel,
+                        Distance = m.Distance,
+                        BATVolt = m.BATVolt,
+                        BATLevel = m.BATLevel,
+                        RSSI = m.RSSI,
+                        SNR = m.SNR
+                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    waterLevelSensorItems.AddRange(modelWaterLevel);
+                }
+            }
+            return waterLevelSensorItems;
+        }
+
+
+        public List<GetWaterQualityData> waterQualitySensorItemsFilter(int yearDb_start, int yearDb_end)
+        {
+            var waterQualitySensorItems = new List<GetWaterQualityData>();
+            for (int year = yearDb_start; year <= yearDb_end; year++)
+            {
+                using (dbLoRaSmartCityContext context = new dbLoRaSmartCityContext(year))
+                {
+                    var modelWaterQuality = context.tbWaterQualitySensor.Select(m => new GetWaterQualityData
+                    {
+                        Date = m.Date,
+                        Time = m.Time,
+                        DevEUI = m.DevEUI,
+                        GatewayEUI = m.GatewayEUI,
+                        WaterTemp = m.WaterTemp,
+                        DO = m.DO,
+                        DO_Cal = m.DO_Cal,
+                        BATVolt = m.BATVolt,
+                        BATLevel = m.BATLevel,
+                        RSSI = m.RSSI,
+                        SNR = m.SNR
+                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    waterQualitySensorItems.AddRange(modelWaterQuality);
+                }
+            }
+            return waterQualitySensorItems;
+        }
+
         public IEnumerable<GetWaterLevelData> waterLevelSensorItems => this.db.tbWaterLevelSensor.Select(m => new GetWaterLevelData
         {
             Date = m.Date,
@@ -174,7 +228,7 @@ namespace PTT_SmartCity_Web_API.Services
             try
             {
                 var waterLevelSensor = this.db.tbWaterLevelSensor
-                    .Where(x => x.Date == dateTime.Date && x.Time.Hours == dateTime.Hour && x.Time.Minutes == dateTime.Minute)
+                    .Where(x => x.DevEUI == model.deveui && x.Date == dateTime.Date && x.Time.Hours == dateTime.Hour && x.Time.Minutes == dateTime.Minute)
                     .FirstOrDefault();
                 if (waterLevelSensor == null)
                 {
@@ -222,7 +276,7 @@ namespace PTT_SmartCity_Web_API.Services
             try
             {
                 var waterQualitySensor = this.db.tbWaterQualitySensor
-                    .SingleOrDefault(x => x.Date == dateTime.Date && x.Time.Hours == dateTime.Hour && x.Time.Minutes == dateTime.Minute);
+                    .SingleOrDefault(x => x.DevEUI == model.deveui && x.Date == dateTime.Date && x.Time.Hours == dateTime.Hour && x.Time.Minutes == dateTime.Minute);
                 if (waterQualitySensor == null)
                 {
                     this.WaterQualitySensorDataInsert(model);
@@ -262,6 +316,5 @@ namespace PTT_SmartCity_Web_API.Services
                 throw ex.GetErrorException();
             }
         }
-
     }
 }

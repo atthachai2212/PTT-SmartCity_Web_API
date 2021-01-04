@@ -17,6 +17,33 @@ namespace PTT_SmartCity_Web_API.Services
         {
             db = new dbLoRaSmartCityContext();
         }
+
+        public List<GetGpsData> gpsItemsFilter(int yearDb_start, int yearDb_end)
+        {
+            var gpsItems = new List<GetGpsData>();
+            for (int year = yearDb_start; year <= yearDb_end; year++)
+            {
+                using (dbLoRaSmartCityContext context = new dbLoRaSmartCityContext(year))
+                {
+                    var modelGps = context.tbGPS.Select(m => new GetGpsData
+                    {
+                        Date = m.Date,
+                        Time = m.Time,
+                        DevEUI = m.DevEUI,
+                        GatewayEUI = m.GatewayEUI,
+                        Latitude = m.Latitude,
+                        Longitude = m.Longitude,
+                        Emergency = string.Empty,
+                        Battery = m.Battery,
+                        RSSI = m.RSSI,
+                        SNR = m.SNR
+                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    gpsItems.AddRange(modelGps);
+                }
+            }
+            return gpsItems;
+        }
+
         public IEnumerable<GetGpsData> gpsItems => this.db.tbGPS.Select(m => new GetGpsData
         {
             Date = m.Date,

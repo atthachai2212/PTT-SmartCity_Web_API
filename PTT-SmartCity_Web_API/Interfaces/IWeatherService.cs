@@ -14,6 +14,8 @@ namespace PTT_SmartCity_Web_API.Interfaces
 
         IEnumerable<GetWeatherData> getWeatherSensor { get; }
 
+        List<GetWeatherData> weatherSensorItemsFilter(int yearDb_start, int yearDb_end);
+
         void WeatherSensorData(LoRaWANDataModel model);
 
         void WeatherSensorDataInsert(LoRaWANDataModel model);

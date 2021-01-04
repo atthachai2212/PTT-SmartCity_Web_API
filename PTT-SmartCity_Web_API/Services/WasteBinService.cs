@@ -17,6 +17,32 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbLoRaSmartCityContext();
         }
 
+        public List<GetWasteBinData> wasteBinSensorItemsFilter(int yearDb_start, int yearDb_end)
+        {
+            var wasteBinSensorItems = new List<GetWasteBinData>();
+            for (int year = yearDb_start; year <= yearDb_end; year++)
+            {
+                using (dbLoRaSmartCityContext context = new dbLoRaSmartCityContext(year))
+                {
+                    var modelWasteBin = context.tbWasteBinSensor.Select(m => new GetWasteBinData
+                    {
+                        Date = m.Date,
+                        Time = m.Time,
+                        DevEUI = m.DevEUI,
+                        GatewayEUI = m.GatewayEUI,
+                        Full = m.Full,
+                        Flame = m.Flame,
+                        AirLevel = m.AirLevel,
+                        Battery = m.Battery,
+                        RSSI = m.RSSI,
+                        SNR = m.SNR
+                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    wasteBinSensorItems.AddRange(modelWasteBin);
+                }
+            }
+            return wasteBinSensorItems;
+        }
+
         public IEnumerable<GetWasteBinData> wasteBinSensorItems => this.db.tbWasteBinSensor.Select(m => new GetWasteBinData
         {
             Date = m.Date,
@@ -98,7 +124,7 @@ namespace PTT_SmartCity_Web_API.Services
             try
             {
                 var wasteBinSensor = this.db.tbWasteBinSensor
-                    .Where(x => x.Date == dateTime.Date && x.Time.Hours == dateTime.Hour && x.Time.Minutes == dateTime.Minute)
+                    .Where(x => x.DevEUI == model.deveui && x.Date == dateTime.Date && x.Time.Hours == dateTime.Hour && x.Time.Minutes == dateTime.Minute)
                     .FirstOrDefault();
                 if(wasteBinSensor == null)
                 {

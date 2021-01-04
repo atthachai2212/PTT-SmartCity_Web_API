@@ -81,7 +81,7 @@ namespace PTT_SmartCity_Web_API.Controllers
             ViewBag.AppBreadcrumbItemIcon = "fa fa-windows";
 
             var devTypeConut = this.loRaDeviceSettingService.loraDeviceItems.GroupBy(g => g.DevType).Select(s => new { DevType = s.Key, Count = s.Count() }).ToList();
-            var devEUI = this.loRaDeviceSettingService.loraDeviceItems.Where(x => x.DevType == AppSettingService.WasteBinSensor).GroupBy(g => g.DevEUI).Select(s => s.Key).ToList();
+            var devEUI = this.loRaDeviceSettingService.loraDeviceItems.Where(x => x.DevType == AppSettingService.WasteBinSensor).GroupBy(g => g.DevEUI).Select(s => s.Key.ToLower()).ToList();
             ViewBag.devTypeConut = devTypeConut.SingleOrDefault(x => x.DevType == AppSettingService.WasteBinSensor)?.Count ?? 0;
             ViewBag.devEUI = devEUI;
             return View();
@@ -141,7 +141,7 @@ namespace PTT_SmartCity_Web_API.Controllers
         {
             var jsonResult = new JsonResult();
             if (!string.IsNullOrEmpty(filterOptions.deviceType))
-            {              
+            {
                 switch (filterOptions.deviceType)
                 {
                     case "EnvironmentSensor":
@@ -269,7 +269,7 @@ namespace PTT_SmartCity_Web_API.Controllers
                         });
                         jsonResult = Json(new { data = GspTrackingItems }, JsonRequestBehavior.AllowGet);
                         break;
-                }              
+                }
             }
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;

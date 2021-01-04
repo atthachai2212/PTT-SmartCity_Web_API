@@ -11,6 +11,9 @@ namespace PTT_SmartCity_Web_API.Interfaces
     interface IEnvironmentService
     {
         IEnumerable<GetEnvironmentData> environmentSensorItems { get; }
+
+        List<GetEnvironmentData> environmentSensorItemsFilter(int yearDb_start, int yearDb_end);
+
         IEnumerable<GetEnvironmentData> getEnvironmentSensor { get; }
 
         void environmentSensorData(LoRaWANDataModel model);
@@ -22,5 +25,7 @@ namespace PTT_SmartCity_Web_API.Interfaces
         GetEnvironmentDataModel getEnvironmentSensorItemsAll();
 
         GetEnvironmentDataModel getEnvironmentSensorItemsFilter(EnvironmentDataFilterOptions filters);
+
+
     }
 }

@@ -35,7 +35,7 @@ namespace PTT_SmartCity_Web_API.Services
             DateTime sDateTime = Convert.ToDateTime(filterOptions.dateTimeStart);
             DateTime eDateTime = Convert.ToDateTime(filterOptions.dateTimeEnd);
 
-            var environmentSensorItems = this.environmentService.environmentSensorItems.Select(m => new GetAppEnvironmentData
+            var environmentSensorItems = this.environmentService.environmentSensorItemsFilter(sDateTime.Year,eDateTime.Year).Select(m => new GetAppEnvironmentData
             {
                 DateTime = Convert.ToDateTime(string.Format($"{m.Date.ToString("yyyy/MM/dd")} {m.Time.ToString("hh\\:mm\\:ss")}")),
                 DevEUI = m.DevEUI,
@@ -78,7 +78,7 @@ namespace PTT_SmartCity_Web_API.Services
             DateTime sDateTime = Convert.ToDateTime(filterOptions.dateTimeStart);
             DateTime eDateTime = Convert.ToDateTime(filterOptions.dateTimeEnd);
 
-            var gpsTrackingItems = this.gpsTrackingService.gpsItems.Select(m => new GetAppGpsData
+            var gpsTrackingItems = this.gpsTrackingService.gpsItemsFilter(sDateTime.Year,eDateTime.Year).Select(m => new GetAppGpsData
             {
                 DateTime = Convert.ToDateTime(string.Format($"{m.Date.ToString("yyyy/MM/dd")} {m.Time.ToString("hh\\:mm\\:ss")}")),
                 DevEUI = m.DevEUI,
@@ -117,7 +117,7 @@ namespace PTT_SmartCity_Web_API.Services
             DateTime sDateTime = Convert.ToDateTime(filterOptions.dateTimeStart);
             DateTime eDateTime = Convert.ToDateTime(filterOptions.dateTimeEnd);
 
-            var sensorHubItems = this.sensorHubService.sensorHubItems.Select(m => new GetAppSensorHubData
+            var sensorHubItems = this.sensorHubService.sensorHubItemsFilter(sDateTime.Year,eDateTime.Year).Select(m => new GetAppSensorHubData
             {
                 DateTime = Convert.ToDateTime(string.Format($"{m.Date.ToString("yyyy/MM/dd")} {m.Time.ToString("hh\\:mm\\:ss")}")),
                 DevEUI = m.DevEUI,
@@ -157,7 +157,7 @@ namespace PTT_SmartCity_Web_API.Services
             DateTime sDateTime = Convert.ToDateTime(filterOptions.dateTimeStart);
             DateTime eDateTime = Convert.ToDateTime(filterOptions.dateTimeEnd);
 
-            var wasteBinSensorItems = this.wasteBinService.wasteBinSensorItems.Select(m => new GetAppWasteBinData
+            var wasteBinSensorItems = this.wasteBinService.wasteBinSensorItemsFilter(sDateTime.Year,eDateTime.Year).Select(m => new GetAppWasteBinData
             {
                 DateTime = Convert.ToDateTime(string.Format($"{m.Date.ToString("yyyy/MM/dd")} {m.Time.ToString("hh\\:mm\\:ss")}")),
                 DevEUI = m.DevEUI,
@@ -194,7 +194,7 @@ namespace PTT_SmartCity_Web_API.Services
             DateTime sDateTime = Convert.ToDateTime(filterOptions.dateTimeStart);
             DateTime eDateTime = Convert.ToDateTime(filterOptions.dateTimeEnd);
 
-            var waterLevelSensorItems = this.waterService.waterLevelSensorItems.Select(m => new GetAppWaterLevelData
+            var waterLevelSensorItems = this.waterService.waterLevelSensorItemsFilter(sDateTime.Year,eDateTime.Year).Select(m => new GetAppWaterLevelData
             {
                 DateTime = Convert.ToDateTime(string.Format($"{m.Date.ToString("yyyy/MM/dd")} {m.Time.ToString("hh\\:mm\\:ss")}")),
                 DevEUI = m.DevEUI,
@@ -231,7 +231,7 @@ namespace PTT_SmartCity_Web_API.Services
             DateTime sDateTime = Convert.ToDateTime(filterOptions.dateTimeStart);
             DateTime eDateTime = Convert.ToDateTime(filterOptions.dateTimeEnd);
 
-            var waterQualitySensorItems = this.waterService.waterQualitySensorItems.Select(m => new GetAppWaterQualityData
+            var waterQualitySensorItems = this.waterService.waterQualitySensorItemsFilter(sDateTime.Year,eDateTime.Year).Select(m => new GetAppWaterQualityData
             {
                 DateTime = Convert.ToDateTime(string.Format($"{m.Date.ToString("yyyy/MM/dd")} {m.Time.ToString("hh\\:mm\\:ss")}")),
                 DevEUI = m.DevEUI,
@@ -270,7 +270,7 @@ namespace PTT_SmartCity_Web_API.Services
             DateTime sDateTime = Convert.ToDateTime(filterOptions.dateTimeStart);
             DateTime eDateTime = Convert.ToDateTime(filterOptions.dateTimeEnd);
 
-            var weatherSensorItems = this.weatherService.weatherSensorItems.Select(m => new GetAppWeatherData
+            var weatherSensorItems = this.weatherService.weatherSensorItemsFilter(sDateTime.Year, eDateTime.Year).Select(m => new GetAppWeatherData
             {
                 DateTime = Convert.ToDateTime(string.Format($"{m.Date.ToString("yyyy/MM/dd")} {m.Time.ToString("hh\\:mm\\:ss")}")),
                 DevEUI = m.DevEUI,

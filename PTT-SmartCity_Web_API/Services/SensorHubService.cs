@@ -17,6 +17,35 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbLoRaSmartCityContext();
         }
 
+        public List<GetSensorHubData> sensorHubItemsFilter(int yearDb_start, int yearDb_end)
+        {
+            var sensorHubItems = new List<GetSensorHubData>();
+            for (int year = yearDb_start; year <= yearDb_end; year++)
+            {
+                using (dbLoRaSmartCityContext context = new dbLoRaSmartCityContext(year))
+                {
+                    var modelSensorHub = context.tbSensorHub.Select(m => new GetSensorHubData
+                    {
+                        Date = m.Date,
+                        Time = m.Time,
+                        DevEUI = m.DevEUI,
+                        GatewayEUI = m.GatewayEUI,
+                        Humidity = m.Humidity,
+                        Temperature = m.Temperature,
+                        CO2 = m.CO2,
+                        BATVolt = m.BATVolt,
+                        BATCurrent = m.BATCurrent,
+                        BATLevel = m.BATLevel,
+                        BATTemp = m.BATTemp,
+                        RSSI = m.RSSI,
+                        SNR = m.SNR
+                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    sensorHubItems.AddRange(modelSensorHub);
+                }
+            }
+            return sensorHubItems;
+        }
+
         public IEnumerable<GetSensorHubData> sensorHubItems => this.db.tbSensorHub.Select(m => new GetSensorHubData
         {
             Date = m.Date,

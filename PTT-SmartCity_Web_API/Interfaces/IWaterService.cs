@@ -15,6 +15,9 @@ namespace PTT_SmartCity_Web_API.Interfaces
         IEnumerable<GetWaterLevelData> getWaterLevelSensor { get; }
         IEnumerable<GetWaterQualityData> getWaterQualitySensor { get; }
 
+        List<GetWaterLevelData> waterLevelSensorItemsFilter(int yearDb_start, int yearDb_end);
+        List<GetWaterQualityData> waterQualitySensorItemsFilter(int yearDb_start, int yearDb_end);
+
         void WaterLevelSensorData(LoRaWANDataModel model);
 
         void WaterLevelSensorDataInsert(LoRaWANDataModel model);

@@ -13,6 +13,7 @@ namespace PTT_SmartCity_Web_API.Interfaces
         IEnumerable<GetSensorHubData> sensorHubItems { get; }
 
         IEnumerable<GetSensorHubData> getSensorHub { get; }
+        List<GetSensorHubData> sensorHubItemsFilter(int yearDb_start, int yearDb_end);
 
         void SensorHubData(LoRaWANDataModel model);
 

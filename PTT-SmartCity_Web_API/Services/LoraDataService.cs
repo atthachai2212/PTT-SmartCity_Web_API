@@ -11,18 +11,43 @@ namespace PTT_SmartCity_Web_API.Services
     {
         public static WasteBinSensorDataModel LAS_C01L_Sensor(string Data)
         {
-            var dataArray = HelperService.SplitString(Data, 1).ToArray();
-            var full = Convert.ToUInt16(dataArray.Take(1).FirstOrDefault());
-            var flame = Convert.ToUInt16(dataArray.Skip(1).Take(1).FirstOrDefault());
-            var fall = string.Join("", dataArray.Skip(2).Take(2));
-            var airLavel = Convert.ToSingle(string.Join("", dataArray.Skip(4).Take(4)));
-            var wasteBinData = new WasteBinSensorDataModel()
+            WasteBinSensorDataModel wasteBinData = new WasteBinSensorDataModel();
+            if (Data.Length == 8)
             {
-                Full = Convert.ToBoolean(full),
-                Flame = Convert.ToBoolean(flame),
-                Fall = false,
-                AirLevel = airLavel
-            };
+                var dataArray = HelperService.SplitString(Data, 1).ToArray();
+                var full = Convert.ToUInt16(dataArray.Take(1).FirstOrDefault());
+                var flame = Convert.ToUInt16(dataArray.Skip(1).Take(1).FirstOrDefault());
+                var fall = Convert.ToUInt16(string.Join("", dataArray.Skip(2).Take(2)));
+                var airLavel = Convert.ToSingle(string.Join("", dataArray.Skip(4).Take(4)));
+                wasteBinData.Full = Convert.ToBoolean(full);
+                wasteBinData.Flame = Convert.ToBoolean(flame);
+                wasteBinData.Fall = Convert.ToBoolean(fall);
+                wasteBinData.AirLevel = airLavel;
+
+/*                wasteBinData = new WasteBinSensorDataModel()
+                {
+                    Full = Convert.ToBoolean(full),
+                    Flame = Convert.ToBoolean(flame),
+                    Fall = false,
+                    AirLevel = airLavel
+                }; */            
+            }
+            else if (Data.Length == 34)
+            {
+                var dataArray = HelperService.SplitString(Data, 2).ToArray();
+                var full_flame_arr = HelperService.SplitString(string.Join("", dataArray.Skip(11).Take(1)), 1 ).ToArray();
+                var fall_power_arr = HelperService.SplitString(string.Join("", dataArray.Skip(12).Take(1)), 1).ToArray();
+                var full = Convert.ToUInt16(full_flame_arr.Take(1).FirstOrDefault());
+                var flame = Convert.ToUInt16(full_flame_arr.Skip(1).Take(1).FirstOrDefault());
+                var fall = Convert.ToUInt16(fall_power_arr.Take(1).FirstOrDefault());
+                var power = Convert.ToUInt16(fall_power_arr.Skip(1).Take(1).FirstOrDefault());
+                var airArr = string.Join("", dataArray.Skip(5).Take(2));
+                var airLavel =  HelperService.HexToInt16(string.Join("", dataArray.Skip(5).Take(2)));
+                wasteBinData.Full = Convert.ToBoolean(full);
+                wasteBinData.Flame = Convert.ToBoolean(flame);
+                wasteBinData.Fall = Convert.ToBoolean(fall);
+                wasteBinData.AirLevel = airLavel;
+            }
             return wasteBinData;
         }
 

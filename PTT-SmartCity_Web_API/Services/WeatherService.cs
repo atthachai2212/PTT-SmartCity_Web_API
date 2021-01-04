@@ -18,6 +18,36 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbLoRaSmartCityContext();
         }
 
+        public List<GetWeatherData> weatherSensorItemsFilter(int yearDb_start, int yearDb_end)
+        {
+            var weatherSensorItems = new List<GetWeatherData>();
+            for (int year = yearDb_start; year <= yearDb_end; year++)
+            {
+                using (dbLoRaSmartCityContext context = new dbLoRaSmartCityContext(year))
+                {
+                    var modelWeather = context.tbWeatherSensor.Select(m => new GetWeatherData
+                    {
+                        Date = m.Date,
+                        Time = m.Time,
+                        DevEUI = m.DevEUI,
+                        GatewayEUI = m.GatewayEUI,
+                        WindSpeed = m.WindSpeed,
+                        WindVane = m.WindVane,
+                        RainfallCurrentHour = m.RainfallCurrentHour,
+                        RainfallPreviousHour = m.RainfallPreviousHour,
+                        RainfallLast_24Hours = m.RainfallLast_24Hours,
+                        Luminosity = m.Luminosity,
+                        BATVolt = m.BATVolt,
+                        BATLevel = m.BATLevel,
+                        RSSI = m.RSSI,
+                        SNR = m.SNR
+                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    weatherSensorItems.AddRange(modelWeather);
+                }
+            }
+            return weatherSensorItems;
+        }
+
         public IEnumerable<GetWeatherData> weatherSensorItems => this.db.tbWeatherSensor.Select(m => new GetWeatherData
         {
             Date = m.Date,
@@ -182,7 +212,7 @@ namespace PTT_SmartCity_Web_API.Services
             try
             {
                 var weatherSensor = this.db.tbWeatherSensor
-                    .SingleOrDefault(x => x.Date == dateTime.Date && x.Time.Hours == dateTime.Hour && x.Time.Minutes == dateTime.Minute);
+                    .SingleOrDefault(x => x.DevEUI == model.deveui && x.Date == dateTime.Date && x.Time.Hours == dateTime.Hour && x.Time.Minutes == dateTime.Minute);
                 if (weatherSensor == null)
                 {
                     this.WeatherSensorDataInsert(model);

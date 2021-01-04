@@ -17,6 +17,38 @@ namespace PTT_SmartCity_Web_API.Services
             db = new dbLoRaSmartCityContext();
         }
 
+        public List<GetEnvironmentData> environmentSensorItemsFilter(int yearDb_start, int yearDb_end)
+        {
+            var environmentSensorItems = new List<GetEnvironmentData>();
+            for (int year = yearDb_start; year <= yearDb_end; year++)
+            {
+                using (dbLoRaSmartCityContext context = new dbLoRaSmartCityContext(year))
+                {
+                    var modelEnvi = context.tbEnvironmentSensor.Select(m => new GetEnvironmentData
+                    {
+                        Date = m.Date,
+                        Time = m.Time,
+                        DevEUI = m.DevEUI,
+                        GatewayEUI = m.GatewayEUI,
+                        O2 = m.O2,
+                        O3 = m.O3,
+                        PM1 = m.PM1,
+                        PM2_5 = m.PM2_5,
+                        PM10 = m.PM10,
+                        AirTemp = m.AirTemp,
+                        AirHumidity = m.AirHumidity,
+                        AirPressure = m.AirPressure,
+                        BATLevel = m.BATLevel,
+                        BATVolt = m.BATVolt,
+                        RSSI = m.RSSI,
+                        SNR = m.SNR
+                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    environmentSensorItems.AddRange(modelEnvi);
+                }
+            }
+            return environmentSensorItems;
+        }
+
         public IEnumerable<GetEnvironmentData> environmentSensorItems => this.db.tbEnvironmentSensor.Select(m => new GetEnvironmentData
         {
             Date = m.Date,
@@ -117,6 +149,7 @@ namespace PTT_SmartCity_Web_API.Services
             };
             return environmentSensorItems;
         }
+
 
         public GetEnvironmentDataModel getEnvironmentSensorItemsAll()
         {

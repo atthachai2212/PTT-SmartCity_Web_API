@@ -13,6 +13,8 @@ namespace PTT_SmartCity_Web_API.Interfaces
         IEnumerable<GetGpsData> gpsItems { get; }
         IEnumerable<GetGpsData> gpsRealTimeItems { get; }
 
+        List<GetGpsData> gpsItemsFilter(int yearDb_start, int yearDb_end);
+
         void GpsData(LoRaWANDataModel model);
 
         void GpsDataInsert(LoRaWANDataModel model);
