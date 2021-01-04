@@ -57,7 +57,7 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<GetWasteBinData> getWasteBinSensor => this.wasteBinSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWasteBinData
+        public IEnumerable<GetWasteBinData> getWasteBinSensor => this.wasteBinSensorItemsFilter(2020,DateTime.Now.Year).GroupBy(m => m.DevEUI, (key, g) => new GetWasteBinData
         {
             Date = g.FirstOrDefault().Date,
             Time = g.FirstOrDefault().Time,

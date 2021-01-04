@@ -69,7 +69,7 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<GetEnvironmentData> getEnvironmentSensor => this.environmentSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetEnvironmentData 
+        public IEnumerable<GetEnvironmentData> getEnvironmentSensor => this.environmentSensorItemsFilter(2020, DateTime.Now.Year).GroupBy(m => m.DevEUI, (key, g) => new GetEnvironmentData 
         {
             Date = g.FirstOrDefault().Date,
             Time = g.FirstOrDefault().Time,

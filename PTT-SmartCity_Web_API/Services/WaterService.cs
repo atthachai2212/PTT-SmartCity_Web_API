@@ -100,7 +100,7 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<GetWaterLevelData> getWaterLevelSensor => this.waterLevelSensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWaterLevelData
+        public IEnumerable<GetWaterLevelData> getWaterLevelSensor => this.waterLevelSensorItemsFilter(2020,DateTime.Now.Year).GroupBy(m => m.DevEUI, (key, g) => new GetWaterLevelData
         {
             Date = g.FirstOrDefault().Date,
             Time = g.FirstOrDefault().Time,
@@ -114,7 +114,7 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = g.FirstOrDefault().SNR
         });
 
-        public IEnumerable<GetWaterQualityData> getWaterQualitySensor => this.waterQualitySensorItems.GroupBy(m => m.DevEUI, (key, g) => new GetWaterQualityData
+        public IEnumerable<GetWaterQualityData> getWaterQualitySensor => this.waterQualitySensorItemsFilter(2020,DateTime.Now.Year).GroupBy(m => m.DevEUI, (key, g) => new GetWaterQualityData
         {
             Date = g.FirstOrDefault().Date,
             Time = g.FirstOrDefault().Time,

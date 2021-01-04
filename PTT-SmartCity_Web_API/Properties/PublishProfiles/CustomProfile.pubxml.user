@@ -97,10 +97,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/09/2019 00:56:44</publishTime>
     </File>
     <File Include="bin/PTT-SmartCity_Web_API.dll">
-      <publishTime>01/04/2021 10:54:17</publishTime>
+      <publishTime>01/04/2021 11:22:37</publishTime>
     </File>
     <File Include="bin/PTT-SmartCity_Web_API.pdb">
-      <publishTime>01/04/2021 10:54:17</publishTime>
+      <publishTime>01/04/2021 11:22:37</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>08/08/2018 05:38:48</publishTime>
