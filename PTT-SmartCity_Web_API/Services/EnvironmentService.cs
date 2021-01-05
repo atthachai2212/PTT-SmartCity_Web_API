@@ -155,36 +155,116 @@ namespace PTT_SmartCity_Web_API.Services
         {
             var environmentSensorItems = new GetEnvironmentDataModel
             {
-                items = this.environmentSensorItems.ToArray(),
-                totalItems = this.environmentSensorItems.Count()
+                items = this.environmentSensorItemsFilter(2020,DateTime.Now.Year).ToArray(),
+                totalItems = this.environmentSensorItemsFilter(2020, DateTime.Now.Year).Count()
             };
             return environmentSensorItems;
         }
 
         public GetEnvironmentDataModel getEnvironmentSensorItemsFilter(EnvironmentDataFilterOptions filters)
         {
-            var environmentSensorItems = new GetEnvironmentDataModel
-            {
-                items = this.environmentSensorItems.Take(filters.length).ToArray(),
-                totalItems = filters.length
-            };
+            DateTime startDt = Convert.ToDateTime(filters.startDate);
+            DateTime limetDt = Convert.ToDateTime(filters.limitDate);
 
-            if (!string.IsNullOrEmpty(filters.deveui))
+            GetEnvironmentDataModel environmentSensorItems = new GetEnvironmentDataModel();
+            if (filters != null)
             {
-                IEnumerable<GetEnvironmentData> searchItem = new GetEnvironmentData[] { };
+                environmentSensorItems = new GetEnvironmentDataModel
+                {
+                    items = this.environmentSensorItemsFilter(2020, DateTime.Now.Year).Take(filters.length).ToArray(),
+                    totalItems = filters.length
+                };
 
-                if (filters.length > 0)
+                if (!string.IsNullOrEmpty(filters.deveui) && filters.startDate != null)
                 {
-                    searchItem = this.environmentSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    IEnumerable<GetEnvironmentData> searchItem = new GetEnvironmentData[] { };
+                    if (filters.limitDate != null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.environmentSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.environmentSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.environmentSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.environmentSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    environmentSensorItems.items = searchItem.ToArray();
+                    environmentSensorItems.totalItems = searchItem.Count();
                 }
-                else
+                else if (!string.IsNullOrEmpty(filters.deveui))
                 {
-                    searchItem = this.environmentSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                    IEnumerable<GetEnvironmentData> searchItem = new GetEnvironmentData[] { };
+
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.environmentSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        var lastDate = this.environmentSensorItemsFilter(DateTime.Now.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).FirstOrDefault().Date;
+                        searchItem = this.environmentSensorItemsFilter(DateTime.Now.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date == lastDate).ToList();
+                    }
+                    environmentSensorItems.items = searchItem.ToArray();
+                    environmentSensorItems.totalItems = searchItem.Count();
                 }
-                environmentSensorItems.items = searchItem.ToArray();
-                environmentSensorItems.totalItems = searchItem.Count();
+                else if (filters.startDate != null)
+                {
+                    IEnumerable<GetEnvironmentData> searchItem = new GetEnvironmentData[] { };
+                    if (filters.limitDate == null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.environmentSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.environmentSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.environmentSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.environmentSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    environmentSensorItems.items = searchItem.ToArray();
+                    environmentSensorItems.totalItems = searchItem.Count();
+                }
+                else if (filters.limitDate != null)
+                {
+                    IEnumerable<GetEnvironmentData> searchItem = new GetEnvironmentData[] { };
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.environmentSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.Date <= filters.limitDate).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        searchItem = this.environmentSensorItemsFilter(2020, limetDt.Year).Where(x => x.Date == filters.limitDate).ToList();
+                    }
+                    environmentSensorItems.items = searchItem.ToArray();
+                    environmentSensorItems.totalItems = searchItem.Count();
+                }
             }
+
             return environmentSensorItems;
+
         }
     }
 }
