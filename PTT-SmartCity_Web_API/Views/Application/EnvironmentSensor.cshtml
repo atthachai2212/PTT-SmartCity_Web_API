@@ -163,8 +163,8 @@
                         //    })
                         //},
                     })
-                });              
-                InitOverviewDataTable();             
+                });
+                InitOverviewDataTable();
                 $("#btnDataFilter").click(function () {
                     if ($.fn.DataTable.isDataTable('#tbEnvironment')) {
                         $('#tbEnvironment').DataTable().destroy();
@@ -193,14 +193,23 @@
       	                        $.notify({
       		                        title: "DATA FILTER : ",
       		                        message: "No data available",
-      		                        icon: 'fa fa-exclamation' 
+      		                        icon: 'fa fa-exclamation'
       	                        },{
       		                        type: "warning"
                                 });
                             }
                             return dataResult.data;
-                        }       
+                        }
                     },
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            title: ($('#deviceEUI').val() === "" || $('#deviceEUI').val() == null ? "EnvironmentSensorAll" : "DevEUI_" + $('#deviceEUI').val()) + " - @(DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"))",
+                            text: '<i class="fa fa-fw fa-lg fa-download"></i>Export to Excel',
+                            className: 'btn btn-primary',
+                        },
+                    ],
                     "columns": [
                         { "data": "DateTime", "autowidth": true },
                         { "data": "DevEUI", "autowidth": true },
@@ -219,12 +228,12 @@
                         { "data": "SNR", "autowidth": true },
                     ],
                     "order": [[0, "desc"]]
-                }); 
+                });
                 setInterval(function () {
                     var DateTime = getDateTime();
                     $('#date_timepicker_end').val(DateTime.strDateTimeNow);
                     table.ajax.reload(null, false);
-                }, 60 * 1000 );  
+                }, 60 * 1000 );
             }
 
             //function InitOverviewDataTable(JsonData) {
@@ -235,7 +244,7 @@
             //    }
 
             //    var tbody = $("#tbEnvironment tbody");
-                
+
             //    $.ajax({
             //        type: 'GET',
             //        url: '/Application/GetLoRaWANData',
@@ -251,7 +260,7 @@
       	     //               $.notify({
       		    //                title: "DATA FILTER : ",
       		    //                message: "No data available",
-      		    //                icon: 'fa fa-exclamation' 
+      		    //                icon: 'fa fa-exclamation'
       	     //               },{
       		    //                type: "warning"
             //                });

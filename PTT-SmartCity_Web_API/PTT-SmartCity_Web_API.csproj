@@ -291,6 +291,8 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\buttons.bootstrap4.min.css" />
+    <Content Include="Content\css\buttons.dataTables.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\jquery.datetimepicker.css" />
     <Content Include="Content\css\main.css" />
@@ -384,8 +386,10 @@
     <Content Include="Scripts\js\jquery-3.3.1.min.js" />
     <Content Include="Scripts\js\main.js" />
     <Content Include="Scripts\js\plugins\bootstrap-notify.min.js" />
+    <Content Include="Scripts\js\plugins\buttons.html5.min.js" />
     <Content Include="Scripts\js\plugins\chart.js" />
     <Content Include="Scripts\js\plugins\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\js\plugins\dataTables.buttons.min.js" />
     <Content Include="Scripts\js\plugins\dataTables.responsive.min.js" />
     <Content Include="Scripts\js\plugins\dropzone.js" />
     <Content Include="Scripts\js\plugins\fullcalendar.min.js" />
@@ -395,11 +399,14 @@
     <Content Include="Scripts\js\plugins\jquery.vmap.min.js" />
     <Content Include="Scripts\js\plugins\jquery.vmap.sampledata.js" />
     <Content Include="Scripts\js\plugins\jquery.vmap.world.js" />
+    <Content Include="Scripts\js\plugins\jszip.min.js" />
     <Content Include="Scripts\js\plugins\moment.min.js" />
     <Content Include="Scripts\js\plugins\pace.min.js" />
+    <Content Include="Scripts\js\plugins\pdfmake.min.js" />
     <Content Include="Scripts\js\plugins\select2.min.js" />
     <Content Include="Scripts\js\plugins\sweetalert.min.js" />
     <Content Include="Scripts\js\plugins\sweetalert2.all.min.js" />
+    <Content Include="Scripts\js\plugins\vfs_fonts.js" />
     <Content Include="Scripts\js\popper.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />

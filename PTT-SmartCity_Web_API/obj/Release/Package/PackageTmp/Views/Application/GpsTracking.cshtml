@@ -161,6 +161,15 @@
                         return dataResult.data;
                     }
                 },
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        title: ($('#deviceEUI').val() === "" || $('#deviceEUI').val() == null ? "GpsTrackingAll" : "DevEUI_" + $('#deviceEUI').val()) + " - @(DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"))",
+                        text: '<i class="fa fa-fw fa-lg fa-download"></i>Export to Excel',
+                        className: 'btn btn-primary',
+                    },
+                ],
                 "columns": [
                     { "data": "DateTime", "autowidth": true },
                     { "data": "DevEUI", "autowidth": true },
