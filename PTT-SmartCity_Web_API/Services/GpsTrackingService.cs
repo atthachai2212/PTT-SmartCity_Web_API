@@ -37,7 +37,7 @@ namespace PTT_SmartCity_Web_API.Services
                         Battery = m.Battery,
                         RSSI = m.RSSI,
                         SNR = m.SNR
-                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    }).ToList();
                     gpsItems.AddRange(modelGps);
                 }
             }
@@ -95,28 +95,128 @@ namespace PTT_SmartCity_Web_API.Services
 
         public GetGpsDataModel getGpsItemsFilter(GpsDataFilterOptions filters)
         {
-            var gpsItems = new GetGpsDataModel
-            {
-                items = this.gpsItems.Take(filters.length).ToArray(),
-                totalItems = filters.length
-            };
+            //var gpsItems = new GetGpsDataModel
+            //{
+            //    items = this.gpsItems.Take(filters.length).ToArray(),
+            //    totalItems = filters.length
+            //};
 
-            if (!string.IsNullOrEmpty(filters.deveui))
-            {
-                IEnumerable<GetGpsData> searchItem = new GetGpsData[] { };
+            //if (!string.IsNullOrEmpty(filters.deveui))
+            //{
+            //    IEnumerable<GetGpsData> searchItem = new GetGpsData[] { };
 
-                if (filters.length > 0)
+            //    if (filters.length > 0)
+            //    {
+            //        searchItem = this.gpsItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+            //    }
+            //    else
+            //    {
+            //        searchItem = this.gpsItems.Where(x => x.DevEUI == filters.deveui).ToList();
+            //    }
+            //    gpsItems.items = searchItem.ToArray();
+            //    gpsItems.totalItems = searchItem.Count();
+            //}
+
+            //return gpsItems;
+            DateTime startDt = Convert.ToDateTime(filters.startDate);
+            DateTime limetDt = Convert.ToDateTime(filters.limitDate);
+
+            GetGpsDataModel gpsItems = new GetGpsDataModel();
+            if (filters != null)
+            {
+                gpsItems = new GetGpsDataModel
                 {
-                    searchItem = this.gpsItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
-                }
-                else
+                    items = this.gpsItems.Take(filters.length).ToArray(),
+                    totalItems = filters.length
+                };
+
+                if (!string.IsNullOrEmpty(filters.deveui) && filters.startDate != null)
                 {
-                    searchItem = this.gpsItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                    IEnumerable<GetGpsData> searchItem = new GetGpsData[] { };
+                    if (filters.limitDate != null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.gpsItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.gpsItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.gpsItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.gpsItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    gpsItems.items = searchItem.ToArray();
+                    gpsItems.totalItems = searchItem.Count();
                 }
-                gpsItems.items = searchItem.ToArray();
-                gpsItems.totalItems = searchItem.Count();
+                else if (!string.IsNullOrEmpty(filters.deveui))
+                {
+                    IEnumerable<GetGpsData> searchItem = new GetGpsData[] { };
+
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.gpsItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        var lastDate = this.gpsItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).FirstOrDefault().Date;
+                        searchItem = this.gpsItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date == lastDate).ToList();
+                    }
+                    gpsItems.items = searchItem.ToArray();
+                    gpsItems.totalItems = searchItem.Count();
+                }
+                else if (filters.startDate != null)
+                {
+                    IEnumerable<GetGpsData> searchItem = new GetGpsData[] { };
+                    if (filters.limitDate == null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.gpsItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.gpsItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.gpsItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.gpsItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    gpsItems.items = searchItem.ToArray();
+                    gpsItems.totalItems = searchItem.Count();
+                }
+                else if (filters.limitDate != null)
+                {
+                    IEnumerable<GetGpsData> searchItem = new GetGpsData[] { };
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.gpsItemsFilter(startDt.Year, limetDt.Year).Where(x => x.Date <= filters.limitDate).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        searchItem = this.gpsItemsFilter(2020, limetDt.Year).Where(x => x.Date == filters.limitDate).ToList();
+                    }
+                    gpsItems.items = searchItem.ToArray();
+                    gpsItems.totalItems = searchItem.Count();
+                }
             }
-
             return gpsItems;
         }
 

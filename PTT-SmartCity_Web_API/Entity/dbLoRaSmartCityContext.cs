@@ -1,14 +1,13 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
+using System.Data.Entity;
+using System.Linq;
+
 namespace PTT_SmartCity_Web_API.Entity
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-    using System.Configuration;
-
     public partial class dbLoRaSmartCityContext : DbContext
     {
-
         public dbLoRaSmartCityContext(int year)
             : base(string.Format(ConfigurationManager.ConnectionStrings["dbLoRaSmartCityContext"].ConnectionString, year))
         {
@@ -20,6 +19,7 @@ namespace PTT_SmartCity_Web_API.Entity
         }
 
         public virtual DbSet<tbEnvironmentSensor> tbEnvironmentSensor { get; set; }
+        public virtual DbSet<tbGarbageBinSensor> tbGarbageBinSensor { get; set; }
         public virtual DbSet<tbGPS> tbGPS { get; set; }
         public virtual DbSet<tbGPS_Realtime> tbGPS_Realtime { get; set; }
         public virtual DbSet<tbLoRaWAN> tbLoRaWAN { get; set; }
@@ -32,6 +32,7 @@ namespace PTT_SmartCity_Web_API.Entity
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<tbEnvironmentSensor>()
                 .Property(e => e.Time)
                 .HasPrecision(0);

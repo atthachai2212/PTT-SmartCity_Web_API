@@ -36,7 +36,7 @@ namespace PTT_SmartCity_Web_API.Services
                         BATLevel = m.BATLevel,
                         RSSI = m.RSSI,
                         SNR = m.SNR
-                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    }).ToList();
                     waterLevelSensorItems.AddRange(modelWaterLevel);
                 }
             }
@@ -64,7 +64,7 @@ namespace PTT_SmartCity_Web_API.Services
                         BATLevel = m.BATLevel,
                         RSSI = m.RSSI,
                         SNR = m.SNR
-                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    }).ToList();
                     waterQualitySensorItems.AddRange(modelWaterQuality);
                 }
             }
@@ -100,34 +100,38 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<GetWaterLevelData> getWaterLevelSensor => this.waterLevelSensorItemsFilter(2020,DateTime.Now.Year).GroupBy(m => m.DevEUI, (key, g) => new GetWaterLevelData
-        {
-            Date = g.FirstOrDefault().Date,
-            Time = g.FirstOrDefault().Time,
-            DevEUI = key,
-            GatewayEUI = g.FirstOrDefault().GatewayEUI,
-            WaterLevel = g.FirstOrDefault().WaterLevel,
-            Distance = g.FirstOrDefault().Distance,
-            BATVolt = g.FirstOrDefault().BATVolt,
-            BATLevel = g.FirstOrDefault().BATLevel,
-            RSSI = g.FirstOrDefault().RSSI,
-            SNR = g.FirstOrDefault().SNR
-        });
+        public IEnumerable<GetWaterLevelData> getWaterLevelSensor => this.waterLevelSensorItemsFilter(DateTime.Now.Year - 1 ,DateTime.Now.Year)
+            .OrderByDescending(x => x.Date).ThenByDescending(x => x.Time)
+            .GroupBy(m => m.DevEUI, (key, g) => new GetWaterLevelData
+            {
+                Date = g.FirstOrDefault().Date,
+                Time = g.FirstOrDefault().Time,
+                DevEUI = key,
+                GatewayEUI = g.FirstOrDefault().GatewayEUI,
+                WaterLevel = g.FirstOrDefault().WaterLevel,
+                Distance = g.FirstOrDefault().Distance,
+                BATVolt = g.FirstOrDefault().BATVolt,
+                BATLevel = g.FirstOrDefault().BATLevel,
+                RSSI = g.FirstOrDefault().RSSI,
+                SNR = g.FirstOrDefault().SNR
+            });
 
-        public IEnumerable<GetWaterQualityData> getWaterQualitySensor => this.waterQualitySensorItemsFilter(2020,DateTime.Now.Year).GroupBy(m => m.DevEUI, (key, g) => new GetWaterQualityData
-        {
-            Date = g.FirstOrDefault().Date,
-            Time = g.FirstOrDefault().Time,
-            DevEUI = key,
-            GatewayEUI = g.FirstOrDefault().GatewayEUI,
-            WaterTemp = g.FirstOrDefault().WaterTemp,
-            DO = g.FirstOrDefault().DO,
-            DO_Cal = g.FirstOrDefault().DO_Cal,
-            BATVolt = g.FirstOrDefault().BATVolt,
-            BATLevel = g.FirstOrDefault().BATLevel,
-            RSSI = g.FirstOrDefault().RSSI,
-            SNR = g.FirstOrDefault().SNR
-        });
+        public IEnumerable<GetWaterQualityData> getWaterQualitySensor => this.waterQualitySensorItemsFilter(DateTime.Now.Year - 1, DateTime.Now.Year)
+            .OrderByDescending(x => x.Date).ThenByDescending(x => x.Time)
+            .GroupBy(m => m.DevEUI, (key, g) => new GetWaterQualityData
+            {
+                Date = g.FirstOrDefault().Date,
+                Time = g.FirstOrDefault().Time,
+                DevEUI = key,
+                GatewayEUI = g.FirstOrDefault().GatewayEUI,
+                WaterTemp = g.FirstOrDefault().WaterTemp,
+                DO = g.FirstOrDefault().DO,
+                DO_Cal = g.FirstOrDefault().DO_Cal,
+                BATVolt = g.FirstOrDefault().BATVolt,
+                BATLevel = g.FirstOrDefault().BATLevel,
+                RSSI = g.FirstOrDefault().RSSI,
+                SNR = g.FirstOrDefault().SNR
+            });
 
 
         public GetWaterLevelDataModel getWaterLevelSensorItems()
@@ -152,26 +156,104 @@ namespace PTT_SmartCity_Web_API.Services
 
         public GetWaterLevelDataModel getWaterLevelSensorItemsFilter(WaterDataFilterOptions filters)
         {
-            var waterLevelSensorItems = new GetWaterLevelDataModel
-            {
-                items = this.waterLevelSensorItems.Take(filters.length).ToArray(),
-                totalItems = filters.length
-            };
+            DateTime startDt = Convert.ToDateTime(filters.startDate);
+            DateTime limetDt = Convert.ToDateTime(filters.limitDate);
 
-            if (!string.IsNullOrEmpty(filters.deveui))
+            GetWaterLevelDataModel waterLevelSensorItems = new GetWaterLevelDataModel();
+            if (filters != null)
             {
-                IEnumerable<GetWaterLevelData> searchItem = new GetWaterLevelData[] { };
+                waterLevelSensorItems = new GetWaterLevelDataModel
+                {
+                    items = this.waterLevelSensorItemsFilter(2020, DateTime.Now.Year).Take(filters.length).ToArray(),
+                    totalItems = filters.length
+                };
 
-                if (filters.length > 0)
+                if (!string.IsNullOrEmpty(filters.deveui) && filters.startDate != null)
                 {
-                    searchItem = this.waterLevelSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    IEnumerable<GetWaterLevelData> searchItem = new GetWaterLevelData[] { };
+                    if (filters.limitDate != null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.waterLevelSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.waterLevelSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.waterLevelSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.waterLevelSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    waterLevelSensorItems.items = searchItem.ToArray();
+                    waterLevelSensorItems.totalItems = searchItem.Count();
                 }
-                else
+                else if (!string.IsNullOrEmpty(filters.deveui))
                 {
-                    searchItem = this.waterLevelSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                    IEnumerable<GetWaterLevelData> searchItem = new GetWaterLevelData[] { };
+
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.waterLevelSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        var lastDate = this.waterLevelSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).FirstOrDefault().Date;
+                        searchItem = this.waterLevelSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date == lastDate).ToList();
+                    }
+                    waterLevelSensorItems.items = searchItem.ToArray();
+                    waterLevelSensorItems.totalItems = searchItem.Count();
                 }
-                waterLevelSensorItems.items = searchItem.ToArray();
-                waterLevelSensorItems.totalItems = searchItem.Count();
+                else if (filters.startDate != null)
+                {
+                    IEnumerable<GetWaterLevelData> searchItem = new GetWaterLevelData[] { };
+                    if (filters.limitDate == null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.waterLevelSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.waterLevelSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.waterLevelSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.waterLevelSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    waterLevelSensorItems.items = searchItem.ToArray();
+                    waterLevelSensorItems.totalItems = searchItem.Count();
+                }
+                else if (filters.limitDate != null)
+                {
+                    IEnumerable<GetWaterLevelData> searchItem = new GetWaterLevelData[] { };
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.waterLevelSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.Date <= filters.limitDate).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        searchItem = this.waterLevelSensorItemsFilter(2020, limetDt.Year).Where(x => x.Date == filters.limitDate).ToList();
+                    }
+                    waterLevelSensorItems.items = searchItem.ToArray();
+                    waterLevelSensorItems.totalItems = searchItem.Count();
+                }
             }
             return waterLevelSensorItems;
         }
@@ -198,26 +280,104 @@ namespace PTT_SmartCity_Web_API.Services
 
         public GetWaterQualityDataModel getWaterQualitySensorItemsFilter(WaterDataFilterOptions filters)
         {
-            var waterQualitySensorItems = new GetWaterQualityDataModel
-            {
-                items = this.waterQualitySensorItems.Take(filters.length).ToArray(),
-                totalItems = filters.length
-            };
+            DateTime startDt = Convert.ToDateTime(filters.startDate);
+            DateTime limetDt = Convert.ToDateTime(filters.limitDate);
 
-            if (!string.IsNullOrEmpty(filters.deveui))
+            GetWaterQualityDataModel waterQualitySensorItems = new GetWaterQualityDataModel();
+            if (filters != null)
             {
-                IEnumerable<GetWaterQualityData> searchItem = new GetWaterQualityData[] { };
+                waterQualitySensorItems = new GetWaterQualityDataModel
+                {
+                    items = this.waterQualitySensorItemsFilter(2020, DateTime.Now.Year).Take(filters.length).ToArray(),
+                    totalItems = filters.length
+                };
 
-                if (filters.length > 0)
+                if (!string.IsNullOrEmpty(filters.deveui) && filters.startDate != null)
                 {
-                    searchItem = this.waterQualitySensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    IEnumerable<GetWaterQualityData> searchItem = new GetWaterQualityData[] { };
+                    if (filters.limitDate != null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.waterQualitySensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.waterQualitySensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.waterQualitySensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.waterQualitySensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    waterQualitySensorItems.items = searchItem.ToArray();
+                    waterQualitySensorItems.totalItems = searchItem.Count();
                 }
-                else
+                else if (!string.IsNullOrEmpty(filters.deveui))
                 {
-                    searchItem = this.waterQualitySensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                    IEnumerable<GetWaterQualityData> searchItem = new GetWaterQualityData[] { };
+
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.waterQualitySensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        var lastDate = this.waterQualitySensorItemsFilter(DateTime.Now.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).FirstOrDefault().Date;
+                        searchItem = this.waterQualitySensorItemsFilter(DateTime.Now.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date == lastDate).ToList();
+                    }
+                    waterQualitySensorItems.items = searchItem.ToArray();
+                    waterQualitySensorItems.totalItems = searchItem.Count();
                 }
-                waterQualitySensorItems.items = searchItem.ToArray();
-                waterQualitySensorItems.totalItems = searchItem.Count();
+                else if (filters.startDate != null)
+                {
+                    IEnumerable<GetWaterQualityData> searchItem = new GetWaterQualityData[] { };
+                    if (filters.limitDate == null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.waterQualitySensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.waterQualitySensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.waterQualitySensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.waterQualitySensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    waterQualitySensorItems.items = searchItem.ToArray();
+                    waterQualitySensorItems.totalItems = searchItem.Count();
+                }
+                else if (filters.limitDate != null)
+                {
+                    IEnumerable<GetWaterQualityData> searchItem = new GetWaterQualityData[] { };
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.waterQualitySensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.Date <= filters.limitDate).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        searchItem = this.waterQualitySensorItemsFilter(2020, limetDt.Year).Where(x => x.Date == filters.limitDate).ToList();
+                    }
+                    waterQualitySensorItems.items = searchItem.ToArray();
+                    waterQualitySensorItems.totalItems = searchItem.Count();
+                }
             }
             return waterQualitySensorItems;
         }

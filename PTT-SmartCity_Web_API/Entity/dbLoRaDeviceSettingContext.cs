@@ -1,10 +1,10 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
+using System.Linq;
+
 namespace PTT_SmartCity_Web_API.Entity
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-
     public partial class dbLoRaDeviceSettingContext : DbContext
     {
         public dbLoRaDeviceSettingContext()
@@ -12,11 +12,13 @@ namespace PTT_SmartCity_Web_API.Entity
         {
         }
 
+        public virtual DbSet<tbGarbageBin> tbGarbageBin { get; set; }
         public virtual DbSet<tbLoRaAlertLog> tbLoRaAlertLog { get; set; }
         public virtual DbSet<tbLoRaDevice> tbLoRaDevice { get; set; }
         public virtual DbSet<tbLoRaDeviceDetail> tbLoRaDeviceDetail { get; set; }
         public virtual DbSet<tbLoRaDeviceList> tbLoRaDeviceList { get; set; }
         public virtual DbSet<tbLoRaGateway> tbLoRaGateway { get; set; }
+        public virtual DbSet<vwLoRaAlertUpdate> vwLoRaAlertUpdate { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -28,6 +30,10 @@ namespace PTT_SmartCity_Web_API.Entity
                 .HasOptional(e => e.tbLoRaDeviceDetail)
                 .WithRequired(e => e.tbLoRaDevice)
                 .WillCascadeOnDelete();
+
+            modelBuilder.Entity<vwLoRaAlertUpdate>()
+                .Property(e => e.Time)
+                .HasPrecision(0);
         }
     }
 }

@@ -34,11 +34,11 @@ namespace PTT_SmartCity_Web_API.Controllers
         }
 
         // GET: api/sensorhub/all
-        [Route("api/sensorhub/all")]
-        public GetSensorHubDataModel GettbSensorHubAll()
-        {
-            return this.sensorHubService.getSensorHubItemsAll();
-        }
+        //[Route("api/sensorhub/all")]
+        //public GetSensorHubDataModel GettbSensorHubAll()
+        //{
+        //    return this.sensorHubService.getSensorHubItemsAll();
+        //}
 
         // GET: api/sensorhub
         [Route("api/sensorhub/filter")]

@@ -36,7 +36,7 @@ namespace PTT_SmartCity_Web_API.Services
                         Battery = m.Battery,
                         RSSI = m.RSSI,
                         SNR = m.SNR
-                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    }).ToList();
                     wasteBinSensorItems.AddRange(modelWasteBin);
                 }
             }
@@ -57,19 +57,21 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<GetWasteBinData> getWasteBinSensor => this.wasteBinSensorItemsFilter(2020,DateTime.Now.Year).GroupBy(m => m.DevEUI, (key, g) => new GetWasteBinData
-        {
-            Date = g.FirstOrDefault().Date,
-            Time = g.FirstOrDefault().Time,
-            DevEUI = key,
-            GatewayEUI = g.FirstOrDefault().GatewayEUI,
-            Full = g.FirstOrDefault().Full,
-            Flame = g.FirstOrDefault().Flame,
-            AirLevel = g.FirstOrDefault().AirLevel,
-            Battery = g.FirstOrDefault().Battery,
-            RSSI = g.FirstOrDefault().RSSI,
-            SNR = g.FirstOrDefault().SNR
-        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
+        public IEnumerable<GetWasteBinData> getWasteBinSensor => this.wasteBinSensorItemsFilter(DateTime.Now.Year - 1,DateTime.Now.Year)
+            .OrderByDescending(x => x.Date).ThenByDescending(x => x.Time)
+            .GroupBy(m => m.DevEUI, (key, g) => new GetWasteBinData
+            {
+                Date = g.FirstOrDefault().Date,
+                Time = g.FirstOrDefault().Time,
+                DevEUI = key,
+                GatewayEUI = g.FirstOrDefault().GatewayEUI,
+                Full = g.FirstOrDefault().Full,
+                Flame = g.FirstOrDefault().Flame,
+                AirLevel = g.FirstOrDefault().AirLevel,
+                Battery = g.FirstOrDefault().Battery,
+                RSSI = g.FirstOrDefault().RSSI,
+                SNR = g.FirstOrDefault().SNR
+            });
 
         public GetWasteBinDataModel getWasteBinSensorItems()
         {
@@ -93,28 +95,105 @@ namespace PTT_SmartCity_Web_API.Services
 
         public GetWasteBinDataModel getWasteBinSensorItemsFilter(WasteBinDataFilterOptions filters)
         {
-            var wasteBinSensorItems = new GetWasteBinDataModel
-            {
-                items = this.wasteBinSensorItems.Take(filters.length).ToArray(),
-                totalItems = filters.length
-            };
+            DateTime startDt = Convert.ToDateTime(filters.startDate);
+            DateTime limetDt = Convert.ToDateTime(filters.limitDate);
 
-            if (!string.IsNullOrEmpty(filters.deveui))
+            GetWasteBinDataModel wasteBinSensorItems = new GetWasteBinDataModel();
+            if (filters != null)
             {
-                IEnumerable<GetWasteBinData> searchItem = new GetWasteBinData[] { };
+                wasteBinSensorItems = new GetWasteBinDataModel
+                {
+                    items = this.wasteBinSensorItemsFilter(2020, DateTime.Now.Year).Take(filters.length).ToArray(),
+                    totalItems = filters.length
+                };
 
-                if (filters.length > 0)
+                if (!string.IsNullOrEmpty(filters.deveui) && filters.startDate != null)
                 {
-                    searchItem = this.wasteBinSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    IEnumerable<GetWasteBinData> searchItem = new GetWasteBinData[] { };
+                    if (filters.limitDate != null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.wasteBinSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.wasteBinSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.wasteBinSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.wasteBinSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    wasteBinSensorItems.items = searchItem.ToArray();
+                    wasteBinSensorItems.totalItems = searchItem.Count();
                 }
-                else
+                else if (!string.IsNullOrEmpty(filters.deveui))
                 {
-                    searchItem = this.wasteBinSensorItems.Where(x => x.DevEUI == filters.deveui).ToList();
+                    IEnumerable<GetWasteBinData> searchItem = new GetWasteBinData[] { };
+
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.wasteBinSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        var lastDate = this.wasteBinSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).FirstOrDefault().Date;
+                        searchItem = this.wasteBinSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date == lastDate).ToList();
+                    }
+                    wasteBinSensorItems.items = searchItem.ToArray();
+                    wasteBinSensorItems.totalItems = searchItem.Count();
                 }
-                wasteBinSensorItems.items = searchItem.ToArray();
-                wasteBinSensorItems.totalItems = searchItem.Count();
+                else if (filters.startDate != null)
+                {
+                    IEnumerable<GetWasteBinData> searchItem = new GetWasteBinData[] { };
+                    if (filters.limitDate == null)
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.wasteBinSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.wasteBinSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).ToList();
+                        }
+                    }
+                    else
+                    {
+                        if (filters.length > 0)
+                        {
+                            searchItem = this.wasteBinSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        }
+                        else
+                        {
+                            searchItem = this.wasteBinSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                        }
+                    }
+                    wasteBinSensorItems.items = searchItem.ToArray();
+                    wasteBinSensorItems.totalItems = searchItem.Count();
+                }
+                else if (filters.limitDate != null)
+                {
+                    IEnumerable<GetWasteBinData> searchItem = new GetWasteBinData[] { };
+                    if (filters.length > 0)
+                    {
+                        searchItem = this.wasteBinSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.Date <= filters.limitDate).Take(filters.length).ToList();
+                    }
+                    else
+                    {
+                        searchItem = this.wasteBinSensorItemsFilter(2020, limetDt.Year).Where(x => x.Date == filters.limitDate).ToList();
+                    }
+                    wasteBinSensorItems.items = searchItem.ToArray();
+                    wasteBinSensorItems.totalItems = searchItem.Count();
+                }
             }
-
             return wasteBinSensorItems;
         }
 

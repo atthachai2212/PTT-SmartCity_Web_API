@@ -27,11 +27,11 @@ namespace PTT_SmartCity_Web_API.Controllers
         }
 
         // GET: api/weathersensor
-        [Route("api/waterlevelsensor/all")]
-        public GetWaterLevelDataModel GetWaterLevelSensorAll()
-        {
-            return this.waterService.getWaterLevelSensorItemsAll();
-        }
+        //[Route("api/waterlevelsensor/all")]
+        //public GetWaterLevelDataModel GetWaterLevelSensorAll()
+        //{
+        //    return this.waterService.getWaterLevelSensorItemsAll();
+        //}
 
         // GET: api/weathersensor
         [Route("api/waterlevelsensor/filter")]
@@ -55,11 +55,11 @@ namespace PTT_SmartCity_Web_API.Controllers
         }
 
         // GET: api/waterqualitysensor/all
-        [Route("api/waterqualitysensor/all")]
-        public GetWaterQualityDataModel GetWaterQualitySensorAll()
-        {
-            return this.waterService.getWaterQualitySensorItemsAll();
-        }
+        //[Route("api/waterqualitysensor/all")]
+        //public GetWaterQualityDataModel GetWaterQualitySensorAll()
+        //{
+        //    return this.waterService.getWaterQualitySensorItemsAll();
+        //}
 
         // GET: api/waterqualitysensor/filter
         [Route("api/waterqualitysensor/filter")]

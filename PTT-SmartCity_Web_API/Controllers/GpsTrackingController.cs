@@ -33,11 +33,11 @@ namespace PTT_SmartCity_Web_API.Controllers
         }
 
         // GET: api/gpstracking/all
-        [Route("api/gpstracking/all")]
-        public GetGpsDataModel GetGpsTrackingAll()
-        {
-            return this.gpsTrackingService.getGpsItemsAll();
-        }
+        //[Route("api/gpstracking/all")]
+        //public GetGpsDataModel GetGpsTrackingAll()
+        //{
+        //    return this.gpsTrackingService.getGpsItemsAll();
+        //}
 
         // GET: api/gpstracking/filter
         [Route("api/gpstracking/filter")]

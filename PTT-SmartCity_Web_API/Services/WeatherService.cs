@@ -41,7 +41,7 @@ namespace PTT_SmartCity_Web_API.Services
                         BATLevel = m.BATLevel,
                         RSSI = m.RSSI,
                         SNR = m.SNR
-                    }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time).ToList();
+                    }).ToList();
                     weatherSensorItems.AddRange(modelWeather);
                 }
             }
@@ -66,7 +66,9 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<GetWeatherData> getWeatherSensor => this.weatherSensorItemsFilter(2020,DateTime.Now.Year).GroupBy(m => m.DevEUI, (key, g) => new GetWeatherData
+        public IEnumerable<GetWeatherData> getWeatherSensor => this.weatherSensorItemsFilter(DateTime.Now.Year - 1,DateTime.Now.Year)
+            .OrderByDescending(x => x.Date).ThenByDescending(x => x.Time)
+            .GroupBy(m => m.DevEUI, (key, g) => new GetWeatherData
         {
             Date = g.FirstOrDefault().Date,
             Time = g.FirstOrDefault().Time,
@@ -82,7 +84,7 @@ namespace PTT_SmartCity_Web_API.Services
             BATLevel = g.FirstOrDefault().BATLevel,
             RSSI = g.FirstOrDefault().RSSI,
             SNR = g.FirstOrDefault().SNR
-        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
+        });
 
 
         public GetWeatherDataModel getWeatherSensorItems()
@@ -107,6 +109,9 @@ namespace PTT_SmartCity_Web_API.Services
 
         public GetWeatherDataModel getWeatherSensorItemsFilter(WeatherDataFilterOptions filters)
         {
+            DateTime startDt = Convert.ToDateTime(filters.startDate);
+            DateTime limetDt = Convert.ToDateTime(filters.limitDate);
+
             GetWeatherDataModel weatherSensorItems = new GetWeatherDataModel();
             if (filters != null)
             {
@@ -123,22 +128,22 @@ namespace PTT_SmartCity_Web_API.Services
                     {
                         if (filters.length > 0)
                         {
-                            searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                            searchItem = this.weatherSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
                         }
                         else
                         {
-                            searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                            searchItem = this.weatherSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
                         }
                     }
                     else
                     {
                         if (filters.length > 0)
                         {
-                            searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).Take(filters.length).ToList();
+                            searchItem = this.weatherSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).Take(filters.length).ToList();
                         }
                         else
                         {
-                            searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).ToList();
+                            searchItem = this.weatherSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date >= filters.startDate).ToList();
                         }
                     }
                     weatherSensorItems.items = searchItem.ToArray();
@@ -150,12 +155,12 @@ namespace PTT_SmartCity_Web_API.Services
 
                     if (filters.length > 0)
                     {
-                        searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
+                        searchItem = this.weatherSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).Take(filters.length).ToList();
                     }
                     else
                     {
-                        var lastDate = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui).FirstOrDefault().Date;
-                        searchItem = this.weatherSensorItems.Where(x => x.DevEUI == filters.deveui && x.Date == lastDate).ToList();
+                        var lastDate = this.weatherSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).FirstOrDefault().Date;
+                        searchItem = this.weatherSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date == lastDate).ToList();
                     }
                     weatherSensorItems.items = searchItem.ToArray();
                     weatherSensorItems.totalItems = searchItem.Count();
@@ -167,22 +172,22 @@ namespace PTT_SmartCity_Web_API.Services
                     {
                         if (filters.length > 0)
                         {
-                            searchItem = this.weatherSensorItems.Where(x => x.Date >= filters.startDate).Take(filters.length).ToList();
+                            searchItem = this.weatherSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).Take(filters.length).ToList();
                         }
                         else
                         {
-                            searchItem = this.weatherSensorItems.Where(x => x.Date >= filters.startDate).ToList();
+                            searchItem = this.weatherSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate).ToList();
                         }
                     }
                     else
                     {
                         if (filters.length > 0)
                         {
-                            searchItem = this.weatherSensorItems.Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
+                            searchItem = this.weatherSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).Take(filters.length).ToList();
                         }
                         else
                         {
-                            searchItem = this.weatherSensorItems.Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
+                            searchItem = this.weatherSensorItemsFilter(startDt.Year, DateTime.Now.Year).Where(x => x.Date >= filters.startDate && x.Date <= filters.limitDate).ToList();
                         }
                     }
                     weatherSensorItems.items = searchItem.ToArray();
@@ -193,11 +198,11 @@ namespace PTT_SmartCity_Web_API.Services
                     IEnumerable<GetWeatherData> searchItem = new GetWeatherData[] { };
                     if (filters.length > 0)
                     {
-                        searchItem = this.weatherSensorItems.Where(x => x.Date <= filters.limitDate).Take(filters.length).ToList();
+                        searchItem = this.weatherSensorItemsFilter(startDt.Year, limetDt.Year).Where(x => x.Date <= filters.limitDate).Take(filters.length).ToList();
                     }
                     else
                     {
-                        searchItem = this.weatherSensorItems.Where(x => x.Date == filters.limitDate).ToList();
+                        searchItem = this.weatherSensorItemsFilter(2020, limetDt.Year).Where(x => x.Date == filters.limitDate).ToList();
                     }
                     weatherSensorItems.items = searchItem.ToArray();
                     weatherSensorItems.totalItems = searchItem.Count();

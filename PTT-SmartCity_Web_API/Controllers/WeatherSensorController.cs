@@ -27,11 +27,11 @@ namespace PTT_SmartCity_Web_API.Controllers
         }
 
         // GET: api/weathersensor
-        [Route("api/weathersensor/all")]
-        public GetWeatherDataModel GetWeatherSensorAll()
-        {
-            return this.weatherService.getWeatherSensorItemsAll();
-        }
+        //[Route("api/weathersensor/all")]
+        //public GetWeatherDataModel GetWeatherSensorAll()
+        //{
+        //    return this.weatherService.getWeatherSensorItemsAll();
+        //}
 
         // GET: api/weathersensor
         [Route("api/weathersensor/filter")]

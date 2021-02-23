@@ -33,11 +33,11 @@ namespace PTT_SmartCity_Web_API.Controllers
         }
 
         // GET: api/wastebinsensor/all
-        [Route("api/wastebinsensor/all")]
-        public GetWasteBinDataModel GetWasteBinSensorAll()
-        {
-            return this.wasteBinService.getWasteBinSensorItemsAll();
-        }
+        //[Route("api/wastebinsensor/all")]
+        //public GetWasteBinDataModel GetWasteBinSensorAll()
+        //{
+        //    return this.wasteBinService.getWasteBinSensorItemsAll();
+        //}
 
         // GET: api/wastebinsensor/filter
         [Route("api/wastebinsensor/filter")]

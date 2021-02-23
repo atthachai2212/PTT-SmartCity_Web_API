@@ -27,21 +27,22 @@ namespace PTT_SmartCity_Web_API.Controllers
 
         // GET: api/environmentsensor
         [Route("api/environmentsensor")]
-        public GetEnvironmentDataModel GetWasteBinSensor()
+        public GetEnvironmentDataModel GetEnvironmentSensor()
         {
+
             return this.environmentService.getEnvironmentSensorItems();
         }
 
         // GET: api/environmentsensor/all
-        [Route("api/environmentsensor/all")]
-        public GetEnvironmentDataModel GetWasteBinSensorAll()
-        {
-            return this.environmentService.getEnvironmentSensorItemsAll();
-        }
+        //[Route("api/environmentsensor/all")]
+        //public GetEnvironmentDataModel GetWasteBinSensorAll()
+        //{
+        //    return this.environmentService.getEnvironmentSensorItemsAll();
+        //}
 
         // GET: api/wastebinsensor/filter
         [Route("api/environmentsensor/filter")]
-        public GetEnvironmentDataModel GetWasteBinSensorFilter([FromUri]EnvironmentDataFilterOptions filters)
+        public GetEnvironmentDataModel GetEnvironmentSensorFilter([FromUri]EnvironmentDataFilterOptions filters)
         {
             if (ModelState.IsValid)
             {

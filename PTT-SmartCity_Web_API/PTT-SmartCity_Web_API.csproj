@@ -209,7 +209,9 @@
     </Compile>
     <Compile Include="Entity\dbLoRaDeviceSettingContext.cs" />
     <Compile Include="Entity\dbLoRaSmartCityContext.cs" />
+    <Compile Include="Entity\tbGarbageBin.cs" />
     <Compile Include="Entity\tbEnvironmentSensor.cs" />
+    <Compile Include="Entity\tbGarbageBinSensor.cs" />
     <Compile Include="Entity\tbGPS.cs" />
     <Compile Include="Entity\tbGPS_Realtime.cs" />
     <Compile Include="Entity\tbLoRaAlertLog.cs" />

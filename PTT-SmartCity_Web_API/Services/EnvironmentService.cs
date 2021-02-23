@@ -69,25 +69,27 @@ namespace PTT_SmartCity_Web_API.Services
             SNR = m.SNR
         }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
 
-        public IEnumerable<GetEnvironmentData> getEnvironmentSensor => this.environmentSensorItemsFilter(2020, DateTime.Now.Year).GroupBy(m => m.DevEUI, (key, g) => new GetEnvironmentData 
-        {
-            Date = g.FirstOrDefault().Date,
-            Time = g.FirstOrDefault().Time,
-            DevEUI = key,
-            GatewayEUI = g.FirstOrDefault().GatewayEUI,
-            O2 = g.FirstOrDefault().O2,
-            O3 = g.FirstOrDefault().O3,
-            PM1 = g.FirstOrDefault().PM1,
-            PM2_5 = g.FirstOrDefault().PM2_5,
-            PM10 = g.FirstOrDefault().PM10,
-            AirTemp = g.FirstOrDefault().AirTemp,
-            AirHumidity = g.FirstOrDefault().AirHumidity,
-            AirPressure = g.FirstOrDefault().AirPressure,
-            BATLevel = g.FirstOrDefault().BATLevel,
-            BATVolt = g.FirstOrDefault().BATVolt,
-            RSSI = g.FirstOrDefault().RSSI,
-            SNR = g.FirstOrDefault().SNR
-        }).OrderByDescending(x => x.Date).ThenByDescending(x => x.Time);
+        public IEnumerable<GetEnvironmentData> getEnvironmentSensor => this.environmentSensorItemsFilter(DateTime.Now.Year - 1, DateTime.Now.Year)
+            .OrderByDescending(x => x.Date).ThenByDescending(x => x.Time)
+            .GroupBy(m => m.DevEUI, (key, g) => new GetEnvironmentData 
+            {
+                Date = g.FirstOrDefault().Date,
+                Time = g.FirstOrDefault().Time,
+                DevEUI = key,
+                GatewayEUI = g.FirstOrDefault().GatewayEUI,
+                O2 = g.FirstOrDefault().O2,
+                O3 = g.FirstOrDefault().O3,
+                PM1 = g.FirstOrDefault().PM1,
+                PM2_5 = g.FirstOrDefault().PM2_5,
+                PM10 = g.FirstOrDefault().PM10,
+                AirTemp = g.FirstOrDefault().AirTemp,
+                AirHumidity = g.FirstOrDefault().AirHumidity,
+                AirPressure = g.FirstOrDefault().AirPressure,
+                BATLevel = g.FirstOrDefault().BATLevel,
+                BATVolt = g.FirstOrDefault().BATVolt,
+                RSSI = g.FirstOrDefault().RSSI,
+                SNR = g.FirstOrDefault().SNR
+            });
 
         public void environmentSensorData(LoRaWANDataModel model)
         {
@@ -142,11 +144,24 @@ namespace PTT_SmartCity_Web_API.Services
 
         public GetEnvironmentDataModel getEnvironmentSensorItems()
         {
+            List<GetEnvironmentData> environmentData = new List<GetEnvironmentData>();
+            environmentData.Add(this.getEnvironmentSensor.SingleOrDefault(x => x.DevEUI == "0004a30b0028932c"));
+            environmentData.Add(this.getEnvironmentSensor.SingleOrDefault(x => x.DevEUI == "0004a30b00ec0ae2"));
+            environmentData.Add(this.getEnvironmentSensor.SingleOrDefault(x => x.DevEUI == "0004a30b00eba418"));
+            environmentData.Add(this.getEnvironmentSensor.SingleOrDefault(x => x.DevEUI == "0004a30b0022df4b"));
+            environmentData.Add(this.getEnvironmentSensor.SingleOrDefault(x => x.DevEUI == "0004a30b00ebf405"));
+
             var environmentSensorItems = new GetEnvironmentDataModel
             {
-                items = this.getEnvironmentSensor.ToArray(),
-                totalItems = this.getEnvironmentSensor.Count()
+                items = environmentData.ToArray(),
+                totalItems = environmentData.Count()
             };
+
+            //var environmentSensorItems = new GetEnvironmentDataModel
+            //{
+            //    items = this.getEnvironmentSensor.ToArray(),
+            //    totalItems = this.getEnvironmentSensor.Count()
+            //};
             return environmentSensorItems;
         }
 
@@ -213,8 +228,8 @@ namespace PTT_SmartCity_Web_API.Services
                     }
                     else
                     {
-                        var lastDate = this.environmentSensorItemsFilter(DateTime.Now.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).FirstOrDefault().Date;
-                        searchItem = this.environmentSensorItemsFilter(DateTime.Now.Year, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date == lastDate).ToList();
+                        var lastDate = this.environmentSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui).FirstOrDefault().Date;
+                        searchItem = this.environmentSensorItemsFilter(2020, DateTime.Now.Year).Where(x => x.DevEUI == filters.deveui && x.Date == lastDate).ToList();
                     }
                     environmentSensorItems.items = searchItem.ToArray();
                     environmentSensorItems.totalItems = searchItem.Count();
@@ -262,9 +277,7 @@ namespace PTT_SmartCity_Web_API.Services
                     environmentSensorItems.totalItems = searchItem.Count();
                 }
             }
-
             return environmentSensorItems;
-
         }
     }
 }
