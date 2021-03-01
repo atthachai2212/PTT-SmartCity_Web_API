@@ -103,10 +103,8 @@ namespace PTT_SmartCity_Web_API.Services
         {
             if (avg >= 0)
             {
-                float Ip = 0;
-                int Ilow = 0, Ihigh = 0;
-                float Clow = 0, Chigh = 0;
-                float Cp = 0;
+                float Ip, Clow, Chigh, Cp;
+                int Ilow , Ihigh;
                 var PollutionValue_Cal = AQIBreakpointTable("PM25", avg);
 
                 Ilow = Convert.ToInt32(PollutionValue_Cal["Ilow"]);
@@ -128,10 +126,8 @@ namespace PTT_SmartCity_Web_API.Services
         {
             if (avg >= 0) 
             {
-                float Ip = 0;
-                int Ilow = 0, Ihigh = 0;
-                float Clow = 0, Chigh = 0;
-                float Cp = 0;
+                float Ip, Clow, Chigh, Cp;
+                int Ilow, Ihigh;
                 var PollutionValue_Cal = AQIBreakpointTable("PM10", avg);
 
                 Ilow = Convert.ToInt32(PollutionValue_Cal["Ilow"]);
@@ -153,10 +149,8 @@ namespace PTT_SmartCity_Web_API.Services
         {
             if(avg >= 0)
             {
-                float Ip = 0;
-                int Ilow = 0, Ihigh = 0;
-                float Clow = 0, Chigh = 0;
-                float Cp = 0;
+                float Ip, Clow, Chigh, Cp;
+                int Ilow, Ihigh;
                 var PollutionValue_Cal = AQIBreakpointTable("O3", avg);
 
                 Ilow = Convert.ToInt32(PollutionValue_Cal["Ilow"]);

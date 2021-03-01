@@ -166,6 +166,7 @@
                 });
                 InitOverviewDataTable();
                 $("#btnDataFilter").click(function () {
+                    console.log($('#date_timepicker_start').val().replace(' ', 'T'));
                     if ($.fn.DataTable.isDataTable('#tbEnvironment')) {
                         $('#tbEnvironment').DataTable().destroy();
                         $('#tbEnvironment tbody').empty();
@@ -205,7 +206,9 @@
                     buttons: [
                         {
                             extend: 'excelHtml5',
-                            title: ($('#deviceEUI').val() === "" || $('#deviceEUI').val() == null ? "EnvironmentSensorAll" : "DevEUI_" + $('#deviceEUI').val()) + " - @(DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"))",
+                            title: ($('#deviceEUI').val() === "" || $('#deviceEUI').val() == null ?
+                                "EnvironmentSensorAll" :
+                                "DevEUI_" + $('#deviceEUI').val()) + "_" + $('#date_timepicker_start').val().replace(' ', 'T') + " - " + $('#date_timepicker_end').val().replace(' ', 'T'),
                             text: '<i class="fa fa-fw fa-lg fa-download"></i>Export to Excel',
                             className: 'btn btn-primary',
                         },
@@ -229,11 +232,11 @@
                     ],
                     "order": [[0, "desc"]]
                 });
-                setInterval(function () {
-                    var DateTime = getDateTime();
-                    $('#date_timepicker_end').val(DateTime.strDateTimeNow);
-                    table.ajax.reload(null, false);
-                }, 60 * 1000 );
+                //setInterval(function () {
+                //    var DateTime = getDateTime();
+                //    $('#date_timepicker_end').val(DateTime.strDateTimeNow);
+                //    table.ajax.reload(null, false);
+                //}, 60 * 1000 );
             }
 
             //function InitOverviewDataTable(JsonData) {

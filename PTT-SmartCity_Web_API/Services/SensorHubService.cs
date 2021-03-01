@@ -249,7 +249,7 @@ namespace PTT_SmartCity_Web_API.Services
                     GatewayEUI = model.gateway_eui,
                     Humidity = data.Humidity,
                     Temperature = data.Temperature,
-                    CO2 = data.CO2,
+                    CO2 = data.CO2 + 40f,
                     BATVolt = data.BATVolt,
                     BATCurrent = data.BATCurrent,
                     BATLevel = data.BATLevel,
